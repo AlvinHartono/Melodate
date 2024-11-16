@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class MelodateViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is Melodate Fragment"
     }
     val text: LiveData<String> = _text
 }

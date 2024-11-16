@@ -1,6 +1,8 @@
 package com.example.melodate
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,8 +27,20 @@ class HomeActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val navView: BottomNavigationView = binding.navView
+        val toolbarImage: ImageView = findViewById(R.id.toolbar_image)
+        val isDarkMode = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            Configuration.UI_MODE_NIGHT_NO -> false
+            else -> false
+        }
+        val imageRes = if (isDarkMode) {
+            R.drawable.light_icon_appbar
+        } else {
+            R.drawable.appbar
+        }
+        toolbarImage.setImageResource(imageRes)
 
+        val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_home)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
