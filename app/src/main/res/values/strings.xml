@@ -17,5 +17,16 @@
     <string name="toolbar_title">Toolbar Title</string>
     <string name="profile_text">Profile</string>
     <string name="chat_text">Chat</string>
-   
+    <string name="name">Alvin, 21</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="preferences">Preferences</string>
+    <string name="push_notification">Push Notification</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_switch">Dark Mode Switch</string>
+    <string name="other">Other</string>
+    <string name="support">Support</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="push_notification_switch">Push Notification Switch</string>
+
 </resources>
