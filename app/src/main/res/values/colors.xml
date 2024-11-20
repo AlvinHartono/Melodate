@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!--    For Background Color -->
+    <color name="white_pampas">#F8F7F3</color>
+    <color name="black_mine_shaft">#3D3D3D</color>
+
+
+    <!-- Primary Color (Light) -->
+    <color name="pink_carnation">#FF96CA</color>
+    <color name="red_torch">#FF1F1F</color>
+    <color name="green_aquamarine">#96FFCB</color>
+
+    <!-- Primary Color (Dark) -->
+    <color name="pink_hopbush">#CC78A2</color>
+    <color name="red_thunderbird">#CC1919</color>
+    <color name="green_vista_blue">#78CCA2</color>
+
     <color name="surfaceColor">#f3e5f3</color>
     <color name="surfaceDarkColor">#23202b</color>
     <color name="primaryColor">#FF96CA</color>
