@@ -8,4 +8,8 @@
     <string name="melodate">Melodate</string>
     <string name="chat">Chat</string>
     <string name="get_started">Get started!</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="melodate_slogan">Find Your Harmony in the \nPerfect Match</string>
+    <string name="melodate_description">A dating app connecting people through shared music vibes. Find your perfect match!</string>
 </resources>

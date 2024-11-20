@@ -3,9 +3,31 @@
     <style name="Base.Theme.Melodate" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pink_carnation</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/green_aquamarine</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="backgroundColor">@color/white_pampas</item>
+
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
 
     <style name="Theme.Melodate" parent="Base.Theme.Melodate" />
+
+    <style name="LargeButton" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:minWidth">340dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:elevation">8dp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+    </style>
 </resources>
