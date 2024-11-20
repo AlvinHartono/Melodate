@@ -3,9 +3,30 @@
     <style name="Base.Theme.Melodate" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
+        <item name="colorPrimary">@color/pink_hopbush</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/green_vista_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="backgroundColor">@color/black_mine_shaft</item>
+
+
         <item name="colorSurface">@color/surfaceDarkColor</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="LargeButton" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:minWidth">340dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:elevation">8dp</item>
+        <item name="android:background">@drawable/rounded_button</item>
     </style>
 </resources>
