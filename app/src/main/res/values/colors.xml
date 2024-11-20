@@ -6,4 +6,5 @@
     <color name="surfaceDarkColor">#23202b</color>
     <color name="primaryColor">#FF96CA</color>
     <color name="primaryDarkColor">#FF96CA</color>
+    <color name="red">#FF0000</color>
 </resources>
