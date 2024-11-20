@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
@@ -17,5 +18,10 @@
     <color name="pink_hopbush">#CC78A2</color>
     <color name="red_thunderbird">#CC1919</color>
     <color name="green_vista_blue">#78CCA2</color>
+
+    <color name="surfaceColor">#f3e5f3</color>
+    <color name="surfaceDarkColor">#23202b</color>
+    <color name="primaryColor">#FF96CA</color>
+    <color name="primaryDarkColor">#FF96CA</color>
 
 </resources>

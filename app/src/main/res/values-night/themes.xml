@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Melodate" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.Melodate" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorPrimary">@color/pink_hopbush</item>
@@ -11,6 +11,9 @@
 
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="backgroundColor">@color/black_mine_shaft</item>
+
+
+        <item name="colorSurface">@color/surfaceDarkColor</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
