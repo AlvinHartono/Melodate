@@ -8,4 +8,7 @@
     <string name="melodate">Melodate</string>
     <string name="chat">Chat</string>
     <string name="get_started">Get started!</string>
+    <string name="toolbar_title">Toolbar Title</string>
+    <string name="profile_text">Profile</string>
+    <string name="chat_text">Chat</string>
 </resources>
