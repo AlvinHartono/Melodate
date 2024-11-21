@@ -10,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.melodate.ui.register.Register1Activity
+import com.example.melodate.databinding.ActivityMainBinding
+import com.example.melodate.ui.login.LoginActivity
+import com.example.melodate.ui.register.RegisterEmailPasswordActivity
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -21,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             false
         }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         enableEdgeToEdge()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -30,18 +35,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val imageView = findViewById<ImageView>(R.id.imageView)
-        val isDarkMode = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            else -> false
-        }
+        val isDarkMode =
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> true
+                Configuration.UI_MODE_NIGHT_NO -> false
+                else -> false
+            }
         val imageRes = if (isDarkMode) {
             R.drawable.light_icon_full
         } else {
             R.drawable.icon_full
         }
-        imageView.setImageResource(imageRes)
+        binding.imageView.setImageResource(imageRes)
 
         val buttonGetStarted = findViewById<Button>(R.id.buttonGetStarted)
         buttonGetStarted.setOnClickListener {
