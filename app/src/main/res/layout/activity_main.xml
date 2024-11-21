@@ -24,6 +24,7 @@
         android:layout_marginTop="98dp"
         android:gravity="center"
         android:text="@string/melodate_slogan"
+        android:fontFamily="@font/montserrat_extrabold"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,8 +51,20 @@
         android:text="@string/get_started"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_have_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/i_already_have_an_account"
+        android:paddingTop="8dp"
+        android:textStyle="bold"
+        android:textSize="12sp"
+
+        app:layout_constraintEnd_toEndOf="@+id/buttonGetStarted"
+        app:layout_constraintStart_toStartOf="@+id/buttonGetStarted"
+        app:layout_constraintTop_toBottomOf="@id/buttonGetStarted" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
