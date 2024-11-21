@@ -48,10 +48,13 @@ class MainActivity : AppCompatActivity() {
         }
         binding.imageView.setImageResource(imageRes)
 
-        val buttonGetStarted = findViewById<Button>(R.id.buttonGetStarted)
-        buttonGetStarted.setOnClickListener {
-            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-//            val intent = Intent(this@MainActivity, Register1Activity::class.java)
+        binding.buttonGetStarted.setOnClickListener{
+            val intent = Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvHaveAccount.setOnClickListener {
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
         }
     }
