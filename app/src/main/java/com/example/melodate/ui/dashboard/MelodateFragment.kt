@@ -36,34 +36,36 @@ class MelodateFragment : Fragment() {
         val cardList = listOf(
             CardData(
                 name = "Haewon, 21",
-                song_title = "Supernatural",
-                artist_name = "NewJeans",
-                description = "I like to move it move it...",
+                songTitle = "Supernatural",
+                artistName = "NewJeans",
+                description = "I like to move it move it. looking for a guy in finance, 6'5, blue eyes, and like jazz 🎺",
                 image = R.drawable.haewon,
-                musicInterest = "K-Pop, Chill, Pop, 20s",
+                musicInterest = listOf("K-Pop", "Chill", "Pop", "20s", "Frequent Listener"),
+                descriptionList = listOf("Female", "Catholic", "Never", "Often", "Undergraduate", "Single"),
                 location = "Tangerang, Banten"
             ),
             CardData(
                 name = "Dash, 25",
-                song_title = "Supernatural",
-                artist_name = "NewJeans",
+                songTitle = "PS5",
+                artistName = "Salem Ilese, TXT",
                 description = "Finance enthusiast...",
                 image = R.drawable.sample_profile_2,
-                musicInterest = "Jazz, Blues",
+                musicInterest = listOf("Jazz", "Blues"),
+                descriptionList = listOf("Female", "Graduate", "Single"),
                 location = "Jakarta, Indonesia"
             ),
             CardData(
                 name = "Yoon, 22",
-                song_title = "Supernatural",
-                artist_name = "NewJeans",
+                songTitle = "APT.",
+                artistName = "ROSE, Bruno Mars",
                 description = "Loves jazz and K-pop...",
                 image = R.drawable.sample_profile_3,
-                musicInterest = "K-Pop, Jazz, Indie",
+                musicInterest = listOf("K-Pop", "Jazz", "Indie"),
+                descriptionList = listOf("Female","Never", "Graduate", "Single"),
                 location = "Surabaya, East Java"
             )
         )
 
-        // Setup CardStackLayoutManager
         manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {}
 
@@ -74,7 +76,6 @@ class MelodateFragment : Fragment() {
                     Toast.makeText(requireContext(), "Disliked", Toast.LENGTH_SHORT).show()
                 }
 
-                // Jika card habis
                 if (manager.topPosition == cardList.size) {
                     Toast.makeText(requireContext(), "No more cards!", Toast.LENGTH_LONG).show()
                 }
@@ -86,7 +87,6 @@ class MelodateFragment : Fragment() {
             override fun onCardDisappeared(view: View, position: Int) {}
         })
 
-        // Konfigurasi CardStackLayoutManager
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(2)
         manager.setTranslationInterval(8.0f)
@@ -98,7 +98,6 @@ class MelodateFragment : Fragment() {
         manager.setCanScrollVertical(false)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 
-        // Setup adapter
         adapter = CardStackAdapter(cardList)
         binding.cardStackView.layoutManager = manager
         binding.cardStackView.adapter = adapter

@@ -2,11 +2,13 @@ package com.example.melodate.ui.dashboard
 
 data class CardData(
     val name: String,
-    val song_title : String,
-    val artist_name : String,
+    val songTitle: String,
+    val artistName: String,
     val description: String,
     val image: Int,
-    val musicInterest: String,
+    val musicInterest: List<String>,
+    val descriptionList: List<String>,
     val location: String
 )
+
 
