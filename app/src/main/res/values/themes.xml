@@ -42,7 +42,7 @@
 
     <style name="Heading_1" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
         <item name="android:textStyle">bold</item>
     </style>
 

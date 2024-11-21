@@ -5,11 +5,12 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.melodate.ui.register.Register1Activity
+import com.example.melodate.ui.register.RegisterEmailPasswordActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val buttonGetStarted = findViewById<Button>(R.id.buttonGetStarted)
         buttonGetStarted.setOnClickListener {
 //            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-            val intent = Intent(this@MainActivity, Register1Activity::class.java)
+            val intent = Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
             startActivity(intent)
         }
     }

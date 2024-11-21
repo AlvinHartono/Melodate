@@ -32,9 +32,8 @@
     <string name="next_action">Next Action</string>
     <string name="back_action">Back Action</string>
     <string name="email_hint">Email</string>
-    <string name="email_eample">name@email.com</string>
-    <string name="label_password">Password</string>
-    <string name="password_hint">must be 8 characters or more</string>
+    <string name="email_example">name@email.com</string>
+    <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="have_an_account">Have an account?    </string>
 
@@ -50,5 +49,6 @@
     <string name="profile_description">Supernatural</string>
     <string name="music_interest_list">Music Interest: K-Pop, Chill, Pop, 20s</string>
     <string name="location_desc">Location: Tangerang, Banten</string>
+    <string name="welcome_back">Welcome Back!</string>
 
 </resources>
