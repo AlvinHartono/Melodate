@@ -9,11 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.melodate.ui.register.Register1Activity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        enableEdgeToEdge()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         val buttonGetStarted = findViewById<Button>(R.id.buttonGetStarted)
         buttonGetStarted.setOnClickListener {
-            val intent = Intent(this@MainActivity, HomeActivity::class.java)
+//            val intent = Intent(this@MainActivity, HomeActivity::class.java)
+            val intent = Intent(this@MainActivity, Register1Activity::class.java)
             startActivity(intent)
         }
     }

@@ -8,7 +8,7 @@
     <string name="melodate">Melodate</string>
     <string name="chat">Chat</string>
     <string name="get_started">Get started!</string>
-  
+
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="melodate_slogan">Find Your Harmony in the \nPerfect Match</string>
@@ -28,5 +28,13 @@
     <string name="logout">Logout</string>
     <string name="delete_account">Delete Account</string>
     <string name="push_notification_switch">Push Notification Switch</string>
+    <string name="next_action">Next Action</string>
+    <string name="back_action">Back Action</string>
+    <string name="email_hint">Email</string>
+    <string name="email_eample">name@email.com</string>
+    <string name="label_password">Password</string>
+    <string name="password_hint">must be 8 characters or more</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="have_an_account">Have an account?    </string>
 
 </resources>
