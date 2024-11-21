@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.melodate.MainActivity
 import com.example.melodate.databinding.ActivityRegisterEmailPasswordBinding
 
 import com.example.melodate.ui.login.LoginActivity
 
 class RegisterEmailPasswordActivity : AppCompatActivity() {
-    // binding
     private lateinit var binding: ActivityRegisterEmailPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,12 +24,12 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.fabBack.setOnClickListener {
-            finish()
+            val intent = Intent(this@RegisterEmailPasswordActivity, MainActivity::class.java)
+            startActivity(intent)
         }
 
         binding.tvLogin.setOnClickListener {
-            //intent to login screen
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this@RegisterEmailPasswordActivity, LoginActivity::class.java)
             startActivity(intent)
 
         }
