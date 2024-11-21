@@ -28,6 +28,7 @@
     <string name="logout">Logout</string>
     <string name="delete_account">Delete Account</string>
     <string name="push_notification_switch">Push Notification Switch</string>
+
     <string name="next_action">Next Action</string>
     <string name="back_action">Back Action</string>
     <string name="email_hint">Email</string>
@@ -36,5 +37,18 @@
     <string name="password_hint">must be 8 characters or more</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="have_an_account">Have an account?    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_name">Marcus, 20</string>
+    <string name="play_button_description">Play Button</string>
+
+    <string name="music_interest">Music Interest: %1$s</string>
+    <string name="location">Location: %1$s</string>
+    <string name="song_title">Supernatural</string>
+    <string name="artist_name">New Jeans</string>
+    <string name="profile_description">Supernatural</string>
+    <string name="music_interest_list">Music Interest: K-Pop, Chill, Pop, 20s</string>
+    <string name="location_desc">Location: Tangerang, Banten</string>
 
 </resources>
