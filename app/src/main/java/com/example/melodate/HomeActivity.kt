@@ -54,9 +54,9 @@ class HomeActivity : AppCompatActivity() {
                         else -> false
                     }
                     val imageRes = if (isDarkMode) {
-                        R.drawable.light_icon_appbar
+                        R.drawable.light_icon_full
                     } else {
-                        R.drawable.appbar
+                        R.drawable.icon_full
                     }
                     toolbarImage.setImageResource(imageRes)
                 }
