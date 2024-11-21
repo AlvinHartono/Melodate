@@ -43,12 +43,22 @@
     <string name="profile_name">Marcus, 20</string>
     <string name="play_button_description">Play Button</string>
 
-    <string name="music_interest">Music Interest: %1$s</string>
-    <string name="location">Location: %1$s</string>
     <string name="song_title">Supernatural</string>
     <string name="artist_name">New Jeans</string>
-    <string name="profile_description">Supernatural</string>
-    <string name="music_interest_list">Music Interest: K-Pop, Chill, Pop, 20s</string>
-    <string name="location_desc">Location: Tangerang, Banten</string>
+    <string name="profile_description">I like a move it, move it. I looking in finance, 6.5, blue eyes, and like jazz 🎺</string>
+    <string name="music_interest">Music Interest</string>
+    <string name="location">Location</string>
+    <string name="about">About</string>
+    <string name="gender">Female</string>
+    <string name="religion">Catholic</string>
+    <string name="smoke">No</string>
+    <string name="drink">Often</string>
+    <string name="education">Undergraduate</string>
+    <string name="status">Available</string>
+    <string name="favorite_genre">K-Pop</string>
+    <string name="favorite_music_decade">80\'s</string>
+    <string name="music_vibes">Chill</string>
+    <string name="listening_freq">Frequent Listener</string>
+    <string name="location_desc">Tangerang, Banten</string>
 
 </resources>
