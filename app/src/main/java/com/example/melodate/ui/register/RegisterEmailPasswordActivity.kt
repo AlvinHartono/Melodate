@@ -19,6 +19,10 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        setupListeners()
+    }
+
+    private fun setupListeners() {
         binding.fabBack.setOnClickListener {
             finish()
         }
