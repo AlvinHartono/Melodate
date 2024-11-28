@@ -62,5 +62,150 @@
     <string name="location_desc">Tangerang, Banten</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="i_already_have_an_account">I already have an account</string>
+    <string name="first_name">First Name</string>
+    <string name="age">age</string>
+    <string name="tv_gender">Gender</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="dob">Date of Birth</string>
+    <string name="relationship_status">Relationship Status</string>
+    <string name="education_hint">Education</string>
+    <string name="religion_hint">Religion</string>
+    <string name="height_in_cm">Height (in cm)</string>
+    <string name="smoking_hint">Smoking</string>
+    <string name="drinking_hint">Drinking</string>
+    <string name="mbti_personality">MBTI Personality</string>
+    <string name="love_language">Love Language</string>
+    <string name="forward_action">Forward Action</string>
+    <string name="hobby_and_interest">Hobby and Interest</string>
+    <string name="tell_us_about_yourself">Tell us about yourself</string>
+    <string name="tell_us_about_your_music_preference">Tell us about your music preference</string>
+    <string name="genre">Genre</string>
+    <string name="music_decade">Music Decade</string>
+    <string name="music_vibe">Music Vibe</string>
+    <string name="listening_frequency">Listening Frequency</string>
+    <string name="concert">Concert</string>
+    <string name="textview">TextView</string>
+    <string name="upload_your_pictures">Upload your pictures</string>
+    <string name="upload_up_to_6_images_minimum_4">Upload up to 6 images, minimum 4</string>
+    <string name="imageview_action">Imageview action</string>
+    <string name="your_profile_has_successfully_finished">Your Profile has successfully finished</string>
+    <string name="let_s_go">Let\'s go</string>
+    <string name="logo">Logo</string>
+
+    <string-array name="status">
+        <item>Single</item>
+        <item>In a relationship</item>
+    </string-array>
+
+    <string-array name="religion">
+        <item>Islam</item>
+        <item>Protestant Christianity</item>
+        <item>Roman Catholicism</item>
+        <item>Hinduism</item>
+        <item>Buddhism</item>
+        <item>Confucianism</item>
+    </string-array>
+
+    <string-array name="education">
+        <item>High School Diploma</item>
+        <item>Undergraduate</item>
+        <item>Associate\'s Degree</item>
+        <item>Bachelor\'s Degree</item>
+        <item>Master\'s Degree/PhD</item>
+    </string-array>
+
+    <string-array name="smoking">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="drinking">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="MBTI">
+        <item>INTJ</item>
+        <item>INTP</item>
+        <item>ENTJ</item>
+        <item>ENTP</item>
+        <item>INFJ</item>
+        <item>INFP</item>
+        <item>ENFJ</item>
+        <item>ENFP</item>
+        <item>ISTJ</item>
+        <item>ISFJ</item>
+        <item>ESTJ</item>
+        <item>ESFJ</item>
+        <item>ISTP</item>
+        <item>ISFP</item>
+        <item>ESTP</item>
+        <item>ESFP</item>
+    </string-array>
+
+    <string-array name="love_languages">
+        <item>Acts of Service</item>
+        <item>Physical Touch</item>
+        <item>Physical Touch</item>
+        <item>Quality Time</item>
+        <item>Receiving Gifts</item>
+        <item>Words of Affirmation</item>
+    </string-array>
+
+    <string-array name="music_genres">
+        <item>Ballad</item>
+        <item>Blues</item>
+        <item>Classical</item>
+        <item>Country</item>
+        <item>Dangdut</item>
+        <item>EDM (Electronic Dance Music)</item>
+        <item>Hip-Hop/Rap</item>
+        <item>Indie/Alternative</item>
+        <item>Jazz</item>
+        <item>J-Pop</item>
+        <item>K-Pop</item>
+        <item>Metal</item>
+        <item>Pop</item>
+        <item>Pop Indonesia</item>
+        <item>Punk</item>
+        <item>R&amp;B</item>
+        <item>Reggae</item>
+        <item>Rock</item>
+        <item>Soul</item>
+        <item>Traditional &amp; Folk Music</item>
+    </string-array>
+
+    <string-array name="music_decades">
+        <item>1970s</item>
+        <item>1980s</item>
+        <item>1990s</item>
+        <item>2000s</item>
+        <item>2010s</item>
+        <item>2020s</item>
+    </string-array>
+
+    <string-array name="music_vibes">
+        <item>Upbeat and Energetic</item>
+        <item>Relaxing and Chill</item>
+        <item>Emotional and Deep</item>
+        <item>Dark and Intense</item>
+        <item>Romantic and Smooth</item>
+    </string-array>
+
+    <string-array name="listening_frequency">
+        <item>Frequently</item>
+        <item>Occasionally</item>
+        <item>Rarely</item>
+        <item>Never</item>
+        <item>Only in specific situations</item>
+    </string-array>
+
+    <string-array name="concert_preferences">
+        <item>Yes, I love attending concerts</item>
+        <item>Sometimes, depending on the artist or event</item>
+        <item>No, I prefer not to attend concerts</item>
+    </string-array>
+
 
 </resources>
