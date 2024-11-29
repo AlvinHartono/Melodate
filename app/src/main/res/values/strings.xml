@@ -8,6 +8,8 @@
     <string name="melodate">Melodate</string>
     <string name="chat">Chat</string>
     <string name="get_started">Get started!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="login">Login</string>
     <string name="register">Register</string>

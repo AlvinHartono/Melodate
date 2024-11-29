@@ -1,11 +1,14 @@
 package com.example.melodate.ui.register
 
+import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +17,9 @@ import com.example.melodate.R
 import com.example.melodate.databinding.ActivityRegisterUserPersonalDataBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class RegisterUserPersonalDataActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterUserPersonalDataBinding
@@ -37,10 +43,12 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        setupIcons()
         setupGender()
         setupListeners()
         setupObservers()
     }
+
 
     private fun setupGender() {
         // Set both buttons to gray initially
@@ -195,8 +203,8 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             authViewModel.setName(text.toString())
         }
 
-        binding.etDob.addTextChangedListener { text ->
-            authViewModel.setDob(text.toString())
+        binding.etDob.setOnClickListener {
+            showDatePicker()
         }
         binding.autoCompleteRelationshipStatus.addTextChangedListener { text ->
             authViewModel.setRelationshipStatus(text.toString())
@@ -218,25 +226,123 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             val education = binding.autoCompleteEducation.text.toString()
             val gender = authViewModel.gender.value.toString()
 
-            authViewModel.updatePersonalData(
-                name = name,
-                dob = dob,
-                status = relationshipStatus,
-                religion = religion,
-                education = education,
-                gender = gender
-            )
-            val intent = Intent(
-                this@RegisterUserPersonalDataActivity,
-                RegisterUserGeneralInterestActivity::class.java
-            )
-            startActivity(intent)
+            if (dob.isEmpty()) {
+                binding.etDob.error = "Please select your date of birth"
+                return@setOnClickListener
+            }
+
+
+            val age = calculateAge(dob)
+            if (age < 18) {
+                showErrorDialog("You must be at least 18 years old to register.")
+            } else {
+                showAgeConfirmationDialog(age) {
+
+                    authViewModel.updatePersonalData(
+                        name = name,
+                        dob = dob,
+                        status = relationshipStatus,
+                        religion = religion,
+                        education = education,
+                        gender = gender,
+                        age = age
+                    )
+                    val intent = Intent(
+                        this@RegisterUserPersonalDataActivity,
+                        RegisterUserGeneralInterestActivity::class.java
+                    )
+                    startActivity(intent)
+                }
+            }
+        }
+    }
+
+    private fun showDatePicker() {
+        // Get the current date to set as default in the picker
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        // Create and show the DatePickerDialog
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // Update the EditText with the selected date
+                val formattedDate =
+                    String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                binding.etDob.setText(formattedDate)
+                authViewModel.setDob(formattedDate) // Update ViewModel
+            },
+            year, month, day
+        )
+
+        // Optionally set a maximum date (e.g., today for DOB)
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+        datePickerDialog.show()
+    }
+
+    private fun setupIcons() {
+        // Check the current theme (light or dark)
+        val isDarkTheme = (resources.configuration.uiMode and
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+
+        // Select the appropriate drawable based on the theme
+        val calendarIcon = if (isDarkTheme) {
+            AppCompatResources.getDrawable(this, R.drawable.ic_calendar_dark)
+        } else {
+            AppCompatResources.getDrawable(this, R.drawable.ic_calendar_light)
         }
 
-        binding.fabBack.setOnClickListener {
-            finish()
+        // Set the drawable to the EditText (start icon)
+        binding.etDob.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            null,  // No drawable at the start
+            null,  // No drawable at the top
+            calendarIcon,  // Calendar icon at the end
+            null   // No drawable at the bottom
+        )
+    }
+
+    private fun calculateAge(dobText: String): Int {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dob = formatter.parse(dobText)
+        val dobCalendar = Calendar.getInstance().apply { time = dob }
+        val today = Calendar.getInstance()
+
+        var age = today.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dobCalendar.get(Calendar.DAY_OF_YEAR)) {
+            age--
         }
 
+        return age
+    }
+
+    private fun showAgeConfirmationDialog(age: Int, onConfirm: () -> Unit) {
+        val message = "Your age is $age years old. Do you want to continue with this information?"
+
+        AlertDialog.Builder(this)
+            .setTitle("Confirm Age")
+            .setMessage(message)
+            .setPositiveButton("Yes") { _, _ ->
+                onConfirm() // Continue registration
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss() // Close dialog
+            }
+            .show()
+    }
+
+    private fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Error")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 

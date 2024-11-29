@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.melodate.databinding.ActivityMainBinding
-import com.example.melodate.ui.login.LoginActivity
 import com.example.melodate.ui.register.RegisterEmailPasswordActivity
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
@@ -76,7 +75,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     binding.tvHaveAccount.setOnClickListener {
-                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+//                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
                         startActivity(intent)
                     }
                 }

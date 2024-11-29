@@ -74,9 +74,6 @@ data class UserEntity(
     @ColumnInfo(name = "musicDecade")
     val musicDecade: String? = null,
 
-    //listeningFreq
-    @ColumnInfo(name = "listeningFreq")
-    val listeningFreq: String? = null,
 
     //concert
     @ColumnInfo(name = "concert")

@@ -55,6 +55,7 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         religion: String,
         education: String,
         status: String,
+        age: Int
     ) {
         userDao.updatePersonalData(
             name = name,
@@ -63,7 +64,7 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
             religion = religion,
             education = education,
             status = status,
-
+            age = age
             )
     }
 
@@ -75,11 +76,15 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         mbti: String,
         loveLang: String,
     ) {
+        //convert smoke and drink
+        val isSmokerBool = if (isSmoker == "Yes") true else false
+        val isDrinkerBool = if (isDrinker == "Yes") true else false
+
         userDao.updateGeneralInterest(
             hobby = hobby,
             height = height,
-            isSmoker = isSmoker,
-            isDrinker = isDrinker,
+            isSmoker = isSmokerBool,
+            isDrinker = isDrinkerBool,
             mbti = mbti,
             loveLang = loveLang,
         )
