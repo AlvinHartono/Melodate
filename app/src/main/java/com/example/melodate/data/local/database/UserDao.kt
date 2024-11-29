@@ -15,7 +15,7 @@ interface UserDao {
     @Update
     suspend fun update(userEntity: UserEntity)
 
-    @Query("UPDATE user SET name= :name, dob= :dob, gender= :gender, religion= :religion, education= :education, status= :status WHERE id = :id")
+    @Query("UPDATE user SET name= :name, dob= :dob, gender= :gender, religion= :religion, education= :education, status= :status, age= :age WHERE id = :id")
     suspend fun updatePersonalData(
         name: String,
         id: Int = 1,
@@ -23,7 +23,8 @@ interface UserDao {
         gender: String,
         religion: String,
         education: String,
-        status: String
+        status: String,
+        age: Int
     )
 
     //update general interest
@@ -32,8 +33,8 @@ interface UserDao {
         hobby: String,
         id: Int = 1,
         height: Int,
-        isSmoker: String,
-        isDrinker: String,
+        isSmoker: Boolean,
+        isDrinker: Boolean,
         mbti: String,
         loveLang: String
     )

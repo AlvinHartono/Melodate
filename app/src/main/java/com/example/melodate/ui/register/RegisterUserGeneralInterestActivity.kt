@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -20,12 +21,14 @@ class RegisterUserGeneralInterestActivity : AppCompatActivity() {
         AuthViewModelFactory.getInstance(this)
     }
 
+
     override fun onResume() {
         super.onResume()
         setupDropDowns()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegisterUserGeneralInterestBinding.inflate(layoutInflater)
@@ -44,28 +47,32 @@ class RegisterUserGeneralInterestActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
+        val yes = ContextCompat.getString(
+            this,
+            R.string.yes
+        )
+        val no = ContextCompat.getString(
+            this,
+            R.string.no
+        )
+
         authViewModel.userData.observe(this) { userData ->
             binding.editTextHobby.setText(userData.hobby)
 
-            if (userData.isSmoker.toString() != "null"){
-                if (userData.isSmoker == true){
-                    //use resource string.xml
-                    binding.autoCompleteSmoking.setText("Yes")
-                }else{
-                    binding.autoCompleteSmoking.setText("No")
-                }
-
+            // Handle isSmoker
+            when (userData.isSmoker) {
+                true -> binding.autoCompleteSmoking.setText(yes)
+                false -> binding.autoCompleteSmoking.setText(no)
+                null -> binding.autoCompleteSmoking.setText("") // or set a default value
             }
-            if (userData.isDrinker.toString() != "null"){
-                // if true, Yes. if false, No
-                if (userData.isDrinker == true){
-                    binding.autoCompleteDrinking.setText("Yes")
-                }else{
-                    binding.autoCompleteDrinking.setText("No")
-                }
-            }
-            if (userData.height.toString() != "null"){
 
+            // Handle isDrinker
+            when (userData.isDrinker) {
+                true -> binding.autoCompleteDrinking.setText(yes)
+                false -> binding.autoCompleteDrinking.setText(no)
+                null -> binding.autoCompleteDrinking.setText("") // or set a default value
+            }
+            if (userData.height.toString() != "null") {
                 binding.editTextHeight.setText(userData.height.toString())
             }
 
@@ -116,10 +123,20 @@ class RegisterUserGeneralInterestActivity : AppCompatActivity() {
             authViewModel.setHeight(text.toString())
         }
         binding.autoCompleteSmoking.addTextChangedListener { text ->
-            authViewModel.setIsSmoker(text.toString())
+            val isSmoker = text.toString() == "Yes"
+
+            val smokerFromAuth = authViewModel.isSmoker.value == "Yes"
+
+            if (smokerFromAuth != isSmoker) {
+                authViewModel.setIsSmoker(isSmoker)
+            }
         }
         binding.autoCompleteDrinking.addTextChangedListener { text ->
-            authViewModel.setIsDrinker(text.toString())
+            val isDrinker = text.toString() == "Yes"
+            val drinkerFromAuth = authViewModel.isDrinker.value == "Yes"
+            if (drinkerFromAuth != isDrinker) {
+                authViewModel.setIsDrinker(isDrinker)
+            }
         }
         binding.autoCompleteMbti.addTextChangedListener { text ->
             authViewModel.setMbti(text.toString())
@@ -129,16 +146,16 @@ class RegisterUserGeneralInterestActivity : AppCompatActivity() {
         }
 
         binding.fabForward.setOnClickListener {
-            val hobby = binding.editTextHobby.text.toString()
-            val height = binding.editTextHeight.text.toString()
-            val isSmoker = binding.autoCompleteSmoking.text.toString()
-            val isDrinker = binding.autoCompleteDrinking.text.toString()
-            val mbti = binding.autoCompleteMbti.text.toString()
-            val loveLang = binding.autoCompleteLoveLanguage.text.toString()
+            val hobby = authViewModel.hobby.value ?: ""
+            val height = authViewModel.height.value?.toInt() ?: 0
+            val isSmoker = authViewModel.isSmoker.value ?: ""
+            val isDrinker = authViewModel.isDrinker.value ?: ""
+            val mbti = authViewModel.mbti.value ?: ""
+            val loveLang = authViewModel.loveLang.value ?: ""
 
             authViewModel.updateGeneralInterestData(
                 hobby = hobby,
-                height = height.toInt(),
+                height = height,
                 isSmoker = isSmoker,
                 isDrinker = isDrinker,
                 mbti = mbti,

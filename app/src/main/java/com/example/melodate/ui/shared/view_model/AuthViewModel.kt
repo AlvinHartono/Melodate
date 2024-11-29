@@ -126,9 +126,10 @@ class AuthViewModel(
         religion: String,
         education: String,
         status: String,
+        age: Int
     ) {
         viewModelScope.launch {
-            authRepository.updatePersonalData(name, dob, gender, religion, education, status)
+            authRepository.updatePersonalData(name, dob, gender, religion, education, status, age)
         }
     }
 
@@ -234,12 +235,12 @@ class AuthViewModel(
         _height.value = height
     }
 
-    fun setIsSmoker(isSmoker: String) {
-        _isSmoker.value = isSmoker
+    fun setIsSmoker(isSmoker: Boolean) {
+        _isSmoker.value = if (isSmoker) "Yes" else "No"
     }
 
-    fun setIsDrinker(isDrinker: String) {
-        _isDrinker.value = isDrinker
+    fun setIsDrinker(isDrinker: Boolean) {
+        _isDrinker.value = if (isDrinker) "Yes" else "No"
     }
 
     fun setGenre(genre: String) {
