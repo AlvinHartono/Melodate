@@ -1,5 +1,6 @@
 package com.example.melodate.ui.shared.view_model
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -112,6 +113,20 @@ class AuthViewModel(
 
     private val _loginState = MutableLiveData<Result<LoginResponse>>()
     val loginState: LiveData<Result<LoginResponse>> = _loginState
+
+    // user images
+    private val _selectedImages = MutableLiveData<List<Uri>>(mutableListOf())
+    val selectedImages: LiveData<List<Uri>> = _selectedImages
+
+    fun addOrReplaceImage(position: Int, uri: Uri) {
+        val currentList = _selectedImages.value?.toMutableList() ?: mutableListOf()
+        if (currentList.size > position) {
+            currentList[position] = uri
+        } else {
+            currentList.add(uri)
+        }
+        _selectedImages.value = currentList
+    }
 
     fun saveUserEntity(userEntity: UserEntity) {
         viewModelScope.launch {
