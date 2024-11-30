@@ -7,7 +7,10 @@ import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.remote.request.CheckEmailRequest
 import com.example.melodate.data.remote.request.LoginRequest
 import com.example.melodate.data.remote.response.LoginResponse
+import com.example.melodate.data.remote.response.RegisterResponse
 import com.example.melodate.data.remote.retrofit.ApiService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class AuthRepository(private val apiService: ApiService, private val userDao: UserDao) {
 
@@ -65,7 +68,7 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
             education = education,
             status = status,
             age = age
-            )
+        )
     }
 
     suspend fun updateGeneralInterestData(
@@ -107,9 +110,73 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
     }
 
 
-//    suspend fun register(name: String, email: String, password: String): Result<LoginResponse> {
-//
-//    }
+    suspend fun registerUser(
+        email: RequestBody,
+        password: RequestBody,
+        confirmPassword: RequestBody,
+        firstName: RequestBody,
+        dateOfBirth: RequestBody,
+        gender: RequestBody,
+        relationshipStatus: RequestBody,
+        education: RequestBody,
+        religion: RequestBody,
+        hobby: RequestBody,
+        height: RequestBody,
+        smoking: RequestBody,
+        drinking: RequestBody,
+        mbti: RequestBody,
+        loveLanguage: RequestBody,
+        genre: RequestBody,
+        musicDecade: RequestBody,
+        listeningFrequency: RequestBody,
+        concert: RequestBody,
+        profilePicture1: MultipartBody.Part?,
+        profilePicture2: MultipartBody.Part?,
+        profilePicture3: MultipartBody.Part?,
+        profilePicture4: MultipartBody.Part?,
+        profilePicture5: MultipartBody.Part?,
+        profilePicture6: MultipartBody.Part?
+    ): Result<RegisterResponse> {
+        return try {
+            val result = Result.Success(
+                apiService.registerUser(
+                    email,
+                    password,
+                    confirmPassword,
+                    firstName,
+                    dateOfBirth,
+                    gender,
+                    relationshipStatus,
+                    education,
+                    religion,
+                    hobby,
+                    height,
+                    smoking,
+                    drinking,
+                    mbti,
+                    loveLanguage,
+                    genre,
+                    musicDecade,
+                    listeningFrequency,
+                    concert,
+                    profilePicture1,
+                    profilePicture2,
+                    profilePicture3,
+                    profilePicture4,
+                    profilePicture5,
+                    profilePicture6
+                )
+            )
+            if (result.data.error == true) {
+                Result.Error(result.data.message.toString())
+            } else {
+                Result.Success(result.data)
+            }
+        } catch (e: Exception) {
+            Result.Error(e.message.toString())
+        }
+
+    }
 
     companion object {
         //singleton

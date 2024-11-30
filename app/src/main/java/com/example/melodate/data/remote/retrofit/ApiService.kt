@@ -2,20 +2,23 @@ package com.example.melodate.data.remote.retrofit
 
 import com.example.melodate.data.remote.request.CheckEmailRequest
 import com.example.melodate.data.remote.request.LoginRequest
-import com.example.melodate.data.remote.request.RegisterRequest
 import com.example.melodate.data.remote.response.CheckEmailResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.RegisterResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
 
     // Authentication
-    @POST("/api/users/register")
-    suspend fun registerUser(
-        @Body request: RegisterRequest
-    ): RegisterResponse
+//    @POST("/api/users/register")
+//    suspend fun registerUser(
+//        @Body request: RegisterRequest
+//    ): RegisterResponse
 
     @POST("/api/users/login")
     suspend fun loginUser(
@@ -26,4 +29,34 @@ interface ApiService {
     suspend fun checkEmail(
         @Body request: CheckEmailRequest
     ):CheckEmailResponse
+
+    @Multipart
+    @POST("/api/users/register")
+    suspend fun registerUser(
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("confirmPassword") confirmPassword: RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("date_of_birth") dateOfBirth: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("relationship_status") relationshipStatus: RequestBody,
+        @Part("education") education: RequestBody,
+        @Part("religion") religion: RequestBody,
+        @Part("hobby") hobby: RequestBody,
+        @Part("height") height: RequestBody,
+        @Part("smoking") smoking: RequestBody,
+        @Part("drinking") drinking: RequestBody,
+        @Part("mbti") mbti: RequestBody,
+        @Part("love_language") loveLanguage: RequestBody,
+        @Part("genre") genre: RequestBody,
+        @Part("music_decade") musicDecade: RequestBody,
+        @Part("listening_frequency") listeningFrequency: RequestBody,
+        @Part("concert") concert: RequestBody,
+        @Part profilePicture1: MultipartBody.Part?,
+        @Part profilePicture2: MultipartBody.Part?,
+        @Part profilePicture3: MultipartBody.Part?,
+        @Part profilePicture4: MultipartBody.Part?,
+        @Part profilePicture5: MultipartBody.Part?,
+        @Part profilePicture6: MultipartBody.Part?
+    ): RegisterResponse
 }

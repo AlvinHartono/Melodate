@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,11 +13,21 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.melodate.R
 import com.example.melodate.databinding.ActivityRegisterPhotosBinding
+import com.example.melodate.reduceFileImage
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import com.example.melodate.uriToFile
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class RegisterPhotosActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPhotosBinding
@@ -57,43 +68,71 @@ class RegisterPhotosActivity : AppCompatActivity() {
     private fun setupObservers() {
         authViewModel.selectedImages.observe(this) { uris ->
 
-//            uris.forEachIndexed { index, uri ->
-//                if (uri != Uri.EMPTY) {
-//                    loadImageIntoView(index, uri)
-//                    imageStates[index] = true
-//                } else {
-//                    resetImageView(index)
-//                    imageStates[index] = false
-//                }
-//            }
 
         }
     }
 
     private fun setupListeners() {
-        binding.image1.setOnClickListener {
-            showImageOptionsDialog(0)
-        }
-        binding.image2.setOnClickListener {
-            showImageOptionsDialog(1)
-        }
-        binding.image3.setOnClickListener {
-            showImageOptionsDialog(2)
-        }
-        binding.image4.setOnClickListener {
-            showImageOptionsDialog(3)
-        }
-        binding.image5.setOnClickListener {
-            showImageOptionsDialog(4)
-        }
-        binding.image6.setOnClickListener {
-            showImageOptionsDialog(5)
+        val imageViews = arrayOf(
+            binding.image1, binding.image2, binding.image3,
+            binding.image4, binding.image5, binding.image6
+        )
+
+        imageViews.forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                showImageOptionsDialog(index)
+            }
         }
 
         binding.fabBack.setOnClickListener {
             finish()
         }
         binding.buttonRegister.setOnClickListener {
+            val selectedImages = authViewModel.selectedImages.value ?: emptyList()
+
+            // Ensure at least 4 images are provided
+            val imageFiles = selectedImages.take(6).map { uri ->
+                uriToFile(uri, this).reduceFileImage()
+            }
+
+            if (imageFiles.size < 4) {
+                // Notify the user that at least 4 images are required
+                Toast.makeText(this, "Please upload at least 4 photos to continue.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // Pad the list to ensure 6 file slots for backend processing
+            val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
+
+            lifecycleScope.launch {
+                authViewModel.registerUser(
+                    createRequestBody(authViewModel.email.value ?: ""),
+                    createRequestBody(authViewModel.password.value ?: ""),
+                    createRequestBody(authViewModel.confirmPassword.value ?: ""),
+                    createRequestBody(authViewModel.name.value ?: ""),
+                    createRequestBody(authViewModel.dob.value ?: ""),
+                    createRequestBody(authViewModel.gender.value ?: ""),
+                    createRequestBody(authViewModel.relationshipStatus.value ?: ""),
+                    createRequestBody(authViewModel.education.value ?: ""),
+                    createRequestBody(authViewModel.religion.value ?: ""),
+                    createRequestBody(authViewModel.hobby.value ?: ""),
+                    createRequestBody(authViewModel.height.value ?: ""),
+                    createRequestBody(authViewModel.isSmoker.value ?: ""),
+                    createRequestBody(authViewModel.isDrinker.value ?: ""),
+                    createRequestBody(authViewModel.mbti.value ?: ""),
+                    createRequestBody(authViewModel.loveLang.value ?: ""),
+                    createRequestBody(authViewModel.genre.value ?: ""),
+                    createRequestBody(authViewModel.musicDecade.value ?: ""),
+                    createRequestBody(authViewModel.listeningFreq.value ?: ""),
+                    createRequestBody(authViewModel.concert.value ?: ""),
+                    createFilePart("profilePicture1", paddedImageFiles[0]!!),
+                    createFilePart("profilePicture2", paddedImageFiles[1]!!),
+                    createFilePart("profilePicture3", paddedImageFiles[2]!!),
+                    createFilePart("profilePicture4", paddedImageFiles[3]!!),
+                    createFilePart("profilePicture5", paddedImageFiles[4]!!),
+                    createFilePart("profilePicture6", paddedImageFiles[5]!!)
+                )
+            }
 
             val intent = Intent(this@RegisterPhotosActivity, RegisterFinishedActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -172,41 +211,22 @@ class RegisterPhotosActivity : AppCompatActivity() {
 
     private fun removeImage(imagePosition: Int) {
         val defaultDrawableRes = R.drawable.ic_add
-        when (imagePosition) {
-            0 -> {
-                binding.image1.setImageResource(defaultDrawableRes)
-                imageStates[0] = false
-            }
-
-            1 -> {
-                binding.image2.setImageResource(defaultDrawableRes)
-                imageStates[1] = false
-            }
-
-            2 -> {
-                binding.image3.setImageResource(defaultDrawableRes)
-                imageStates[2] = false
-            }
-
-            3 -> {
-                binding.image4.setImageResource(defaultDrawableRes)
-                imageStates[3] = false
-            }
-
-            4 -> {
-                binding.image5.setImageResource(defaultDrawableRes)
-                imageStates[4] = false
-            }
-
-            5 -> {
-                binding.image6.setImageResource(defaultDrawableRes)
-                imageStates[5] = false
-            }
-        }
-        authViewModel.addOrReplaceImage(
-            imagePosition,
-            Uri.EMPTY
+        val imageViews = arrayOf(
+            binding.image1, binding.image2, binding.image3,
+            binding.image4, binding.image5, binding.image6
         )
+        Glide.with(this).load(defaultDrawableRes).into(imageViews[imagePosition])
+        imageStates[imagePosition] = false
+        authViewModel.addOrReplaceImage(imagePosition, Uri.EMPTY)
+    }
+
+    private fun createRequestBody(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    private fun createFilePart(fieldName: String, file: File): MultipartBody.Part {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(fieldName, file.name, requestFile)
     }
 
 }
