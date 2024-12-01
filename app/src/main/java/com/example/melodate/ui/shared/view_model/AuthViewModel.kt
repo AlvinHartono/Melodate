@@ -9,6 +9,7 @@ import com.example.melodate.data.Result
 import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.model.User
 import com.example.melodate.data.preference.AuthTokenPreference
+import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.RegisterResponse
 import com.example.melodate.data.repository.AuthRepository
@@ -45,6 +46,10 @@ class AuthViewModel(
     // date of birth
     private val _dob = MutableLiveData("")
     val dob: LiveData<String> = _dob
+
+    // age
+    private val _age = MutableLiveData("")
+    val age: LiveData<String> = _age
 
     // gender
     private val _gender = MutableLiveData("")
@@ -120,6 +125,8 @@ class AuthViewModel(
     private val _registerState = MutableLiveData<Result<RegisterResponse>>()
     val registerState: LiveData<Result<RegisterResponse>> = _registerState
 
+    private val _deleteAccountState = MutableLiveData<Result<DeleteAccountResponse>>()
+    val deleteAccountState: LiveData<Result<DeleteAccountResponse>> = _deleteAccountState
 
     // user images
     private val _selectedImages = MutableLiveData<List<Uri>>(mutableListOf())
@@ -199,6 +206,7 @@ class AuthViewModel(
         confirmPassword: RequestBody,
         firstName: RequestBody,
         dateOfBirth: RequestBody,
+        age: RequestBody,
         gender: RequestBody,
         relationshipStatus: RequestBody,
         education: RequestBody,
@@ -211,6 +219,7 @@ class AuthViewModel(
         loveLanguage: RequestBody,
         genre: RequestBody,
         musicDecade: RequestBody,
+        musicVibe: RequestBody,
         listeningFrequency: RequestBody,
         concert: RequestBody,
         profilePicture1: MultipartBody.Part?,
@@ -221,35 +230,36 @@ class AuthViewModel(
         profilePicture6: MultipartBody.Part?
     ) {
         _registerState.postValue(Result.Loading)
-
         viewModelScope.launch {
             try {
                 val response = authRepository.registerUser(
-                    email,
-                    password,
-                    confirmPassword,
-                    firstName,
-                    dateOfBirth,
-                    gender,
-                    relationshipStatus,
-                    education,
-                    religion,
-                    hobby,
-                    height,
-                    smoking,
-                    drinking,
-                    mbti,
-                    loveLanguage,
-                    genre,
-                    musicDecade,
-                    listeningFrequency,
-                    concert,
-                    profilePicture1,
-                    profilePicture2,
-                    profilePicture3,
-                    profilePicture4,
-                    profilePicture5,
-                    profilePicture6
+                    email = email,
+                    password = password,
+                    confirmPassword = confirmPassword,
+                    firstName = firstName,
+                    dateOfBirth = dateOfBirth,
+                    age = age,
+                    gender = gender,
+                    relationshipStatus = relationshipStatus,
+                    education = education,
+                    religion = religion,
+                    hobby = hobby,
+                    height = height,
+                    smoking = smoking,
+                    drinking = drinking,
+                    mbti = mbti,
+                    loveLanguage = loveLanguage,
+                    genre = genre,
+                    musicDecade = musicDecade,
+                    musicVibe = musicVibe,
+                    listeningFrequency = listeningFrequency,
+                    concert = concert,
+                    profilePicture1 = profilePicture1,
+                    profilePicture2 = profilePicture2,
+                    profilePicture3 = profilePicture3,
+                    profilePicture4 = profilePicture4,
+                    profilePicture5 = profilePicture5,
+                    profilePicture6 = profilePicture6
                 )
 
                 when (response) {
@@ -262,6 +272,28 @@ class AuthViewModel(
                 }
             } catch (e: Exception) {
                 _registerState.postValue(Result.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun deleteAccount(requestBody: RequestBody) {
+        viewModelScope.launch {
+            _deleteAccountState.postValue(Result.Loading)
+            try {
+                when (val response = authRepository.deleteUser(requestBody)) {
+                    is Result.Error -> {
+                        _deleteAccountState.postValue(Result.Error(response.error))
+                    }
+                    Result.Loading -> {
+                        _deleteAccountState.postValue(Result.Loading)
+                    }
+                    is Result.Success -> {
+                        _deleteAccountState.postValue(response)
+                    }
+                }
+
+            } catch (e: Exception) {
+                _deleteAccountState.postValue(Result.Error(e.message.toString()))
             }
         }
     }
@@ -296,6 +328,10 @@ class AuthViewModel(
 
     fun setDob(dob: String) {
         _dob.value = dob
+    }
+
+    fun setAge(age: String) {
+        _age.value = age
     }
 
     fun setRelationshipStatus(status: String) {
@@ -407,21 +443,25 @@ class AuthViewModel(
         }
     }
 
-    companion object {
-        val NAME = "name"
-        val AGE = "age"
-        val STATUS = "status"
-        val GENDER = "gender"
-        val RELIGION = "religion"
-        val EDUCATION = "education"
-        val HEIGHT = "height"
-        val IS_SMOKER = "isSmoker"
-        val IS_DRINKER = "isDrinker"
-        val GENRE = "genre"
-        val MUSIC_DECADE = "musicDecade"
-        val LISTENING_FREQ = "listeningFreq"
-        val CONCERT = "concert"
-        val LOVE_LANG = "loveLang"
+    fun getUserData() {
+
     }
+
+//    companion object {
+//        val NAME = "name"
+//        val AGE = "age"
+//        val STATUS = "status"
+//        val GENDER = "gender"
+//        val RELIGION = "religion"
+//        val EDUCATION = "education"
+//        val HEIGHT = "height"
+//        val IS_SMOKER = "isSmoker"
+//        val IS_DRINKER = "isDrinker"
+//        val GENRE = "genre"
+//        val MUSIC_DECADE = "musicDecade"
+//        val LISTENING_FREQ = "listeningFreq"
+//        val CONCERT = "concert"
+//        val LOVE_LANG = "loveLang"
+//    }
 
 }

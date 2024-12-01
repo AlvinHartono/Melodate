@@ -131,38 +131,38 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Pad the list to ensure 6 file slots for backend processing
+//             //Pad the list to ensure 6 file slots for backend processing
             val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
 
             lifecycleScope.launch {
                 authViewModel.registerUser(
-                    createRequestBody(user?.email ?: ""),
-                    createRequestBody(user?.password ?: ""),
-                    createRequestBody(user?.password ?: ""),
-                    createRequestBody(user?.name ?: ""),
-                    //age blm
-                    createRequestBody(user?.dob ?: ""),
-                    createRequestBody(user?.gender ?: ""),
-                    createRequestBody(user?.status ?: ""),
-                    createRequestBody(user?.education ?: ""),
-                    createRequestBody(user?.religion ?: ""),
-                    createRequestBody(user?.hobby ?: ""),
-                    createRequestBody(user?.height.toString() ?: ""),
-                    createRequestBody(user?.isSmoker.toString() ?: ""),
-                    createRequestBody(user?.isDrinker.toString() ?: ""),
-                    createRequestBody(user?.mbti ?: ""),
-                    createRequestBody(user?.loveLang ?: ""),
-                    createRequestBody(user?.genre?: ""),
-                    createRequestBody(user?.musicDecade ?: ""),
-                    // music vibe blm
-                    createRequestBody(user?.listeningFrequency ?: ""),
-                    createRequestBody(user?.concert ?: ""),
-                    createFilePart("profilePictureUrls", paddedImageFiles[0]!!),
-                    createFilePart("profilePictureUrls", paddedImageFiles[1]!!),
-                    createFilePart("profilePictureUrls", paddedImageFiles[2]!!),
-                    createFilePart("profilePictureUrls", paddedImageFiles[3]!!),
-                    createFilePart("profilePictureUrls", paddedImageFiles[4]!!),
-                    createFilePart("profilePictureUrls", paddedImageFiles[5]!!)
+                    email = createRequestBody(user?.email ?: ""),
+                    password = createRequestBody(user?.password ?: ""),
+                    confirmPassword = createRequestBody(user?.password ?: ""),
+                    firstName = createRequestBody(user?.name ?: ""),
+                    age = createRequestBody(user?.age.toString()),
+                    dateOfBirth = createRequestBody(user?.dob ?: ""),
+                    gender = createRequestBody(user?.gender ?: ""),
+                    relationshipStatus = createRequestBody(user?.status ?: ""),
+                    education = createRequestBody(user?.education ?: ""),
+                    religion = createRequestBody(user?.religion ?: ""),
+                    hobby = createRequestBody(user?.hobby ?: ""),
+                    height = createRequestBody(user?.height.toString()),
+                    smoking = createRequestBody(user?.isSmoker.toString()),
+                    drinking = createRequestBody(user?.isDrinker.toString()),
+                    mbti = createRequestBody(user?.mbti ?: ""),
+                    loveLanguage = createRequestBody(user?.loveLang ?: ""),
+                    genre = createRequestBody(user?.genre ?: ""),
+                    musicDecade = createRequestBody(user?.musicDecade ?: ""),
+                    musicVibe = createRequestBody(user?.musicVibe ?: ""),
+                    listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
+                    concert = createRequestBody(user?.concert ?: ""),
+                    profilePicture1 = createFilePart("profilePicture1", paddedImageFiles[0]!!),
+                    profilePicture2 = createFilePart("profilePicture2", paddedImageFiles[1]!!),
+                    profilePicture3 = createFilePart("profilePicture3", paddedImageFiles[2]!!),
+                    profilePicture4 = createFilePart("profilePicture4", paddedImageFiles[3]!!),
+                    profilePicture5 = createFilePart("profilePicture5", paddedImageFiles[4]!!),
+                    profilePicture6 = createFilePart("profilePicture6", paddedImageFiles[5]!!)
                 )
             }
 

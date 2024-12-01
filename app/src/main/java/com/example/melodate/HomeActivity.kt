@@ -3,16 +3,22 @@ package com.example.melodate
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.melodate.databinding.ActivityHomeBinding
+import com.example.melodate.ui.shared.view_model.AuthViewModel
+import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,9 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //fetch users data
+        authViewModel.getUserData()
     }
 }
 

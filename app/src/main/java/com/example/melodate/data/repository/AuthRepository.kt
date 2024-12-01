@@ -6,6 +6,7 @@ import com.example.melodate.data.local.database.UserDao
 import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.remote.request.CheckEmailRequest
 import com.example.melodate.data.remote.request.LoginRequest
+import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.RegisterResponse
 import com.example.melodate.data.remote.retrofit.ApiService
@@ -80,8 +81,8 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         loveLang: String,
     ) {
         //convert smoke and drink
-        val isSmokerBool = if (isSmoker == "Yes") true else false
-        val isDrinkerBool = if (isDrinker == "Yes") true else false
+        val isSmokerBool = isSmoker == "Yes"
+        val isDrinkerBool = isDrinker == "Yes"
 
         userDao.updateGeneralInterest(
             hobby = hobby,
@@ -116,6 +117,7 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         confirmPassword: RequestBody,
         firstName: RequestBody,
         dateOfBirth: RequestBody,
+        age: RequestBody,
         gender: RequestBody,
         relationshipStatus: RequestBody,
         education: RequestBody,
@@ -128,6 +130,7 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         loveLanguage: RequestBody,
         genre: RequestBody,
         musicDecade: RequestBody,
+        musicVibe: RequestBody,
         listeningFrequency: RequestBody,
         concert: RequestBody,
         profilePicture1: MultipartBody.Part?,
@@ -140,31 +143,33 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
         return try {
             val result = Result.Success(
                 apiService.registerUser(
-                    email,
-                    password,
-                    confirmPassword,
-                    firstName,
-                    dateOfBirth,
-                    gender,
-                    relationshipStatus,
-                    education,
-                    religion,
-                    hobby,
-                    height,
-                    smoking,
-                    drinking,
-                    mbti,
-                    loveLanguage,
-                    genre,
-                    musicDecade,
-                    listeningFrequency,
-                    concert,
-                    profilePicture1,
-                    profilePicture2,
-                    profilePicture3,
-                    profilePicture4,
-                    profilePicture5,
-                    profilePicture6
+                    email = email,
+                    password = password,
+                    confirmPassword = confirmPassword,
+                    firstName = firstName,
+                    dateOfBirth = dateOfBirth,
+                    age = age,
+                    gender = gender,
+                    relationshipStatus = relationshipStatus,
+                    education = education,
+                    religion = religion,
+                    hobby = hobby,
+                    height = height,
+                    smoking = smoking,
+                    drinking = drinking,
+                    mbti = mbti,
+                    loveLanguage = loveLanguage,
+                    genre = genre,
+                    musicDecade = musicDecade,
+                    musicVibe = musicVibe,
+                    listeningFrequency = listeningFrequency,
+                    concert = concert,
+                    profilePicture1 = profilePicture1,
+                    profilePicture2 = profilePicture2,
+                    profilePicture3 = profilePicture3,
+                    profilePicture4 = profilePicture4,
+                    profilePicture5 = profilePicture5,
+                    profilePicture6 = profilePicture6
                 )
             )
             if (result.data.error == true) {
@@ -176,6 +181,19 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
             Result.Error(e.message.toString())
         }
 
+    }
+
+    suspend fun deleteUser(requestBody: RequestBody): Result<DeleteAccountResponse> {
+        try {
+            val response = apiService.deleteUser(requestBody)
+            return if (response.error!!) {
+                Result.Error(response.message.toString())
+            } else {
+                Result.Success(response)
+            }
+        } catch (e: Exception) {
+            return Result.Error(e.message.toString())
+        }
     }
 
     companion object {

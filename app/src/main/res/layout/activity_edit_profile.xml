@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.profile.EditProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Edit Profile"
+        app:titleTextColor="@android:color/white" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:id="@+id/upload_image_1_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="32dp">
+
+                <ImageView
+                    android:id="@+id/image_1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+
+                <ImageView
+                    android:id="@+id/image_2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+
+                <ImageView
+                    android:id="@+id/image_3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upload_image_2_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="32dp">
+
+                <ImageView
+                    android:id="@+id/image_4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginBottom="32dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+
+                <ImageView
+                    android:id="@+id/image_5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+
+                <ImageView
+                    android:id="@+id/image_6"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:contentDescription="@string/imageview_action"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+            </LinearLayout>
+
+            <!-- User Bio Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/your_bio"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutLoveLanguage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minHeight="100dp"
+                    android:maxLines="5"
+                    android:gravity="top"
+                    android:maxLength="200"
+                    android:hint="@string/your_bio" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Current Location Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/location_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Relationship Status Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutRelationship"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/relationship_status">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteRelationshipStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutEducation"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/education_hint">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteEducation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutReligion"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/religion_hint">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteReligion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Hobby and Interest Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutHobbyInterest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/hobby_and_interest"
+                app:layout_constraintTop_toBottomOf="@id/tv_register">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextHobby"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Height Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/height_in_cm"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutHobbyInterest">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Smoking Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSmoking"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/smoking_hint"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutHeight">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteSmoking"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Drinking Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutDrinking"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/drinking_hint"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutSmoking">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteDrinking"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- MBTI Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMbti"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/mbti_personality"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutDrinking">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteMbti"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Love Language Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutLoveLanguage"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/love_language"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutMbti">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteLoveLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Genre Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutGenre"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/genre"
+                app:layout_constraintTop_toBottomOf="@id/tv_register">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteGenre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Music Decade Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMusicDecade"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/music_decade"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutGenre">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteMusicDecade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Music Vibe Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMusicVibe"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/music_vibe"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutMusicDecade">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteMusicVibe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Listening Frequency Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutListeningFrequency"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/listening_frequency"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutMusicVibe">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteListeningFrequency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Concert Dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutConcert"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/concert"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutListeningFrequency">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteConcert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,7 @@ roomCompiler = "2.5.2"
 roomRuntime = "2.5.2"
 roomKtx = "2.6.1"
 glide = "4.16.0"
+playServicesLocation = "21.3.0"
 
 
 [libraries]
@@ -54,6 +55,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCom
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

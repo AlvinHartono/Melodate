@@ -98,4 +98,34 @@ data class UserEntity(
     //bio
     @ColumnInfo(name = "bio")
     val bio: String? = null,
+
+    //location
+    @ColumnInfo(name = "location")
+    val location: String? = null,
+
+    //picture 1
+    @ColumnInfo(name = "picture1")
+    val picture1: String? = null,
+
+    //picture 2
+    @ColumnInfo(name = "picture2")
+    val picture2: String? = null,
+
+    //picture 3
+    @ColumnInfo(name = "picture3")
+    val picture3: String? = null,
+
+    //picture 4
+    @ColumnInfo(name = "picture4")
+    val picture4: String? = null,
+
+    //picture 5
+    @ColumnInfo(name = "picture5")
+    val picture5: String? = null,
+
+    //picture 6
+    @ColumnInfo(name = "picture6")
+    val picture6: String? = null,
+
+
 ) : Parcelable
