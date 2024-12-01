@@ -94,6 +94,9 @@
     <string name="your_profile_has_successfully_finished">Your Profile has successfully finished</string>
     <string name="let_s_go">Let\'s go</string>
     <string name="logo">Logo</string>
+    <string name="check">check</string>
+    <string name="location_hint">Location</string>
+    <string name="your_bio">Your Bio</string>
 
     <string-array name="status">
         <item>Single</item>

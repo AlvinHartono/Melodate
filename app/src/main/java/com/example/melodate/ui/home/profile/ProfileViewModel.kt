@@ -1,4 +1,4 @@
-package com.example.melodate.ui.home
+package com.example.melodate.ui.home.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,4 +10,5 @@ class ProfileViewModel : ViewModel() {
         value = "This is Profile Fragment"
     }
     val text: LiveData<String> = _text
+
 }
