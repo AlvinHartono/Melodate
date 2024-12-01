@@ -217,6 +217,9 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             authViewModel.setEducation(text.toString())
         }
 
+        binding.fabBack.setOnClickListener {
+            finish()
+        }
 
         binding.fabForward.setOnClickListener {
             val name = binding.etFirstName.text.toString()

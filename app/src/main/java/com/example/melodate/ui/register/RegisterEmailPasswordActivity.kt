@@ -130,7 +130,12 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
                 Toast.makeText(this, "All the fields cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else {
-                authViewModel.checkEmail(email)
+//                authViewModel.checkEmail(email)
+                authViewModel.saveUserEntity(UserEntity(email = email, password = password))
+                //intent
+                val intent =
+                    Intent(this@RegisterEmailPasswordActivity, RegisterUserPersonalDataActivity::class.java)
+                startActivity(intent)
             }
 
         }
