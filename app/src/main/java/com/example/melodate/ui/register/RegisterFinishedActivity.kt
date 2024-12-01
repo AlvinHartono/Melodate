@@ -1,10 +1,12 @@
 package com.example.melodate.ui.register
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.melodate.HomeActivity
 import com.example.melodate.R
 import com.example.melodate.databinding.ActivityRegisterFinishedBinding
 
@@ -22,6 +24,10 @@ class RegisterFinishedActivity : AppCompatActivity() {
             insets
         }
 
-
+        binding.btnLetsGo.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

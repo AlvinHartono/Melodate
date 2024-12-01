@@ -217,6 +217,9 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             authViewModel.setEducation(text.toString())
         }
 
+        binding.fabBack.setOnClickListener {
+            finish()
+        }
 
         binding.fabForward.setOnClickListener {
             val name = binding.etFirstName.text.toString()
@@ -269,8 +272,9 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
                 // Update the EditText with the selected date
+
                 val formattedDate =
-                    String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                    String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                 binding.etDob.setText(formattedDate)
                 authViewModel.setDob(formattedDate) // Update ViewModel
             },
@@ -306,9 +310,13 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
     }
 
     private fun calculateAge(dobText: String): Int {
-        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val dob = formatter.parse(dobText)
-        val dobCalendar = Calendar.getInstance().apply { time = dob }
+        val dobCalendar = Calendar.getInstance().apply {
+            if (dob != null) {
+                time = dob
+            }
+        }
         val today = Calendar.getInstance()
 
         var age = today.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR)
