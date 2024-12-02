@@ -41,7 +41,14 @@ class MelodateFragment : Fragment() {
                 description = "I like to move it move it. looking for a guy in finance, 6'5, blue eyes, and like jazz 🎺",
                 image = R.drawable.haewon,
                 musicInterest = listOf("K-Pop", "Chill", "Pop", "20s", "Frequent Listener"),
-                descriptionList = listOf("Female", "Catholic", "Never", "Often", "Undergraduate", "Single"),
+                descriptionList = listOf(
+                    "Female",
+                    "Catholic",
+                    "Never",
+                    "Often",
+                    "Undergraduate",
+                    "Single"
+                ),
                 location = "Tangerang, Banten"
             ),
             CardData(
@@ -61,7 +68,17 @@ class MelodateFragment : Fragment() {
                 description = "Loves jazz and K-pop...",
                 image = R.drawable.sample_profile_3,
                 musicInterest = listOf("K-Pop", "Jazz", "Indie"),
-                descriptionList = listOf("Female","Never", "Graduate", "Single"),
+                descriptionList = listOf("Female", "Never", "Graduate", "Single"),
+                location = "Surabaya, East Java"
+            ),
+            CardData(
+                name = "Yoon, 22",
+                songTitle = "APT.",
+                artistName = "ROSE, Bruno Mars",
+                description = "Loves jazz and K-pop...",
+                image = R.drawable.sample_profile_3,
+                musicInterest = listOf("K-Pop", "Jazz", "Indie"),
+                descriptionList = listOf("Female", "Never", "Graduate", "Single"),
                 location = "Surabaya, East Java"
             )
         )
@@ -78,6 +95,7 @@ class MelodateFragment : Fragment() {
 
                 if (manager.topPosition == cardList.size) {
                     Toast.makeText(requireContext(), "No more cards!", Toast.LENGTH_LONG).show()
+
                 }
             }
 

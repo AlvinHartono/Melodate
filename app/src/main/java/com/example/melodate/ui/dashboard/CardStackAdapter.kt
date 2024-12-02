@@ -101,7 +101,7 @@ class CardStackAdapter(
 
         val category = when {
             description.contains("Male", ignoreCase = true) || description.contains("Female", ignoreCase = true) -> "Gender"
-            listOf("Muslim", "Christian", "Catholic", "Buddish", "Hindu", "Other").any { description.contains(it, ignoreCase = true) } -> "Religion"
+            listOf("Muslim", "Christian", "Catholic", "Buddhist", "Hindu", "Other").any { description.contains(it, ignoreCase = true) } -> "Religion"
             listOf("Always", "Often", "Rarely", "Never").any { description.contains(it, ignoreCase = true) } -> "Smoke"
             listOf("Always", "Often", "Rarely", "Never").any { description.contains(it, ignoreCase = true) } -> "Drink"
             listOf("Graduate", "Undergraduate", "No Degree").any { description.contains(it, ignoreCase = true) } -> "Education"
