@@ -17,7 +17,7 @@ class EmailEditText @JvmOverloads constructor(
 ) : AppCompatEditText(context, attrs) {
 
         private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-        private val emailIcon = ContextCompat.getDrawable(context, R.drawable.ic_email)
+        private val emailIcon = ContextCompat.getDrawable(context, R.drawable.ic_email_light)
 
     init {
         hint = context.getString(R.string.email_example)

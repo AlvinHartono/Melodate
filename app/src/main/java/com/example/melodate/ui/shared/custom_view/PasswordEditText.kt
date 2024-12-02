@@ -22,7 +22,7 @@ class PasswordEditText @JvmOverloads constructor(
         ContextCompat.getDrawable(context, R.drawable.ic_invisible)
 
 
-    private var passwordIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_password)
+    private var passwordIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_password_light)
 
     init {
 

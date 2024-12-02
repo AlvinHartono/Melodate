@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.addTextChangedListener
 import com.example.melodate.R
 import com.example.melodate.data.Result
@@ -29,8 +30,37 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        setupIcons()
         setupListeners()
         setupObservers()
+    }
+
+    private fun setupIcons() {
+        val isDarkTheme = (resources.configuration.uiMode and
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+
+        val emailIcon = if (isDarkTheme) {
+            AppCompatResources.getDrawable(this, R.drawable.ic_email_dark)
+        } else {
+            AppCompatResources.getDrawable(this, R.drawable.ic_email_light)
+        }
+
+        val passwordIcon = if (isDarkTheme) {
+            AppCompatResources.getDrawable(this, R.drawable.ic_password_dark)
+        } else {
+            AppCompatResources.getDrawable(this, R.drawable.ic_password_light)
+        }
+
+        binding.etEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            emailIcon, null, null, null
+        )
+        binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            passwordIcon, null, null, null
+        )
+        binding.etConfirmPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            passwordIcon, null, null, null
+        )
     }
 
     private fun setupObservers() {
