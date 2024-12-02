@@ -20,7 +20,7 @@
     </style>
 
     <style name="LargeButton" parent="Widget.AppCompat.Button">
-        <item name="android:minHeight">56dp</item>
+        <item name="android:minHeight">48dp</item>
         <item name="android:maxWidth">500dp</item>
         <item name="android:minWidth">330dp</item>
         <item name="android:textSize">14sp</item>
@@ -29,6 +29,7 @@
 
         <item name="android:elevation">8dp</item>
         <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:backgroundTint">@color/pink_hopbush</item>
     </style>
 
     <style name="FABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
