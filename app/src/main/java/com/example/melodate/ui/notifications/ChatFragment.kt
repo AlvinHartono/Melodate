@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.melodate.data.remote.response.User
 import com.example.melodate.databinding.FragmentChatBinding
-import com.example.melodate.databinding.FragmentProfileBinding
 
 class ChatFragment : Fragment() {
 
@@ -24,15 +24,31 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val chatViewModel =
-            ViewModelProvider(this).get(ChatViewModel::class.java)
+            ViewModelProvider(this)[ChatViewModel::class.java]
 
         _binding = FragmentChatBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        chatViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val chatListAdapter = ChatListAdapter()
+        binding.rvChats.layoutManager = LinearLayoutManager(context)
+        binding.rvChats.adapter = chatListAdapter
+
+        val matchListAdapter = MatchesListAdapter()
+        binding.rvMatches.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMatches.adapter = matchListAdapter
+
+        // Create dummy users and submit the list to the adapter
+        val dummyUsers = listOf(
+            User(firstName = "Alice"),
+            User(firstName = "Bob"),
+            User(firstName = "Charlie"),
+            User(firstName = "Diana"),
+            User(firstName = "Eve")
+        )
+
+        chatListAdapter.submitList(dummyUsers)
+        matchListAdapter.submitList(dummyUsers)
+
         return root
     }
 

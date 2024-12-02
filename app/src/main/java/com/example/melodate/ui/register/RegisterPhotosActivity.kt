@@ -134,6 +134,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
 //             //Pad the list to ensure 6 file slots for backend processing
             val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
 
+            val parts = paddedImageFiles.mapIndexed { index, file ->
+                file?.let {
+                    createFilePart("profilePicture${index + 1}", it)
+                }
+            }
+
             lifecycleScope.launch {
                 authViewModel.registerUser(
                     email = createRequestBody(user?.email ?: ""),
@@ -157,12 +163,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
                     musicVibe = createRequestBody(user?.musicVibe ?: ""),
                     listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
                     concert = createRequestBody(user?.concert ?: ""),
-                    profilePicture1 = createFilePart("profilePicture1", paddedImageFiles[0]!!),
-                    profilePicture2 = createFilePart("profilePicture2", paddedImageFiles[1]!!),
-                    profilePicture3 = createFilePart("profilePicture3", paddedImageFiles[2]!!),
-                    profilePicture4 = createFilePart("profilePicture4", paddedImageFiles[3]!!),
-                    profilePicture5 = createFilePart("profilePicture5", paddedImageFiles[4]!!),
-                    profilePicture6 = createFilePart("profilePicture6", paddedImageFiles[5]!!)
+                    profilePicture1 = parts.getOrNull(0),
+                    profilePicture2 = parts.getOrNull(1),
+                    profilePicture3 = parts.getOrNull(2),
+                    profilePicture4 = parts.getOrNull(3),
+                    profilePicture5 = parts.getOrNull(4),
+                    profilePicture6 = parts.getOrNull(5)
                 )
             }
 
