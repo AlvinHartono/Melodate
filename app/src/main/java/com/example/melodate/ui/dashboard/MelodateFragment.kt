@@ -49,7 +49,41 @@ class MelodateFragment : Fragment() {
                     "Undergraduate",
                     "Single"
                 ),
-                location = "Tangerang, Banten"
+                location = "Tangerang, Banten",
+                favoriteArtists = listOf(
+                    FavoriteArtistData(
+                        songImage = R.drawable.aespa,
+                        artistName = "AESPA"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "NewJeans"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "NewJeans"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "NewJeans"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "NewJeans"
+                    ),
+                ),
+                topSongs = listOf(
+                    TopSongData(
+                        artistImage = R.drawable.apt,
+                        songTitle = "APT",
+                        artistName = "Rose & Bruno"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "NewJeans",
+                        artistName = "NewJeans"
+                    )
+                )
             ),
             CardData(
                 name = "Dash, 25",
@@ -59,7 +93,29 @@ class MelodateFragment : Fragment() {
                 image = R.drawable.sample_profile_2,
                 musicInterest = listOf("Jazz", "Blues"),
                 descriptionList = listOf("Female", "Graduate", "Single"),
-                location = "Jakarta, Indonesia"
+                location = "Jakarta, Indonesia",
+                favoriteArtists = listOf(
+                    FavoriteArtistData(
+                        songImage = R.drawable.itzy,
+                        artistName = "Artist 1"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.aespa,
+                        artistName = "Artist 2"
+                    )
+                ),
+                topSongs = listOf(
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "Song 1",
+                        artistName = "Artist 3"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.apt,
+                        songTitle = "Song 2",
+                        artistName = "Artist 4"
+                    )
+                )
             ),
             CardData(
                 name = "Yoon, 22",
@@ -69,7 +125,29 @@ class MelodateFragment : Fragment() {
                 image = R.drawable.sample_profile_3,
                 musicInterest = listOf("K-Pop", "Jazz", "Indie"),
                 descriptionList = listOf("Female", "Never", "Graduate", "Single"),
-                location = "Surabaya, East Java"
+                location = "Surabaya, East Java",
+                favoriteArtists = listOf(
+                    FavoriteArtistData(
+                        songImage = R.drawable.aespa,
+                        artistName = "Artist 1"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "Artist 2"
+                    )
+                ),
+                topSongs = listOf(
+                    TopSongData(
+                        artistImage = R.drawable.apt,
+                        songTitle = "Song 1",
+                        artistName = "Artist 3"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "Song 2",
+                        artistName = "Artist 4"
+                    )
+                )
             ),
             CardData(
                 name = "Yoon, 22",
@@ -79,7 +157,29 @@ class MelodateFragment : Fragment() {
                 image = R.drawable.sample_profile_3,
                 musicInterest = listOf("K-Pop", "Jazz", "Indie"),
                 descriptionList = listOf("Female", "Never", "Graduate", "Single"),
-                location = "Surabaya, East Java"
+                location = "Surabaya, East Java",
+                favoriteArtists = listOf(
+                    FavoriteArtistData(
+                        songImage = R.drawable.itzy,
+                        artistName = "Artist 1"
+                    ),
+                    FavoriteArtistData(
+                        songImage = R.drawable.newjeans,
+                        artistName = "Artist 2"
+                    )
+                ),
+                topSongs = listOf(
+                    TopSongData(
+                        artistImage = R.drawable.apt,
+                        songTitle = "Song 1",
+                        artistName = "Artist 3"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "Song 2",
+                        artistName = "Artist 4"
+                    )
+                )
             )
         )
 
