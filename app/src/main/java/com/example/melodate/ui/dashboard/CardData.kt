@@ -8,7 +8,9 @@ data class CardData(
     val image: Int,
     val musicInterest: List<String>,
     val descriptionList: List<String>,
-    val location: String
+    val location: String,
+    val favoriteArtists: List<FavoriteArtistData>,
+    val topSongs: List<TopSongData>
 )
 
 
