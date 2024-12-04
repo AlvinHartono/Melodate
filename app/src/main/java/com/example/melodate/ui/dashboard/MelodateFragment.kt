@@ -82,6 +82,21 @@ class MelodateFragment : Fragment() {
                         artistImage = R.drawable.newjeans_music,
                         songTitle = "NewJeans",
                         artistName = "NewJeans"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "NewJeans",
+                        artistName = "NewJeans"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "NewJeans",
+                        artistName = "NewJeans"
+                    ),
+                    TopSongData(
+                        artistImage = R.drawable.newjeans_music,
+                        songTitle = "NewJeans",
+                        artistName = "NewJeans"
                     )
                 )
             ),
