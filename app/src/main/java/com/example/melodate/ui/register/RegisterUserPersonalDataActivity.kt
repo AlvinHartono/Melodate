@@ -143,7 +143,9 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
                             R.color.gray_400
                         )
                     )
-                } else {
+                }
+
+                if (gender == "Female"){
                     binding.maleButton.setBackgroundColor(
                         ContextCompat.getColor(
                             this,

@@ -71,8 +71,9 @@ class MainActivity : AppCompatActivity() {
 
                     binding.buttonGetStarted.setOnClickListener {
                         val intent =
-//                            Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
-                        Intent(this@MainActivity, HomeActivity::class.java)
+                            Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
+//                        Intent(this@MainActivity, HomeActivity::class.java)
+//                        Intent(this@MainActivity, RegisterUserPersonalDataActivity::class.java)
                         startActivity(intent)
                     }
 
