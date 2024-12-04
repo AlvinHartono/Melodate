@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -89,7 +90,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 is Result.Success -> {
                     val intent = Intent(this, RegisterFinishedActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                    val options = ActivityOptionsCompat.makeCustomAnimation(
+                        this@RegisterPhotosActivity,
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left
+                    )
+                    startActivity(intent, options.toBundle())
                     finish()
                 }
             }
@@ -163,12 +169,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
                     musicVibe = createRequestBody(user?.musicVibe ?: ""),
                     listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
                     concert = createRequestBody(user?.concert ?: ""),
-                    profilePicture1 = parts.getOrNull(0),
-                    profilePicture2 = parts.getOrNull(1),
-                    profilePicture3 = parts.getOrNull(2),
-                    profilePicture4 = parts.getOrNull(3),
-                    profilePicture5 = parts.getOrNull(4),
-                    profilePicture6 = parts.getOrNull(5)
+//                    profilePicture1 = parts.getOrNull(0),
+//                    profilePicture2 = parts.getOrNull(1),
+//                    profilePicture3 = parts.getOrNull(2),
+//                    profilePicture4 = parts.getOrNull(3),
+//                    profilePicture5 = parts.getOrNull(4),
+//                    profilePicture6 = parts.getOrNull(5)
                 )
             }
 

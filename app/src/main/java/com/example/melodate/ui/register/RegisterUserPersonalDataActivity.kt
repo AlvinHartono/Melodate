@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -254,7 +255,12 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
                         this@RegisterUserPersonalDataActivity,
                         RegisterUserGeneralInterestActivity::class.java
                     )
-                    startActivity(intent)
+                    val options = ActivityOptionsCompat.makeCustomAnimation(
+                        this@RegisterUserPersonalDataActivity,
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left
+                    )
+                    startActivity(intent, options.toBundle())
                 }
             }
         }

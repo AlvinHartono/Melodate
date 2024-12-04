@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -166,7 +167,12 @@ class RegisterUserGeneralInterestActivity : AppCompatActivity() {
                 this@RegisterUserGeneralInterestActivity,
                 RegisterMusicPreferenceActivity::class.java
             )
-            startActivity(intent)
+            val options = ActivityOptionsCompat.makeCustomAnimation(
+                this@RegisterUserGeneralInterestActivity,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+            startActivity(intent, options.toBundle())
         }
         binding.fabBack.setOnClickListener {
             finish()

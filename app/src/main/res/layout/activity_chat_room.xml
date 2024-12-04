@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.notifications.ChatRoomActivity">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linear_layout_bottom"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        android:orientation="horizontal">
+
+        <!-- FAB Image stays at the start -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/send_image_action"
+            android:src="@drawable/ic_send_light"
+            android:layout_gravity="start" />
+
+        <!-- EditText occupies the space in the middle -->
+        <EditText
+            android:id="@+id/edit_text_chat"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:hint="@string/chat"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+
+        <!-- Container for FAB Voicenote and Send aligned to the end -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_voicenote"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/voice_note_action"
+                android:src="@drawable/ic_send_light" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_send"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/send_action"
+                android:src="@drawable/ic_send_light" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

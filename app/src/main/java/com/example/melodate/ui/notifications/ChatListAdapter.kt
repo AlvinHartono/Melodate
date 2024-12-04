@@ -1,5 +1,6 @@
 package com.example.melodate.ui.notifications
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -45,6 +46,15 @@ class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_C
     override fun onBindViewHolder(holder: ChatListAdapter.ChatViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
+
+        // intent to chat activity
+        holder.itemView.setOnClickListener {
+            // Handle item click here
+            // You can start a new activity or perform any other action
+            // For example:
+             val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
+             holder.itemView.context.startActivity(intent)
+        }
 
         // Set click listener for the item
     }

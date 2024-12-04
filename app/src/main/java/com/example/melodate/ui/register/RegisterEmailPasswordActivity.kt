@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.melodate.R
 import com.example.melodate.data.Result
@@ -103,7 +104,14 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
                                 this@RegisterEmailPasswordActivity,
                                 RegisterUserPersonalDataActivity::class.java
                             )
-                        startActivity(intent)
+
+                        val options = ActivityOptionsCompat.makeCustomAnimation(
+                            this@RegisterEmailPasswordActivity,
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left
+                        )
+
+                        startActivity(intent, options.toBundle())
                     } else {
                         showLoading(false)
                         Toast.makeText(this, "Email already taken", Toast.LENGTH_SHORT).show()
