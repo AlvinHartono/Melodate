@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -122,7 +123,13 @@ class RegisterMusicPreferenceActivity : AppCompatActivity() {
             )
             val intent =
                 Intent(this@RegisterMusicPreferenceActivity, RegisterPhotosActivity::class.java)
-            startActivity(intent)
+
+            val options = ActivityOptionsCompat.makeCustomAnimation(
+                this@RegisterMusicPreferenceActivity,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+            startActivity(intent, options.toBundle())
         }
         binding.fabBack.setOnClickListener {
             finish()

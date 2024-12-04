@@ -222,12 +222,12 @@ class AuthViewModel(
         musicVibe: RequestBody,
         listeningFrequency: RequestBody,
         concert: RequestBody,
-        profilePicture1: MultipartBody.Part?,
-        profilePicture2: MultipartBody.Part?,
-        profilePicture3: MultipartBody.Part?,
-        profilePicture4: MultipartBody.Part?,
-        profilePicture5: MultipartBody.Part?,
-        profilePicture6: MultipartBody.Part?
+        profilePicture1: MultipartBody.Part? = null,
+        profilePicture2: MultipartBody.Part? = null,
+        profilePicture3: MultipartBody.Part? = null,
+        profilePicture4: MultipartBody.Part? = null,
+        profilePicture5: MultipartBody.Part? = null,
+        profilePicture6: MultipartBody.Part? = null
     ) {
         _registerState.postValue(Result.Loading)
         viewModelScope.launch {
@@ -284,9 +284,11 @@ class AuthViewModel(
                     is Result.Error -> {
                         _deleteAccountState.postValue(Result.Error(response.error))
                     }
+
                     Result.Loading -> {
                         _deleteAccountState.postValue(Result.Loading)
                     }
+
                     is Result.Success -> {
                         _deleteAccountState.postValue(response)
                     }

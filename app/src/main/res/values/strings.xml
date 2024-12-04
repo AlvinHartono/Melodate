@@ -100,6 +100,9 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="matches">Matches</string>
     <string name="chats">Chats</string>
+    <string name="send_action">Send Action</string>
+    <string name="voice_note_action">Voice Note Action</string>
+    <string name="send_image_action">Send Image Action</string>
 
     <string-array name="status">
         <item>Single</item>

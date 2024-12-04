@@ -62,11 +62,11 @@ interface ApiService {
         @Part("music_vibe") musicVibe: RequestBody,
         @Part("listening_frequency") listeningFrequency: RequestBody,
         @Part("concert") concert: RequestBody,
-        @Part profilePicture1: MultipartBody.Part?,
-        @Part profilePicture2: MultipartBody.Part?,
-        @Part profilePicture3: MultipartBody.Part?,
-        @Part profilePicture4: MultipartBody.Part?,
-        @Part profilePicture5: MultipartBody.Part?,
-        @Part profilePicture6: MultipartBody.Part?
+        @Part profilePicture1: MultipartBody.Part? = null,
+        @Part profilePicture2: MultipartBody.Part? = null,
+        @Part profilePicture3: MultipartBody.Part? = null,
+        @Part profilePicture4: MultipartBody.Part? = null,
+        @Part profilePicture5: MultipartBody.Part? = null,
+        @Part profilePicture6: MultipartBody.Part? = null
     ): RegisterResponse
 }
