@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.melodate.R
 import com.google.android.flexbox.FlexboxLayout
@@ -24,6 +25,9 @@ class CardStackAdapter(
         val location: TextView = view.findViewById(R.id.location)
         val descriptionList: FlexboxLayout = view.findViewById(R.id.description_list)
         val musicInterestList: FlexboxLayout = view.findViewById(R.id.music_interest_list)
+
+        val favoriteArtistsRecyclerView: RecyclerView = view.findViewById(R.id.favorite_artists_recycler_view)
+        val topSongsRecyclerView: RecyclerView = view.findViewById(R.id.top_songs_recycler_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +44,14 @@ class CardStackAdapter(
         holder.description.text = card.description
         holder.image.setImageResource(card.image)
         holder.location.text = card.location
+
+        val favoriteArtistsAdapter = FavoriteArtistAdapter(card.favoriteArtists)
+        holder.favoriteArtistsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        holder.favoriteArtistsRecyclerView.adapter = favoriteArtistsAdapter
+
+        val topSongsAdapter = TopSongAdapter(card.topSongs)
+        holder.topSongsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.topSongsRecyclerView.adapter = topSongsAdapter
 
         holder.descriptionList.removeAllViews()
         card.descriptionList.forEach { description ->
