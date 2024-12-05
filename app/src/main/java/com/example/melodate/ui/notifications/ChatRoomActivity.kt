@@ -1,6 +1,7 @@
 package com.example.melodate.ui.notifications
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.melodate.data.model.Message
@@ -18,6 +19,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val userId = intent.getStringExtra("userId")
         val userName = intent.getStringExtra("userName")
 
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.title = userName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         messageList = ArrayList()
@@ -38,6 +40,17 @@ class ChatRoomActivity : AppCompatActivity() {
                 binding.editTextChat.text.clear()
             }
 
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
