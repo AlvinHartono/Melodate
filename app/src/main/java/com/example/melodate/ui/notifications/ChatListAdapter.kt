@@ -53,7 +53,10 @@ class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_C
             // You can start a new activity or perform any other action
             // For example:
              val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
+            intent.putExtra("userName", currentList[position].firstName)
+            intent.putExtra("userId", currentList[position].id)
              holder.itemView.context.startActivity(intent)
+
         }
 
         // Set click listener for the item
