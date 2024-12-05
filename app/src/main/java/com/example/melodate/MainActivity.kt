@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.melodate.databinding.ActivityMainBinding
 import com.example.melodate.ui.login.LoginActivity
-import com.example.melodate.ui.register.RegisterEmailPasswordActivity
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
 import kotlinx.coroutines.launch
@@ -71,8 +70,8 @@ class MainActivity : AppCompatActivity() {
 
                     binding.buttonGetStarted.setOnClickListener {
                         val intent =
-                            Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
-//                        Intent(this@MainActivity, HomeActivity::class.java)
+//                            Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
+                            Intent(this@MainActivity, HomeActivity::class.java)
 //                        Intent(this@MainActivity, RegisterUserPersonalDataActivity::class.java)
                         startActivity(intent)
                     }
