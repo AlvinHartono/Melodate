@@ -56,4 +56,16 @@
         <item name="android:indeterminateTint">@android:color/black</item>
         <item name="android:indeterminateTintMode">src_in</item>
     </style>
+
+    <style name="LargeChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:minHeight">150dp</item> <!-- Increase height -->
+        <item name="android:minWidth">150dp</item> <!-- Increase height -->
+        <item name="android:textSize">18sp</item> <!-- Larger text -->
+        <item name="android:gravity">center</item> <!-- Larger text -->
+        <item name="chipStartPadding">16dp</item> <!-- Adjust inner padding -->
+        <item name="chipEndPadding">16dp</item>
+        <item name="chipCornerRadius">12dp</item> <!-- Larger corner radius -->
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/primaryColor</item>
+    </style>
 </resources>

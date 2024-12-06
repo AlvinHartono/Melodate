@@ -3,8 +3,10 @@ package com.example.melodate.ui.register
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.example.melodate.R
 import com.example.melodate.databinding.ActivityRegisterUserPersonalDataBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import com.google.android.material.chip.Chip
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -53,34 +56,7 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
 
     private fun setupGender() {
         // Set both buttons to gray initially
-        binding.maleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_400))
-        binding.femaleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_400))
 
-        binding.maleButton.setOnClickListener {
-            authViewModel.setGender("Male")
-
-            // Set female button to gray and male button to primaryColor
-            binding.femaleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_400))
-            binding.maleButton.setBackgroundColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.primaryColor
-                )
-            )
-        }
-
-        binding.femaleButton.setOnClickListener {
-            authViewModel.setGender("Female")
-
-            // Set male button to gray and female button to primaryColor
-            binding.maleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_400))
-            binding.femaleButton.setBackgroundColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.primaryColor
-                )
-            )
-        }
     }
 
     private fun setupObservers() {
@@ -91,35 +67,19 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             binding.autoCompleteReligion.setText(userData.religion)
             binding.autoCompleteEducation.setText(userData.education)
 
-            if (userData.gender != null) {
-                if (userData.gender == "Male") {
-                    binding.maleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.primaryColor
-                        )
-                    )
-                    binding.femaleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.gray_400
-                        )
-                    )
-                } else {
-                    binding.maleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.gray_400
-                        )
-                    )
-                    binding.femaleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.primaryColor
-                        )
-                    )
-                }
-            }
+//            if (userData.gender != null) {
+//                if (userData.gender == "Male") {
+//                    binding.maleChip.isChecked = true
+//                    binding.femaleChip.isChecked = false
+////                    binding.maleButton.isSelected = true
+////                    binding.femaleButton.isSelected = false
+//                } else {
+//                    binding.maleChip.isChecked = false
+//                    binding.femaleChip.isChecked = true
+////                    binding.maleButton.isSelected = false
+////                    binding.femaleButton.isSelected = true
+//                }
+//            }
         }
 
         authViewModel.name.observe(this) { name ->
@@ -128,38 +88,45 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
             }
         }
 
-        authViewModel.gender.observe(this) { gender ->
-            if (authViewModel.gender.value != "null") {
-                if (gender == "Male") {
-                    binding.maleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.primaryColor
-                        )
-                    )
-                    binding.femaleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.gray_400
-                        )
-                    )
-                }
 
-                if (gender == "Female"){
-                    binding.maleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.gray_400
-                        )
-                    )
-                    binding.femaleButton.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.primaryColor
-                        )
-                    )
-                }
-            }
+        authViewModel.gender.observe(this) { gender ->
+//            when (gender) {
+//                "Male" -> {
+//                    binding.maleChip.isChecked = true
+//                    binding.femaleChip.isChecked = false
+//                    // Change chip colors
+//                    binding.maleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.primaryColor)
+//                    )
+//                    binding.femaleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.gray_400)
+//                    )
+//                }
+//
+//                "Female" -> {
+//                    binding.maleChip.isChecked = false
+//                    binding.femaleChip.isChecked = true
+//                    // Change chip colors
+//                    binding.maleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.primaryColor)
+//                    )
+//                    binding.femaleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.gray_400)
+//                    )
+//                }
+//
+//                else -> {
+//                    binding.maleChip.isChecked = false
+//                    binding.femaleChip.isChecked = false
+//                    // Change chip colors
+//                    binding.maleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.primaryColor)
+//                    )
+//                    binding.femaleChip.chipBackgroundColor = ColorStateList.valueOf(
+//                        ContextCompat.getColor(this, R.color.gray_400)
+//                    )
+//                }
+//            }
         }
 
         authViewModel.dob.observe(this) { dob ->
@@ -209,6 +176,43 @@ class RegisterUserPersonalDataActivity : AppCompatActivity() {
         binding.etDob.setOnClickListener {
             showDatePicker()
         }
+
+        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.isEmpty()) {
+                // Prevent deselecting the current chip
+                val lastSelectedChipId = when (authViewModel.gender.value) {
+                    "Male" -> R.id.maleChip
+                    "Female" -> R.id.femaleChip
+                    else -> R.id.maleChip // Fallback, though ideally this should never happen
+                }
+                lastSelectedChipId.let { group.check(it) }
+            } else {
+                val checkedChipId = checkedIds[0]
+                val checkedChip: Chip = group.findViewById(checkedChipId)
+                val selectedGender = checkedChip.text.toString()
+
+                // Update chip colors based on selection
+                binding.maleChip.chipBackgroundColor = ColorStateList.valueOf(
+                    if (checkedChipId == R.id.maleChip)
+                        ContextCompat.getColor(this, R.color.primaryColor)
+                    else
+                        ContextCompat.getColor(this, R.color.gray_400)
+                )
+                binding.femaleChip.chipBackgroundColor = ColorStateList.valueOf(
+                    if (checkedChipId == R.id.femaleChip)
+                        ContextCompat.getColor(this, R.color.primaryColor)
+                    else
+                        ContextCompat.getColor(this, R.color.gray_400)
+                )
+
+                // Save gender data to ViewModel
+                authViewModel.setGender(selectedGender)
+
+                Toast.makeText(this, "Selected: $selectedGender", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
         binding.autoCompleteRelationshipStatus.addTextChangedListener { text ->
             authViewModel.setRelationshipStatus(text.toString())
         }

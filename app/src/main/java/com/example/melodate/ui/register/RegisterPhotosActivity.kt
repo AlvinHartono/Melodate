@@ -119,15 +119,10 @@ class RegisterPhotosActivity : AppCompatActivity() {
         }
         binding.buttonRegister.setOnClickListener {
             val user = authViewModel.userData.value
-
             val selectedImages = authViewModel.selectedImages.value ?: emptyList()
 
-            // Ensure at least 4 images are provided
-            val imageFiles = selectedImages.take(6).map { uri ->
-                uriToFile(uri, this).reduceFileImage()
-            }
 
-            if (imageFiles.size < 4) {
+            if (selectedImages.size < 4) {
                 // Notify the user that at least 4 images are required
                 Toast.makeText(
                     this,
@@ -137,6 +132,10 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Ensure at least 4 images are provided
+            val imageFiles = selectedImages.map { uri ->
+                uriToFile(uri, this).reduceFileImage()
+            }
 //             //Pad the list to ensure 6 file slots for backend processing
             val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
 
@@ -169,12 +168,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
                     musicVibe = createRequestBody(user?.musicVibe ?: ""),
                     listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
                     concert = createRequestBody(user?.concert ?: ""),
-//                    profilePicture1 = parts.getOrNull(0),
-//                    profilePicture2 = parts.getOrNull(1),
-//                    profilePicture3 = parts.getOrNull(2),
-//                    profilePicture4 = parts.getOrNull(3),
-//                    profilePicture5 = parts.getOrNull(4),
-//                    profilePicture6 = parts.getOrNull(5)
+                    profilePicture1 = parts.getOrNull(0),
+                    profilePicture2 = parts.getOrNull(1),
+                    profilePicture3 = parts.getOrNull(2),
+                    profilePicture4 = parts.getOrNull(3),
+                    profilePicture5 = parts.getOrNull(4),
+                    profilePicture6 = parts.getOrNull(5)
                 )
             }
 
