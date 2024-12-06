@@ -48,7 +48,7 @@ interface ApiService {
         @Part("date_of_birth") dateOfBirth: RequestBody,
         @Part("age") age: RequestBody,
         @Part("gender") gender: RequestBody,
-        @Part("relationship_status") relationshipStatus: RequestBody,
+        @Part("status") relationshipStatus: RequestBody,
         @Part("education") education: RequestBody,
         @Part("religion") religion: RequestBody,
         @Part("hobby") hobby: RequestBody,

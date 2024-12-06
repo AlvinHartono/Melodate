@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ class RegisterPhotosActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPhotosBinding
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
     private var currentImagePosition: Int = -1
+    private var cameraImageUri: Uri? = null
     private val imageStates = BooleanArray(6) { false }
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory.getInstance(this)
@@ -57,9 +59,12 @@ class RegisterPhotosActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val uri = result.data?.data
+                // Check if the image comes from the camera or gallery
+                val uri = result.data?.data ?: cameraImageUri
                 if (uri != null) {
                     handleImageSelection(uri)
+                } else {
+                    Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -248,7 +253,24 @@ class RegisterPhotosActivity : AppCompatActivity() {
 
     private fun openCamera(imagePosition: Int) {
         currentImagePosition = imagePosition
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        // Create a file to save the image
+        val imageFile = File.createTempFile("IMG_", ".jpg", cacheDir).apply {
+            createNewFile()
+            deleteOnExit()
+        }
+
+        // Get the URI for the file
+        cameraImageUri = FileProvider.getUriForFile(
+            this,
+            "${applicationContext.packageName}.provider",
+            imageFile
+        )
+
+        // Launch the camera intent with the file URI
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri)
+        }
         imagePickerLauncher.launch(intent)
     }
 
