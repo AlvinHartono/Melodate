@@ -61,6 +61,7 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="16dp"
                 android:hint="@string/first_name"
+                app:chipSpacingHorizontal="12dp"
                 app:endIconMode="clear_text"
                 app:layout_constraintTop_toBottomOf="@+id/tv_register">
 
@@ -79,10 +80,10 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="16dp"
                 android:hint="@string/dob"
+                app:endIconDrawable="@drawable/ic_calendar_light"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:endIconDrawable="@drawable/ic_calendar_light"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                 <!-- DOB input -->
@@ -105,34 +106,55 @@
                 app:layout_constraintStart_toStartOf="@id/textInputLayoutDob"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDob" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:orientation="horizontal"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hint_gender">
+                app:layout_constraintTop_toBottomOf="@id/hint_gender"
+                app:singleSelection="true">
 
-                <Button
-                    android:id="@+id/maleButton"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/maleChip"
                     android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:drawableTop="@drawable/ic_forward"
-                    android:text="@string/male" />
+                    android:checkable="true"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:checkedIconVisible="false"
+                    app:chipCornerRadius="12dp"
+                    app:chipEndPadding="16dp"
+                    app:chipIcon="@drawable/ic_male_light"
+                    app:chipIconSize="36dp"
+                    app:chipMinHeight="80dp"
+                    app:chipStartPadding="16dp"
+                    app:chipStrokeWidth="2dp"
+                    app:iconEndPadding="0dp"
+                    app:iconStartPadding="0dp" />
 
-                <Button
-                    android:id="@+id/femaleButton"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/femaleChip"
                     android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="8dp"
-                    android:drawableTop="@drawable/ic_forward"
-                    android:text="@string/female" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    android:checkable="true"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:checkedIconVisible="false"
+                    app:chipCornerRadius="12dp"
+                    app:chipEndPadding="16dp"
+                    app:chipIcon="@drawable/ic_female_light"
+                    app:chipIconSize="36dp"
+                    app:chipMinHeight="80dp"
+                    app:chipStartPadding="16dp"
+                    app:chipStrokeWidth="2dp"
+                    app:iconEndPadding="0dp"
+                    app:iconStartPadding="0dp" />
+            </com.google.android.material.chip.ChipGroup>
 
             <!-- Relationship Status Dropdown -->
             <com.google.android.material.textfield.TextInputLayout
@@ -145,7 +167,7 @@
                 android:hint="@string/relationship_status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                app:layout_constraintTop_toBottomOf="@+id/chipGroup">
 
                 <AutoCompleteTextView
                     android:id="@+id/autoCompleteRelationshipStatus"
