@@ -6,10 +6,15 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.melodate.data.preference.DarkModeViewModel
+import com.example.melodate.data.preference.DarkModeViewModelFactory
+import com.example.melodate.data.preference.SettingPreferences
+import com.example.melodate.data.preference.dataStore
 import com.example.melodate.databinding.ActivityMainBinding
 import com.example.melodate.ui.login.LoginActivity
 import com.example.melodate.ui.register.RegisterEmailPasswordActivity
@@ -22,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory.getInstance(this)
     }
+    private val darkModeViewModel: DarkModeViewModel by viewModels {
+        DarkModeViewModelFactory(SettingPreferences(dataStore))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -31,6 +39,13 @@ class MainActivity : AppCompatActivity() {
             false
         }
         super.onCreate(savedInstanceState)
+
+        darkModeViewModel.isDarkMode.observe(this) { isDarkMode ->
+            AppCompatDelegate.setDefaultNightMode(
+                if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
+        }
+
         lifecycleScope.launch {
             authViewModel.authToken.collect { token ->
                 if (token != null) {

@@ -1,18 +1,25 @@
 package com.example.melodate.ui.home.profile
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.melodate.MainActivity
 import com.example.melodate.data.Result
+import com.example.melodate.data.preference.DarkModeViewModel
+import com.example.melodate.data.preference.DarkModeViewModelFactory
+import com.example.melodate.data.preference.SettingPreferences
+import com.example.melodate.data.preference.dataStore
 import com.example.melodate.databinding.FragmentProfileBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
@@ -29,6 +36,9 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory.getInstance(requireContext())
+    }
+    private val darkModeViewModel: DarkModeViewModel by activityViewModels {
+        DarkModeViewModelFactory(SettingPreferences(requireContext().dataStore))
     }
 
     override fun onCreateView(
@@ -48,7 +58,7 @@ class ProfileFragment : Fragment() {
             lifecycleScope.launch {
                 authViewModel.authToken.collect { token ->
                     if (token == null) {
-                        //intent to login
+                        darkModeViewModel.setDarkMode(false)
                         val intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()
@@ -56,6 +66,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
 
         binding.btnEditProfile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
@@ -84,6 +95,17 @@ class ProfileFragment : Fragment() {
                     Toast.makeText(requireContext(), "Account deleted", Toast.LENGTH_SHORT).show()
                     Log.d("ProfileFragment", "Success: ${response.data}")
                 }
+            }
+        }
+
+        darkModeViewModel.isDarkMode.observe(viewLifecycleOwner) { isDarkMode ->
+            binding.switchDarkMode.setOnCheckedChangeListener(null)
+            binding.switchDarkMode.isChecked = isDarkMode
+            binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+                darkModeViewModel.setDarkMode(isChecked)
+                AppCompatDelegate.setDefaultNightMode(
+                    if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+                )
             }
         }
 
