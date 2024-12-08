@@ -5,22 +5,19 @@ import com.example.melodate.data.remote.request.LoginRequest
 import com.example.melodate.data.remote.response.CheckEmailResponse
 import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
+import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface ApiService {
-
-    // Authentication
-//    @POST("/api/users/register")
-//    suspend fun registerUser(
-//        @Body request: RegisterRequest
-//    ): RegisterResponse
 
     @POST("/api/users/login")
     suspend fun loginUser(
@@ -69,4 +66,10 @@ interface ApiService {
         @Part profilePicture5: MultipartBody.Part? = null,
         @Part profilePicture6: MultipartBody.Part? = null
     ): RegisterResponse
+
+    @GET("/recommendations")
+    suspend fun getRecommendations(
+        @Query("userid") userId: String,
+        @Query("top_n") topN: Int = 5
+    ): List<MatchCard>
 }
