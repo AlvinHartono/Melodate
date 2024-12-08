@@ -268,6 +268,7 @@ class AuthViewModel(
                     is Result.Success -> {
                         _registerState.postValue(Result.Success(response.data))
                         saveAuthToken(response.data.user?.token.toString())
+                        saveIdUser(response.data.user?.user.toString())
                     }
                 }
             } catch (e: Exception) {
@@ -320,6 +321,12 @@ class AuthViewModel(
     private fun saveAuthToken(token: String) {
         viewModelScope.launch(Dispatchers.IO) {
             authTokenPreference.saveAuthToken(token)
+        }
+    }
+
+    private fun saveIdUser(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            authTokenPreference.saveUserId(id)
         }
     }
 
@@ -431,6 +438,8 @@ class AuthViewModel(
                     is Result.Success -> {
                         _loginState.postValue(Result.Success(response.data))
                         saveAuthToken(response.data.user?.token.toString())
+                        saveIdUser(response.data.user?.user.toString())
+
                     }
                 }
             } catch (e: Exception) {
@@ -442,6 +451,7 @@ class AuthViewModel(
     fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             authTokenPreference.deleteAuthToken()
+            authTokenPreference.deleteUserId()
         }
     }
 
