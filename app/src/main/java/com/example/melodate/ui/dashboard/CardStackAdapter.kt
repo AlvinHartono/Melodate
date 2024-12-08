@@ -20,8 +20,8 @@ class CardStackAdapter(
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.profile_name)
-        val songTitle: TextView = view.findViewById(R.id.song_title)
-        val artistName: TextView = view.findViewById(R.id.artist_name)
+//        val songTitle: TextView = view.findViewById(R.id.song_title)
+//        val artistName: TextView = view.findViewById(R.id.artist_name)
         val description: TextView = view.findViewById(R.id.profile_description)
         val image: ImageView = view.findViewById(R.id.profile_image)
         val location: TextView = view.findViewById(R.id.location)
@@ -56,7 +56,7 @@ class CardStackAdapter(
             TopSongData(R.drawable.apt, "APT", "Rose & Bruno")
         )
 
-        holder.name.text = card.firstName
+        holder.name.text = holder.itemView.context.getString(R.string.name_and_age, card.firstName, card.age)
 //        holder.songTitle.text = card.songTitle
 //        holder.artistName.text = card.artistName
         holder.description.text = card.biodata
@@ -87,7 +87,10 @@ class CardStackAdapter(
 
         holder.descriptionList.removeAllViews()
         val chips = createChipsWithIcons(holder.descriptionList.context, descriptions, holder.descriptionList)
-        chips.forEach { chip -> holder.descriptionList.addView(chip) }
+        chips.forEach { chip ->
+            holder.descriptionList.addView(chip)
+        }
+
 
         val musicInterests = listOfNotNull(
             card.genre,
@@ -147,21 +150,24 @@ class CardStackAdapter(
 
         val iconMapping = if (isDarkMode) iconMappingDark else iconMappingLight
 
-        // Daftar pasangan kategori dan kondisinya
         val categoryConditions = listOf(
             "Gender" to listOf("Male", "Female"),
-            "Religion" to listOf("Muslim", "Christian", "Catholic", "Buddhist", "Hindu", "Other"),
+            "Religion" to listOf("Islam", "Christian", "Roman Catholicism", "Buddhist", "Hindu", "Other"),
             "Smoke" to listOf("Smoke", "Always", "Often", "Rarely", "Never", "No"),
             "Drink" to listOf("Drink", "Always", "Often", "Rarely", "Never", "No"),
             "Education" to listOf("Graduate", "Undergraduate", "No Degree", "Sarjana"),
             "Status" to listOf("Single", "Taken")
         )
 
-        // Buat chip untuk setiap kategori yang cocok
-        return categoryConditions.flatMap { (category, keywords) ->
-            if (keywords.any { keyword -> description.contains(keyword, ignoreCase = true) }) {
+        return categoryConditions.mapNotNull { (category, keywords) ->
+            val matchedKeyword = keywords.sortedByDescending { it.length }
+                .find { keyword ->
+                    "\\b${Regex.escape(keyword)}\\b".toRegex(RegexOption.IGNORE_CASE).containsMatchIn(description)
+                }
+
+            matchedKeyword?.let { keyword ->
                 val chipView = LayoutInflater.from(context).inflate(R.layout.item_chip_description, parent, false) as TextView
-                chipView.text = category
+                chipView.text = keyword
 
                 iconMapping[category]?.let { iconResId ->
                     chipView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0)
@@ -175,9 +181,7 @@ class CardStackAdapter(
                 }
                 chipView.layoutParams = params
 
-                listOf(chipView)
-            } else {
-                emptyList()
+                chipView
             }
         }
     }

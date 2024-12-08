@@ -111,6 +111,7 @@
     <string name="this_is_sent_message">This is sent message</string>
     <string name="this_is_a_received_message">This is a received message</string>
     <string name="user_name">User Name</string>
+    <string name="name_and_age">%1$s, %2$d</string>
 
 
     <string-array name="status">
