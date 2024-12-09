@@ -13,7 +13,9 @@ class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_C
     class ChatViewHolder(val binding: ItemChatRowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.userName.text = user.firstName
-            binding.latestChatMessage.text = "Hello, how are you?"
+            binding.latestChatMessage.text = ""
+
+            //load picture
         }
     }
 

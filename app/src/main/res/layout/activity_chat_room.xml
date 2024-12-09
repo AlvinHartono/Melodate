@@ -39,7 +39,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/send_image_action"
-            android:src="@drawable/ic_send_light"
+            android:src="@drawable/ic_add_photo_light"
             android:layout_gravity="start" />
 
         <!-- EditText -->
@@ -48,9 +48,11 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
             android:hint="@string/chat"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:drawableEnd="@drawable/ic_mic_light"/>
 
         <!-- FAB Voicenote and Send -->
         <LinearLayout
@@ -58,13 +60,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_voicenote"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="@string/voice_note_action"
-                android:src="@drawable/ic_send_light" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_send"
