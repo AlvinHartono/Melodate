@@ -9,6 +9,7 @@ import com.example.melodate.data.Result
 import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.model.User
 import com.example.melodate.data.preference.AuthTokenPreference
+import com.example.melodate.data.preference.SpotifyPreference
 import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.RegisterResponse
@@ -20,7 +21,8 @@ import okhttp3.RequestBody
 
 class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val authTokenPreference: AuthTokenPreference
+    private val authTokenPreference: AuthTokenPreference,
+    private val spotifyPreference: SpotifyPreference
 ) : ViewModel() {
 
     val authToken = authTokenPreference.getAuthToken()
@@ -452,6 +454,7 @@ class AuthViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             authTokenPreference.deleteAuthToken()
             authTokenPreference.deleteUserId()
+            spotifyPreference.deleteSpotifyToken()
         }
     }
 
