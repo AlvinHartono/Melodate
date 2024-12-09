@@ -9,17 +9,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.melodate.R
+import com.example.melodate.data.remote.response.MatchCard
 import com.google.android.flexbox.FlexboxLayout
 
 class CardStackAdapter(
-    private val cards: List<CardData>
+    private val cards: List<MatchCard>
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.profile_name)
-        val songTitle: TextView = view.findViewById(R.id.song_title)
-        val artistName: TextView = view.findViewById(R.id.artist_name)
+//        val songTitle: TextView = view.findViewById(R.id.song_title)
+//        val artistName: TextView = view.findViewById(R.id.artist_name)
         val description: TextView = view.findViewById(R.id.profile_description)
         val image: ImageView = view.findViewById(R.id.profile_image)
         val location: TextView = view.findViewById(R.id.location)
@@ -38,29 +40,66 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = cards[position]
-        holder.name.text = card.name
-        holder.songTitle.text = card.songTitle
-        holder.artistName.text = card.artistName
-        holder.description.text = card.description
-        holder.image.setImageResource(card.image)
+
+        //data dummy sementara
+        val favoriteArtists = listOf(
+            FavoriteArtistData(R.drawable.aespa, "AESPA"),
+            FavoriteArtistData(R.drawable.aespa, "AESPA"),
+            FavoriteArtistData(R.drawable.aespa, "AESPA"),
+            FavoriteArtistData(R.drawable.aespa, "AESPA")
+        )
+
+        //data dummy sementara
+        val topSongs = listOf(
+            TopSongData(R.drawable.apt, "APT", "Rose & Bruno"),
+            TopSongData(R.drawable.apt, "APT", "Rose & Bruno"),
+            TopSongData(R.drawable.apt, "APT", "Rose & Bruno")
+        )
+
+        holder.name.text = holder.itemView.context.getString(R.string.name_and_age, card.firstName, card.age)
+//        holder.songTitle.text = card.songTitle
+//        holder.artistName.text = card.artistName
+        holder.description.text = card.biodata
         holder.location.text = card.location
 
-        val favoriteArtistsAdapter = FavoriteArtistAdapter(card.favoriteArtists)
+        Glide.with(holder.itemView.context)
+            .load(card.profilePictureUrl1)
+            .placeholder(R.drawable.haewon)
+            .error(R.drawable.baseline_person_24)
+            .into(holder.image)
+
+        val favoriteArtistsAdapter = FavoriteArtistAdapter(favoriteArtists)
         holder.favoriteArtistsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.favoriteArtistsRecyclerView.adapter = favoriteArtistsAdapter
 
-        val topSongsAdapter = TopSongAdapter(card.topSongs)
+        val topSongsAdapter = TopSongAdapter(topSongs)
         holder.topSongsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.topSongsRecyclerView.adapter = topSongsAdapter
 
+        val descriptions = listOfNotNull(
+            card.gender,
+            card.religion,
+            card.smokes,
+            card.drinks,
+            card.education,
+            card.status
+        ).joinToString(" ")
+
         holder.descriptionList.removeAllViews()
-        card.descriptionList.forEach { description ->
-            val chip = createChipWithIcon(holder.descriptionList.context, description,  holder.descriptionList)
+        val chips = createChipsWithIcons(holder.descriptionList.context, descriptions, holder.descriptionList)
+        chips.forEach { chip ->
             holder.descriptionList.addView(chip)
         }
 
+
+        val musicInterests = listOfNotNull(
+            card.genre,
+            card.musicVibe,
+            card.musicDecade
+        )
+
         holder.musicInterestList.removeAllViews()
-        card.musicInterest.forEach { interest ->
+        musicInterests.forEach { interest ->
             val chip = createChipForMusicInterest(holder.musicInterestList.context, interest, holder.musicInterestList)
             holder.musicInterestList.addView(chip)
         }
@@ -84,7 +123,7 @@ class CardStackAdapter(
         return chipView
     }
 
-    private fun createChipWithIcon(context: Context, description: String, parent: ViewGroup): View {
+    private fun createChipsWithIcons(context: Context, description: String, parent: ViewGroup): List<View> {
         val iconMappingLight = mapOf(
             "Gender" to R.drawable.gender,
             "Religion" to R.drawable.religion,
@@ -111,37 +150,42 @@ class CardStackAdapter(
 
         val iconMapping = if (isDarkMode) iconMappingDark else iconMappingLight
 
-        val category = when {
-            description.contains("Male", ignoreCase = true) || description.contains("Female", ignoreCase = true) -> "Gender"
-            listOf("Muslim", "Christian", "Catholic", "Buddhist", "Hindu", "Other").any { description.contains(it, ignoreCase = true) } -> "Religion"
-            listOf("Always", "Often", "Rarely", "Never").any { description.contains(it, ignoreCase = true) } -> "Smoke"
-            listOf("Always", "Often", "Rarely", "Never").any { description.contains(it, ignoreCase = true) } -> "Drink"
-            listOf("Graduate", "Undergraduate", "No Degree").any { description.contains(it, ignoreCase = true) } -> "Education"
-            description.contains("Single", ignoreCase = true) || description.contains("Taken", ignoreCase = true) -> "Status"
-            else -> null
-        }
+        val categoryConditions = listOf(
+            "Gender" to listOf("Male", "Female"),
+            "Religion" to listOf("Islam", "Christian", "Roman Catholicism", "Buddhist", "Hindu", "Other"),
+            "Smoke" to listOf("Smoke", "Always", "Often", "Rarely", "Never", "No"),
+            "Drink" to listOf("Drink", "Always", "Often", "Rarely", "Never", "No"),
+            "Education" to listOf("Graduate", "Undergraduate", "No Degree", "Sarjana"),
+            "Status" to listOf("Single", "Taken")
+        )
 
-        val chipView = LayoutInflater.from(context).inflate(R.layout.item_chip_description, parent, false) as TextView
+        return categoryConditions.mapNotNull { (category, keywords) ->
+            val matchedKeyword = keywords.sortedByDescending { it.length }
+                .find { keyword ->
+                    "\\b${Regex.escape(keyword)}\\b".toRegex(RegexOption.IGNORE_CASE).containsMatchIn(description)
+                }
 
-        chipView.text = description
+            matchedKeyword?.let { keyword ->
+                val chipView = LayoutInflater.from(context).inflate(R.layout.item_chip_description, parent, false) as TextView
+                chipView.text = keyword
 
-        category?.let {
-            val iconResId = iconMapping[it]
-            if (iconResId != null) {
-                chipView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0)
+                iconMapping[category]?.let { iconResId ->
+                    chipView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0)
+                }
+
+                val params = FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 0, 30, 35)
+                }
+                chipView.layoutParams = params
+
+                chipView
             }
         }
-
-        val params = FlexboxLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ).apply {
-            setMargins(0, 0, 30, 35)
-        }
-        chipView.layoutParams = params
-
-        return chipView
     }
+
 }
 
 

@@ -1,5 +1,7 @@
 package com.example.melodate.data.remote.response
 
+import com.example.melodate.ui.dashboard.FavoriteArtistData
+import com.example.melodate.ui.dashboard.TopSongData
 import com.google.gson.annotations.SerializedName
 
 data class RegisterResponse(
@@ -60,6 +62,9 @@ data class User(
 
 	@field:SerializedName("id")
 	val id: Int? = null,
+
+	@field:SerializedName("user")
+	val user: Int? = null,
 
 	@field:SerializedName("email")
 	val email: String? = null,

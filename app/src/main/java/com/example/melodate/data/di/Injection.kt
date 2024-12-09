@@ -6,6 +6,7 @@ import com.example.melodate.data.preference.AuthTokenPreference
 import com.example.melodate.data.preference.dataStore
 import com.example.melodate.data.remote.retrofit.ApiConfig
 import com.example.melodate.data.repository.AuthRepository
+import com.example.melodate.data.repository.MatchRepository
 
 object Injection {
     fun provideAuthTokenPreference(context: Context): AuthTokenPreference {
@@ -17,5 +18,10 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         val database = AppDatabase.getDatabase(context)
         return AuthRepository.getInstance(apiService, database.userDao())
+    }
+
+    fun provideMatchRepository(): MatchRepository {
+        val apiService = ApiConfig.getMatchCardApiService()
+        return MatchRepository(apiService)
     }
 }

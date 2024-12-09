@@ -6,18 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.melodate.R
+import androidx.fragment.app.viewModels
 import com.example.melodate.databinding.FragmentMelodateBinding
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeableMethod
+import com.example.melodate.data.Result
 
 class MelodateFragment : Fragment() {
 
     private var _binding: FragmentMelodateBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MelodateViewModel by viewModels {
+        MelodateViewModelFactory(requireContext())
+    }
 
     private lateinit var manager: CardStackLayoutManager
     private lateinit var adapter: CardStackAdapter
@@ -27,177 +32,12 @@ class MelodateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMelodateBinding.inflate(inflater, container, false)
-
         setupCardStackView()
+        observeViewModel()
         return binding.root
     }
 
     private fun setupCardStackView() {
-        val cardList = listOf(
-            CardData(
-                name = "Haewon, 21",
-                songTitle = "Supernatural",
-                artistName = "NewJeans",
-                description = "I like to move it move it. looking for a guy in finance, 6'5, blue eyes, and like jazz 🎺",
-                image = R.drawable.haewon,
-                musicInterest = listOf("K-Pop", "Chill", "Pop", "20s", "Frequent Listener"),
-                descriptionList = listOf(
-                    "Female",
-                    "Catholic",
-                    "Never",
-                    "Often",
-                    "Undergraduate",
-                    "Single"
-                ),
-                location = "Tangerang, Banten",
-                favoriteArtists = listOf(
-                    FavoriteArtistData(
-                        songImage = R.drawable.aespa,
-                        artistName = "AESPA"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "NewJeans"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "NewJeans"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "NewJeans"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "NewJeans"
-                    ),
-                ),
-                topSongs = listOf(
-                    TopSongData(
-                        artistImage = R.drawable.apt,
-                        songTitle = "APT",
-                        artistName = "Rose & Bruno"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "NewJeans",
-                        artistName = "NewJeans"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "NewJeans",
-                        artistName = "NewJeans"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "NewJeans",
-                        artistName = "NewJeans"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "NewJeans",
-                        artistName = "NewJeans"
-                    )
-                )
-            ),
-            CardData(
-                name = "Dash, 25",
-                songTitle = "PS5",
-                artistName = "Salem Ilese, TXT",
-                description = "Finance enthusiast...",
-                image = R.drawable.sample_profile_2,
-                musicInterest = listOf("Jazz", "Blues"),
-                descriptionList = listOf("Female", "Graduate", "Single"),
-                location = "Jakarta, Indonesia",
-                favoriteArtists = listOf(
-                    FavoriteArtistData(
-                        songImage = R.drawable.itzy,
-                        artistName = "Artist 1"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.aespa,
-                        artistName = "Artist 2"
-                    )
-                ),
-                topSongs = listOf(
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "Song 1",
-                        artistName = "Artist 3"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.apt,
-                        songTitle = "Song 2",
-                        artistName = "Artist 4"
-                    )
-                )
-            ),
-            CardData(
-                name = "Yoon, 22",
-                songTitle = "APT.",
-                artistName = "ROSE, Bruno Mars",
-                description = "Loves jazz and K-pop...",
-                image = R.drawable.sample_profile_3,
-                musicInterest = listOf("K-Pop", "Jazz", "Indie"),
-                descriptionList = listOf("Female", "Never", "Graduate", "Single"),
-                location = "Surabaya, East Java",
-                favoriteArtists = listOf(
-                    FavoriteArtistData(
-                        songImage = R.drawable.aespa,
-                        artistName = "Artist 1"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "Artist 2"
-                    )
-                ),
-                topSongs = listOf(
-                    TopSongData(
-                        artistImage = R.drawable.apt,
-                        songTitle = "Song 1",
-                        artistName = "Artist 3"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "Song 2",
-                        artistName = "Artist 4"
-                    )
-                )
-            ),
-            CardData(
-                name = "Yoon, 22",
-                songTitle = "APT.",
-                artistName = "ROSE, Bruno Mars",
-                description = "Loves jazz and K-pop...",
-                image = R.drawable.sample_profile_3,
-                musicInterest = listOf("K-Pop", "Jazz", "Indie"),
-                descriptionList = listOf("Female", "Never", "Graduate", "Single"),
-                location = "Surabaya, East Java",
-                favoriteArtists = listOf(
-                    FavoriteArtistData(
-                        songImage = R.drawable.itzy,
-                        artistName = "Artist 1"
-                    ),
-                    FavoriteArtistData(
-                        songImage = R.drawable.newjeans,
-                        artistName = "Artist 2"
-                    )
-                ),
-                topSongs = listOf(
-                    TopSongData(
-                        artistImage = R.drawable.apt,
-                        songTitle = "Song 1",
-                        artistName = "Artist 3"
-                    ),
-                    TopSongData(
-                        artistImage = R.drawable.newjeans_music,
-                        songTitle = "Song 2",
-                        artistName = "Artist 4"
-                    )
-                )
-            )
-        )
-
         manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {}
 
@@ -207,10 +47,8 @@ class MelodateFragment : Fragment() {
                 } else if (direction == Direction.Left) {
                     Toast.makeText(requireContext(), "Disliked", Toast.LENGTH_SHORT).show()
                 }
-
-                if (manager.topPosition == cardList.size) {
+                if (manager.topPosition == adapter.itemCount) {
                     Toast.makeText(requireContext(), "No more cards!", Toast.LENGTH_LONG).show()
-
                 }
             }
 
@@ -231,9 +69,30 @@ class MelodateFragment : Fragment() {
         manager.setCanScrollVertical(false)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 
-        adapter = CardStackAdapter(cardList)
+        adapter = CardStackAdapter(emptyList())
         binding.cardStackView.layoutManager = manager
         binding.cardStackView.adapter = adapter
+    }
+
+    private fun observeViewModel() {
+        viewModel.matchCards.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.loadingContainer.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    binding.loadingContainer.visibility = View.GONE
+                    adapter = CardStackAdapter(result.data)
+                    binding.cardStackView.adapter = adapter
+                }
+                is Result.Error -> {
+                    binding.loadingContainer.visibility = View.GONE
+                    Toast.makeText(requireContext(), result.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        viewModel.fetchRecommendations()
     }
 
     override fun onDestroyView() {
