@@ -100,7 +100,7 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="matches">Matches</string>
     <string name="chats">Chats</string>
-  
+
     <string name="send_action">Send Action</string>
     <string name="voice_note_action">Voice Note Action</string>
     <string name="send_image_action">Send Image Action</string>
@@ -112,6 +112,9 @@
     <string name="this_is_a_received_message">This is a received message</string>
     <string name="user_name">User Name</string>
     <string name="name_and_age">%1$s, %2$d</string>
+    <string name="connect_spotify">Spotify Connect</string>
+    <string name="spotify_activity">Spotify</string>
+    <string name="title_activity_spotify">Spotify</string>
 
 
     <string-array name="status">

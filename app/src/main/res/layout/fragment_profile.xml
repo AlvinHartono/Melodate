@@ -214,11 +214,27 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_connect_spotify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center"
+                android:text="@string/connect_spotify" />
+
+            <Button
+                android:id="@+id/btn_spotify_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_gravity="center"
+                android:text="@string/spotify_activity" />
+
             <TextView
                 android:id="@+id/btn_delete_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/delete_account"
                 android:textColor="@color/red"
                 android:textSize="14sp"

@@ -7,11 +7,14 @@ import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.RegisterResponse
+import com.example.melodate.data.remote.response.SpotifyTopArtistsResponse
+import com.example.melodate.data.remote.response.SpotifyTopTracksResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -72,4 +75,19 @@ interface ApiService {
         @Query("userid") userId: String,
         @Query("top_n") topN: Int = 5
     ): List<MatchCard>
+
+    @GET("me/top/artists")
+    suspend fun getTopArtists(
+        @Header("Authorization") token: String,
+        @Query("time_range") timeRange: String = "medium_term",
+        @Query("limit") limit: Int = 5
+    ): SpotifyTopArtistsResponse
+
+    @GET("me/top/tracks")
+    suspend fun getTopTracks(
+        @Header("Authorization") token: String,
+        @Query("time_range") timeRange: String = "medium_term",
+        @Query("limit") limit: Int = 5
+    ): SpotifyTopTracksResponse
+
 }

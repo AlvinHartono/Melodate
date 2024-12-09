@@ -1,7 +1,6 @@
 package com.example.melodate.ui.home.profile
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +22,11 @@ import com.example.melodate.data.preference.dataStore
 import com.example.melodate.databinding.FragmentProfileBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import com.example.melodate.ui.spotify.SpotifyActivity
+import com.spotify.sdk.android.auth.AccountsQueryParameters.CLIENT_ID
+import com.spotify.sdk.android.auth.AuthorizationClient
+import com.spotify.sdk.android.auth.AuthorizationRequest
+import com.spotify.sdk.android.auth.AuthorizationResponse
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -40,6 +44,8 @@ class ProfileFragment : Fragment() {
     private val darkModeViewModel: DarkModeViewModel by activityViewModels {
         DarkModeViewModelFactory(SettingPreferences(requireContext().dataStore))
     }
+    private val CLIENT_ID: String = "33f84566fd954b529f82d6bd0e42cdc1"
+    private val REDIRECT_URI: String = "myapp://callback"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +76,22 @@ class ProfileFragment : Fragment() {
 
         binding.btnEditProfile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnConnectSpotify.setOnClickListener {
+            val builder = AuthorizationRequest.Builder(
+                CLIENT_ID,
+                AuthorizationResponse.Type.TOKEN,
+                REDIRECT_URI
+            )
+            builder.setScopes(arrayOf("user-top-read"))
+            val request = builder.build()
+            AuthorizationClient.openLoginInBrowser(requireActivity(), request)
+        }
+
+        binding.btnSpotifyActivity.setOnClickListener {
+            val intent = Intent(requireContext(), SpotifyActivity::class.java)
             startActivity(intent)
         }
 

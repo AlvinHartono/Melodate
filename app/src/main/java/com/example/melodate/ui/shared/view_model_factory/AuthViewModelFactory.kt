@@ -15,8 +15,9 @@ class AuthViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
             val authTokenPreference = Injection.provideAuthTokenPreference(appContext)
+            val spotifyPreference = Injection.provideSpotifyPreference(appContext)
             @Suppress("UNCHECKED_CAST")
-            return AuthViewModel(authRepository, authTokenPreference) as T
+            return AuthViewModel(authRepository, authTokenPreference, spotifyPreference) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
