@@ -13,15 +13,47 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="@string/user_name" />
+        android:contentInsetStart="0dp"
+        app:title="@string/user_name">
+
+        <!-- Wrapper Layout for ImageView and Title -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- ImageView for Profile Picture -->
+            <ImageView
+                android:id="@+id/toolbar_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/profile_picture"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_person_24" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/Heading_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/toolbar_image"
+                android:text="@string/user_name"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- RecyclerView below the Toolbar -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/linear_layout_bottom" />
+        android:layout_above="@id/linear_layout_bottom"
+        android:layout_below="@id/toolbar" />
 
     <!-- Bottom layout -->
     <LinearLayout
@@ -38,28 +70,28 @@
             android:id="@+id/fab_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_gravity="start"
             android:contentDescription="@string/send_image_action"
-            android:src="@drawable/ic_add_photo_light"
-            android:layout_gravity="start" />
+            android:src="@drawable/ic_add_photo_light" />
 
         <!-- EditText -->
         <EditText
             android:id="@+id/edit_text_chat"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
             android:layout_marginHorizontal="8dp"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_mic_light"
             android:hint="@string/chat"
             android:importantForAutofill="no"
-            android:inputType="text"
-            android:drawableEnd="@drawable/ic_mic_light"/>
+            android:inputType="text" />
 
         <!-- FAB Voicenote and Send -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_send"

@@ -1,31 +1,29 @@
 package com.example.melodate.ui.notifications
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.melodate.data.Result
+import com.example.melodate.data.remote.response.SendImageChatResponse
+import com.example.melodate.data.repository.ChatRepository
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class ChatViewModel : ViewModel() {
-//    init {
-//        SocketManager.initialize("http://localhost:3000/")
-//        SocketManager.connect()
-//    }
+class ChatViewModel(private val chatRepository: ChatRepository) : ViewModel() {
 
-//    fun joinRoom(roomId: String) {
-//        SocketManager.getSocket().emit("join_room", roomId)
-//    }
-//
-//    fun sendMessage(roomId: String, message: String, sender: String) {
-//        SocketManager.getSocket().emit("send_message", roomId, message)
-//    }
-//
-//    fun listenForMessages(onMessageReceived: (String) -> Unit){
-//        SocketManager.getSocket().on("receive_message") { args ->
-//            val message = args[0] as String
-//            onMessageReceived(message)
-//        }
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        SocketManager.disconnect()
-//    }
+    private val _sendImageState = MutableLiveData<Result<SendImageChatResponse>>()
+    val sendImageState: LiveData<Result<SendImageChatResponse>> = _sendImageState
+
+    suspend fun sendImage(
+        roomId: RequestBody,
+        sender: RequestBody,
+        image: MultipartBody.Part
+    ): Result<SendImageChatResponse> {
+        _sendImageState.postValue(Result.Loading)
+        val response = chatRepository.sendImage(roomId, sender, image)
+        _sendImageState.postValue(response)
+        return response
+
+    }
 
 }

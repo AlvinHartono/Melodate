@@ -7,6 +7,7 @@ import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.RegisterResponse
+import com.example.melodate.data.remote.response.SendImageChatResponse
 import com.example.melodate.data.remote.response.SpotifyTopArtistsResponse
 import com.example.melodate.data.remote.response.SpotifyTopTracksResponse
 import okhttp3.MultipartBody
@@ -76,6 +77,14 @@ interface ApiService {
         @Query("top_n") topN: Int = 5
     ): List<MatchCard>
 
+    @Multipart
+    @POST("/nsfw")
+    suspend fun sendImageChat(
+        @Part("roomId") roomId: RequestBody,
+        @Part("sender") sender: RequestBody,
+        @Part image: MultipartBody.Part
+    ): SendImageChatResponse
+  
     @GET("me/top/artists")
     suspend fun getTopArtists(
         @Header("Authorization") token: String,

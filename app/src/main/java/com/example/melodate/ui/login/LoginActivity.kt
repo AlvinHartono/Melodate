@@ -2,6 +2,7 @@ package com.example.melodate.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.melodate.R
+import com.example.melodate.data.Result
 import com.example.melodate.databinding.ActivityLoginBinding
 import com.example.melodate.ui.register.RegisterEmailPasswordActivity
 import com.example.melodate.ui.shared.view_model.AuthViewModel
@@ -54,6 +56,34 @@ class LoginActivity : AppCompatActivity() {
                 binding.etPassword.setText(it)
             }
         }
+        authViewModel.loginState.observe(this) {
+            when (it) {
+                is Result.Error -> {
+                    showLoading(false)
+                    Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                }
+                Result.Loading -> {
+                    showLoading(true)
+                }
+                is Result.Success -> {
+                    showLoading(false)
+                    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.buttonLogin.isEnabled = false
+            binding.buttonLogin.text = ""
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.buttonLogin.isEnabled = true
+            binding.buttonLogin.text = getString(R.string.register)
+        }
+
     }
 
     private fun setupListeners() {

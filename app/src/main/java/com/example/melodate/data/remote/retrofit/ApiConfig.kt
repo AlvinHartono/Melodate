@@ -1,10 +1,10 @@
 package com.example.melodate.data.remote.retrofit
 
+import com.example.melodate.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.melodate.BuildConfig
 
 
 class ApiConfig {
@@ -43,7 +43,7 @@ class ApiConfig {
 
             return retrofit.create(ApiService::class.java)
         }
-
+        
         fun getApiSpotify(token: String? = null): ApiService {
             val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -63,6 +63,26 @@ class ApiConfig {
 
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.spotify.com/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+
+            return retrofit.create(ApiService::class.java)
+        }
+        
+        fun getChatApiService(): ApiService{
+            val loggingInterceptor = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            } else {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+            }
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BuildConfig.CHAT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
