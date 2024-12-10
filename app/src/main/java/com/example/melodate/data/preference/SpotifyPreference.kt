@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 class SpotifyPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
     private val SPOTIFY_TOKEN_KEY = stringPreferencesKey("spotify_token")
-
+    private val SPOTIFY_REFRESH_TOKEN_KEY = stringPreferencesKey("spotify_refresh_token")
     suspend fun saveSpotifyToken(token: String) {
         dataStore.edit { preferences ->
             preferences[SPOTIFY_TOKEN_KEY] = token
@@ -25,6 +25,15 @@ class SpotifyPreference private constructor(private val dataStore: DataStore<Pre
             preferences.remove(SPOTIFY_TOKEN_KEY)
         }
     }
+
+    suspend fun saveSpotifyRefreshToken(refreshToken: String) {
+        dataStore.edit { preferences ->
+            preferences[SPOTIFY_REFRESH_TOKEN_KEY] = refreshToken
+        }
+    }
+
+    fun getSpotifyRefreshToken(): Flow<String?> = dataStore.data
+        .map { preferences -> preferences[SPOTIFY_REFRESH_TOKEN_KEY] }
 
     // Singleton
     companion object {
