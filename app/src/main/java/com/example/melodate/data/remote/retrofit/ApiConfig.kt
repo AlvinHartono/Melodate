@@ -43,7 +43,33 @@ class ApiConfig {
 
             return retrofit.create(ApiService::class.java)
         }
+        
+        fun getApiSpotify(token: String? = null): ApiService {
+            val loggingInterceptor = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            } else {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+            }
 
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer $token")
+                        .build()
+                    chain.proceed(request)
+                }
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.spotify.com/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+
+            return retrofit.create(ApiService::class.java)
+        }
+        
         fun getChatApiService(): ApiService{
             val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -63,5 +89,6 @@ class ApiConfig {
 
             return retrofit.create(ApiService::class.java)
         }
+
     }
 }

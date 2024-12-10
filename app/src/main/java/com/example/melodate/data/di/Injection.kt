@@ -3,11 +3,13 @@ package com.example.melodate.data.di
 import android.content.Context
 import com.example.melodate.data.local.database.AppDatabase
 import com.example.melodate.data.preference.AuthTokenPreference
+import com.example.melodate.data.preference.SpotifyPreference
 import com.example.melodate.data.preference.dataStore
 import com.example.melodate.data.remote.retrofit.ApiConfig
 import com.example.melodate.data.repository.AuthRepository
 import com.example.melodate.data.repository.ChatRepository
 import com.example.melodate.data.repository.MatchRepository
+import com.example.melodate.data.repository.SpotifyRepository
 
 object Injection {
     fun provideAuthTokenPreference(context: Context): AuthTokenPreference {
@@ -26,9 +28,20 @@ object Injection {
         return MatchRepository(apiService)
     }
 
+
     fun provideChatRepository() : ChatRepository {
         val apiService = ApiConfig.getChatApiService()
         return ChatRepository(apiService)
+
+
+    fun provideSpotifyRepository(): SpotifyRepository {
+        val apiService = ApiConfig.getApiSpotify()
+        return SpotifyRepository(apiService)
+    }
+
+    fun provideSpotifyPreference(context: Context): SpotifyPreference {
+        val dataStore = context.dataStore
+        return SpotifyPreference.getInstance(dataStore)
 
     }
 }

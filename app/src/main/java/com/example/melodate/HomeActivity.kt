@@ -1,23 +1,37 @@
 package com.example.melodate
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.melodate.data.di.Injection
 import com.example.melodate.databinding.ActivityHomeBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import com.example.melodate.ui.spotify.SpotifyViewModel
+import com.example.melodate.ui.spotify.SpotifyViewModelFactory
+import com.spotify.sdk.android.auth.AuthorizationResponse
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory.getInstance(this)
+    }
+
+    private val spotifyViewModel: SpotifyViewModel by viewModels {
+        SpotifyViewModelFactory(
+            Injection.provideSpotifyRepository(),
+            Injection.provideSpotifyPreference(this)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +90,36 @@ class HomeActivity : AppCompatActivity() {
 
         //fetch users data
         authViewModel.getUserData()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        Log.d("SpotifyCallback", "onNewIntent triggered in ${this::class.java.simpleName}")
+        intent.data?.let { uri ->
+            Log.d("SpotifyCallback", "Received URI: $uri")
+            if (uri.host == "callback") {
+                val response = AuthorizationResponse.fromUri(uri)
+                Log.d("SpotifyCallback", "AuthorizationResponse: $response")
+                handleSpotifyResponse(response)
+            }
+        } ?: Log.d("SpotifyCallback", "Intent data is null")
+    }
+
+    private fun handleSpotifyResponse(response: AuthorizationResponse) {
+        when (response.type) {
+            AuthorizationResponse.Type.TOKEN -> {
+                val token = response.accessToken
+                Log.d("SpotifyToken", "Access token: $token")
+                spotifyViewModel.saveSpotifyToken(token)
+                Toast.makeText(this, "Spotify Connected!", Toast.LENGTH_SHORT).show()
+            }
+            AuthorizationResponse.Type.ERROR -> {
+                Toast.makeText(this, "Spotify Error: ${response.error}", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(this, "Unknown Spotify response", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 

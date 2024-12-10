@@ -64,7 +64,6 @@ class AuthTokenPreference private constructor(private val dataStore: DataStore<P
             preferences.remove(USER_ID_KEY)
         }
     }
-
     //singleton
     companion object {
         @Volatile
