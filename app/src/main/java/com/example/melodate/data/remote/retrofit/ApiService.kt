@@ -89,5 +89,4 @@ interface ApiService {
         @Query("time_range") timeRange: String = "medium_term",
         @Query("limit") limit: Int = 5
     ): SpotifyTopTracksResponse
-
 }

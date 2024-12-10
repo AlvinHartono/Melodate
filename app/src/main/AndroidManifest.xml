@@ -19,19 +19,9 @@
         tools:targetApi="35">
         <activity
             android:name=".ui.spotify.SpotifyActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_spotify"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="callback"
-                    android:scheme="myapp" />
-            </intent-filter>
-        </activity>
-
+            />
         <activity
             android:name=".ui.notifications.ChatRoomActivity"
             android:exported="false"
@@ -74,9 +64,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".HomeActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_home"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="callback"
+                    android:scheme="myapp" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"

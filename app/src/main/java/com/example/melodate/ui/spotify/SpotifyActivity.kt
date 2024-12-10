@@ -1,19 +1,19 @@
 package com.example.melodate.ui.spotify
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.melodate.R
 import com.example.melodate.data.di.Injection
 import com.example.melodate.data.preference.TopArtistsAdapter
 import com.example.melodate.data.preference.TopTracksAdapter
-import com.spotify.sdk.android.auth.AuthorizationResponse
+import kotlinx.coroutines.launch
 
 class SpotifyActivity : AppCompatActivity() {
 
@@ -46,7 +46,13 @@ class SpotifyActivity : AppCompatActivity() {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         }
 
-        fetchSpotifyData()
+        lifecycleScope.launch {
+            spotifyViewModel.getSpotifyToken().collect { token ->
+                token?.let {
+                    fetchSpotifyData(it)
+                } ?: Log.d("SpotifyActivity", "No token found in DataStore")
+            }
+        }
     }
 
     private fun setupRecyclerViews() {
@@ -61,38 +67,8 @@ class SpotifyActivity : AppCompatActivity() {
         tracksRecyclerView.adapter = topTracksAdapter
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        Log.d("SpotifyCallback", "onNewIntent triggered in ${this::class.java.simpleName}")
-        intent.data?.let { uri ->
-            Log.d("SpotifyCallback", "Received URI: $uri")
-            if (uri.host == "callback") {
-                val response = AuthorizationResponse.fromUri(uri)
-                Log.d("SpotifyCallback", "AuthorizationResponse: $response")
-                handleSpotifyResponse(response)
-            }
-        } ?: Log.d("SpotifyCallback", "Intent data is null")
-    }
-
-    private fun handleSpotifyResponse(response: AuthorizationResponse) {
-        when (response.type) {
-            AuthorizationResponse.Type.TOKEN -> {
-                val token = response.accessToken
-                Log.d("SpotifyToken", "Access token: $token")
-                spotifyViewModel.saveSpotifyToken(token)
-                fetchSpotifyData()
-            }
-            AuthorizationResponse.Type.ERROR -> {
-                Toast.makeText(this, "Spotify Error: ${response.error}", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                Toast.makeText(this, "Unknown Spotify response", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun fetchSpotifyData() {
-        spotifyViewModel.fetchTopArtists()
-        spotifyViewModel.fetchTopTracks()
+    private fun fetchSpotifyData(token: String) {
+        spotifyViewModel.fetchTopArtists(token)
+        spotifyViewModel.fetchTopTracks(token)
     }
 }
