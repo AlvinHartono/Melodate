@@ -1,34 +1,29 @@
 package com.example.melodate.data.repository
 
-class ChatRepository {
-//    private var socket: Socket = SocketManager.getSocket()
-//
-//    fun joinRoom(roomId: String) {
-//        socket.emit("join_room", roomId)
-//    }
-//
-//    fun sendMessage(roomId: String, message: String, sender: String) {
-//        val messageData = JSONObject().apply {
-//            put("roomId", roomId)
-//            put("sender", sender)
-//            put("message", message)
-//        }
-//        socket.emit("send_message", messageData)
-//    }
-//
-//    fun listenForMessages(callback: (sender: String, message: String) -> Unit) {
-//        socket.on("receive_message") { args ->
-//            if (args.isNotEmpty()) {
-//                val data = args[0] as JSONObject
-//                val sender = data.getString("sender")
-//                val message = data.getString("message")
-//                callback(sender, message)
-//            }
-//        }
-//    }
-//
-//    fun disconnect() {
-//        socket.disconnect()
-//    }
+import com.example.melodate.data.Result
+import com.example.melodate.data.remote.response.SendImageChatResponse
+import com.example.melodate.data.remote.retrofit.ApiService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+
+class ChatRepository(private val apiService: ApiService) {
+
+    suspend fun sendImage(
+        roomId: RequestBody,
+        sender: RequestBody,
+        image: MultipartBody.Part
+    ): Result<SendImageChatResponse> {
+        return try {
+            val response = apiService.sendImageChat(roomId, sender, image)
+
+            if (response.file?.imageLink!!.isNotEmpty()) {
+                Result.Success(response)
+            } else {
+                Result.Error("Error: an unkown error occured")
+            }
+        } catch (e: Exception) {
+            Result.Error(e.message.toString())
+        }
+    }
 
 }

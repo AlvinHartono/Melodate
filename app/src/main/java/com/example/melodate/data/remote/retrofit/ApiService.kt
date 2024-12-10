@@ -7,6 +7,7 @@ import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.RegisterResponse
+import com.example.melodate.data.remote.response.SendImageChatResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -72,4 +73,12 @@ interface ApiService {
         @Query("userid") userId: String,
         @Query("top_n") topN: Int = 5
     ): List<MatchCard>
+
+    @Multipart
+    @POST("/nsfw")
+    suspend fun sendImageChat(
+        @Part("roomId") roomId: RequestBody,
+        @Part("sender") sender: RequestBody,
+        @Part image: MultipartBody.Part
+    ): SendImageChatResponse
 }
