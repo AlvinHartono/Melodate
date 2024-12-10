@@ -29,19 +29,20 @@ object Injection {
     }
 
 
-    fun provideChatRepository() : ChatRepository {
+    fun provideChatRepository(): ChatRepository {
         val apiService = ApiConfig.getChatApiService()
         return ChatRepository(apiService)
 
-
-    fun provideSpotifyRepository(): SpotifyRepository {
-        val apiService = ApiConfig.getApiSpotify()
-        return SpotifyRepository(apiService)
     }
 
-    fun provideSpotifyPreference(context: Context): SpotifyPreference {
-        val dataStore = context.dataStore
-        return SpotifyPreference.getInstance(dataStore)
+        fun provideSpotifyRepository(): SpotifyRepository {
+            val apiService = ApiConfig.getApiSpotify()
+            return SpotifyRepository(apiService)
+        }
 
+        fun provideSpotifyPreference(context: Context): SpotifyPreference {
+            val dataStore = context.dataStore
+            return SpotifyPreference.getInstance(dataStore)
+
+        }
     }
-}
