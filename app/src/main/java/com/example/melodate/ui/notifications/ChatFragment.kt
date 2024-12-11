@@ -83,12 +83,14 @@ class ChatFragment : Fragment() {
 
                     is Result.Success -> {
                         val matches = result.data.data
-
                         listOfMatches.clear()
+
 
                         matches.forEach { match ->
                             val userA = match?.user1
                             val userB = match?.user2
+
+
 
                             if (userA == currentUserId) {
                                 // add userB to the list of matches
@@ -119,6 +121,7 @@ class ChatFragment : Fragment() {
                         }
                         Log.d("ChatFragment", "List of matches: ${listOfMatches.size}")
 
+                        fetchUserImagesForMatches()
 
                         binding.rvMatches.layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -128,13 +131,43 @@ class ChatFragment : Fragment() {
                         binding.rvChats.layoutManager = LinearLayoutManager(context)
                         binding.rvChats.adapter = chatListAdapter
                         chatListAdapter.submitList(listOfMatches)
-
                     }
                 }
             }
         }
 
+    }
 
+    private fun fetchUserImagesForMatches() {
+        listOfMatches.forEach { match ->
+            userViewModel.fetchUserData(match.id.toString()).observe(viewLifecycleOwner) { result ->
+                when(result) {
+                    is Result.Error -> {
+                        Log.e(
+                            "ChatFragment",
+                            "Error fetching user data for ID ${match.id}: ${result.error}"
+                        )
+                    }
+
+                    Result.Loading -> {
+                        // Optionally handle loading state
+                    }
+
+                    is Result.Success -> {
+                        val userData = result.data.user
+                        if (userData != null) {
+                            // Update the match with the user's profile picture
+                            match.profileImg = userData.profilePicture1 // or any other picture
+                            // Notify the adapter that the data has changed
+                            chatListAdapter.notifyDataSetChanged()
+                            matchesListAdapter.notifyDataSetChanged()
+                        }
+                    }
+
+                    else -> {}
+                }
+            }
+        }
     }
 
 

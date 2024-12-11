@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.melodate.R
 import com.example.melodate.data.model.Message
 
@@ -46,6 +48,8 @@ class MessageAdapter(val context: Context, private val messages: ArrayList<Messa
             //do the stuff for received view holder
             val viewHolder = holder as ReceivedViewHolder
             holder.receivedMessage.text = currentMessage.message
+            Glide.with(context).load(currentMessage.profileUrl)
+                .placeholder(R.drawable.baseline_person_24).circleCrop().into(holder.profileImage)
 
 
         }
@@ -68,6 +72,7 @@ class MessageAdapter(val context: Context, private val messages: ArrayList<Messa
 
     class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val receivedMessage = itemView.findViewById<TextView>(R.id.tv_received_message)
+        val profileImage: ImageView = itemView.findViewById(R.id.iv_profile_picture)
     }
 
 }

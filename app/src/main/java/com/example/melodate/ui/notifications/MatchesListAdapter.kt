@@ -5,13 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.melodate.data.model.Match
 import com.example.melodate.databinding.ItemMatchedRowBinding
 
-class MatchesListAdapter: ListAdapter<Match, MatchesListAdapter.MatchesViewHolder>(DIFF_CALLBACK) {
-    class MatchesViewHolder(val binding: ItemMatchedRowBinding) : RecyclerView.ViewHolder(binding.root) {
+class MatchesListAdapter : ListAdapter<Match, MatchesListAdapter.MatchesViewHolder>(DIFF_CALLBACK) {
+    class MatchesViewHolder(val binding: ItemMatchedRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(match: Match) {
             binding.profileName.text = match.name
+            Glide.with(binding.root.context).load(match.profileImg).circleCrop()
+                .into(binding.profileImage)
         }
     }
 
@@ -37,7 +41,8 @@ class MatchesListAdapter: ListAdapter<Match, MatchesListAdapter.MatchesViewHolde
         parent: ViewGroup,
         viewType: Int
     ): MatchesListAdapter.MatchesViewHolder {
-        val binding = ItemMatchedRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemMatchedRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MatchesViewHolder(binding)
     }
 

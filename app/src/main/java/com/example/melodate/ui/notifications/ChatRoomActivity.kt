@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.melodate.BuildConfig
 import com.example.melodate.data.Result
 import com.example.melodate.data.model.Message
@@ -43,6 +44,7 @@ class ChatRoomActivity : AppCompatActivity() {
     private lateinit var currentPhotoPath: String
     private lateinit var currentUserId: String
     private lateinit var roomId: String
+    private lateinit var profileUrl: String
 
     // Permission request launchers
     private val cameraPermissionLauncher = registerForActivityResult(
@@ -99,10 +101,11 @@ class ChatRoomActivity : AppCompatActivity() {
         roomId = intent.getStringExtra("roomId") ?: ""
         val userId = intent.getIntExtra("userId", 1)
         currentUserId = intent.getIntExtra("currentUserId", 1).toString()
+        profileUrl = intent.getStringExtra("profileImg") ?: ""
 
         val serverUrl = BuildConfig.CHAT_URL
-        val dummyRoom = "secret_room"
-        val dummyUserName = "U1"
+
+        Glide.with(this).load(profileUrl).circleCrop().into(binding.toolbarImage)
 
 
 
@@ -189,14 +192,18 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     private fun requestGalleryPermission() {
-        val permission = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
+        val permission =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                Manifest.permission.READ_MEDIA_IMAGES
+            } else {
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            }
 
         when {
-            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 openGallery()
             }
 
@@ -214,6 +221,7 @@ class ChatRoomActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun openCamera() {
         val photoFile = createImageFile()
         val uri = FileProvider.getUriForFile(
@@ -242,6 +250,7 @@ class ChatRoomActivity : AppCompatActivity() {
             currentPhotoPath = absolutePath
         }
     }
+
     private fun uploadImage(uri: Uri) {
         try {
             // Convert Uri to File
@@ -355,7 +364,14 @@ class ChatRoomActivity : AppCompatActivity() {
                                 val messageData = previousMessages.getJSONObject(i)
                                 val sender = messageData.optString("sender", "Unknown")
                                 val message = messageData.optString("message", "")
-                                messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
+                                messageList.add(
+                                    Message(
+                                        message,
+                                        sender.toInt(),
+                                        currentUserId = currentUserId.toInt(),
+                                        profileUrl = profileUrl
+                                    )
+                                )
                             }
                         }
 
@@ -364,7 +380,13 @@ class ChatRoomActivity : AppCompatActivity() {
                             (previousMessages as List<Map<String, Any>>).forEach { messageData ->
                                 val sender = messageData["sender"] as? String ?: "Unknown"
                                 val message = messageData["message"] as? String ?: ""
-                                messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
+                                messageList.add(
+                                    Message(
+                                        message,
+                                        sender.toInt(),
+                                        currentUserId = currentUserId.toInt()
+                                    )
+                                )
                             }
                         }
 
@@ -422,7 +444,13 @@ class ChatRoomActivity : AppCompatActivity() {
                 val message = data.optString("message", "")
 
                 runOnUiThread {
-                    messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
+                    messageList.add(
+                        Message(
+                            message,
+                            sender.toInt(),
+                            currentUserId = currentUserId.toInt()
+                        )
+                    )
                     messageAdapter.notifyItemInserted(messageList.size - 1)
                     binding.recyclerViewChat.scrollToPosition(messageList.size - 1)
                 }
