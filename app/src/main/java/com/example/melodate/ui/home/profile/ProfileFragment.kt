@@ -26,7 +26,6 @@ import com.example.melodate.ui.shared.view_model.UserViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
 import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
 import com.example.melodate.ui.spotify.SpotifyActivity
-import com.spotify.sdk.android.auth.AccountsQueryParameters.CLIENT_ID
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
@@ -109,7 +108,7 @@ class ProfileFragment : Fragment() {
         binding.btnConnectSpotify.setOnClickListener {
             val builder = AuthorizationRequest.Builder(
                 CLIENT_ID,
-                AuthorizationResponse.Type.TOKEN,
+                AuthorizationResponse.Type.CODE,
                 REDIRECT_URI
             )
             builder.setScopes(arrayOf("user-top-read"))
