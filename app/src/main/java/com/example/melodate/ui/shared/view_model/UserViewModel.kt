@@ -1,6 +1,7 @@
 package com.example.melodate.ui.shared.view_model
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,12 +38,16 @@ class UserViewModel(
     }
 
 
-    fun fetchUserData(userId: String? = null) {
-        _fetchUserDataState.postValue(Result.Loading)
+    fun fetchUserData(userId: String): LiveData<Result<GetUserDataResponse>> {
+        val userDataState = MutableLiveData<Result<GetUserDataResponse>>()
+        userDataState.postValue(Result.Loading)
+
         viewModelScope.launch {
             val result = userRepository.fetchUserData(userId)
-            _fetchUserDataState.postValue(result)
+            userDataState.postValue(result)
         }
+
+        return userDataState
     }
 
     private fun updateUserLocalDatabase() {
@@ -101,7 +106,7 @@ class UserViewModel(
 //                    profilePicture2 = profilePicture2,
 //                    profilePicture3 = profilePicture3,
 //                    profilePicture4 = profilePicture4,
-//                    profilePicture5 = profilePicture5,
+//                    profilePicture5 = profilePicture5
 //                    profilePicture6 = profilePicture6
                 )
 

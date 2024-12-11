@@ -120,7 +120,7 @@ class UserRepository(
 //        profilePicture2: MultipartBody.Part? = null,
 //        profilePicture3: MultipartBody.Part? = null,
 //        profilePicture4: MultipartBody.Part? = null,
-//        profilePicture5: MultipartBody.Part? = null,
+//        profilePicture5: MultipartBody.Part? = null
 //        profilePicture6: MultipartBody.Part? = null
 
     ): Result<EditProfileResponse> {
@@ -150,7 +150,7 @@ class UserRepository(
 //                    profilePicture2 = profilePicture2,
 //                    profilePicture3 = profilePicture3,
 //                    profilePicture4 = profilePicture4,
-//                    profilePicture5 = profilePicture5,
+//                    profilePicture5 = profilePicture5
 //                    profilePicture6 = profilePicture6
                 )
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.melodate.data.model.Match
 import com.example.melodate.databinding.ItemChatRowBinding
 
@@ -15,6 +16,8 @@ class ChatListAdapter : ListAdapter<Match, ChatListAdapter.ChatViewHolder>(DIFF_
             binding.userName.text = match.name
             binding.latestChatMessage.text = ""
             //load picture
+            Glide.with(binding.root.context).load(match.profileImg).circleCrop()
+                .into(binding.profileImage)
         }
     }
 
@@ -53,12 +56,13 @@ class ChatListAdapter : ListAdapter<Match, ChatListAdapter.ChatViewHolder>(DIFF_
             // Handle item click here
             // You can start a new activity or perform any other action
             // For example:
-             val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
+            val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
             intent.putExtra("userName", currentList[position].name)
             intent.putExtra("userId", currentList[position].id)
             intent.putExtra("currentUserId", currentList[position].currentUserId)
             intent.putExtra("roomId", currentList[position].roomId)
-             holder.itemView.context.startActivity(intent)
+            intent.putExtra("profileImg", currentList[position].profileImg)
+            holder.itemView.context.startActivity(intent)
 
         }
 

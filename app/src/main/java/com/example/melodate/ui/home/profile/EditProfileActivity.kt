@@ -404,6 +404,18 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfile() {
+        val selectedImagesCount = authViewModel.selectedImages.value?.count { it != Uri.EMPTY } ?: 0
+
+        if (selectedImagesCount < 4) {
+            Toast.makeText(this, "Please upload at least 4 images.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (selectedImagesCount > 6) {
+            Toast.makeText(this, "You can only upload a maximum of 6 images.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         Toast.makeText(this, "Saving profile...", Toast.LENGTH_SHORT).show()
         Log.d("ProfileActivity", "Saving profile...")
         try {
