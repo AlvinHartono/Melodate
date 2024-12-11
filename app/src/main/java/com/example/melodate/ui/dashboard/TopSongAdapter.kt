@@ -6,29 +6,36 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.melodate.R
 
 class TopSongAdapter(
-    private val artistList: List<TopSongData>
-) : RecyclerView.Adapter<TopSongAdapter.TopArtistViewHolder>() {
+    private val songList: List<TopSongData>
+) : RecyclerView.Adapter<TopSongAdapter.TopSongViewHolder>() {
 
-    inner class TopArtistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val artistImage: ImageView = view.findViewById(R.id.song_image)
+    inner class TopSongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val songImage: ImageView = view.findViewById(R.id.song_image)
         val songTitle: TextView = view.findViewById(R.id.song_title)
-        val artistName: TextView = view.findViewById(R.id.song_artist)
+        val songArtist: TextView = view.findViewById(R.id.song_artist)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopArtistViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopSongViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_song, parent, false)
-        return TopArtistViewHolder(view)
+        return TopSongViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TopArtistViewHolder, position: Int) {
-        val artist = artistList[position]
-        holder.artistImage.setImageResource(artist.artistImage)
-        holder.songTitle.text = artist.songTitle
-        holder.artistName.text = artist.artistName
+    override fun onBindViewHolder(holder: TopSongViewHolder, position: Int) {
+        val song = songList[position]
+
+        Glide.with(holder.itemView.context)
+            .load(song.artistImage)
+            .placeholder(R.drawable.apt)
+            .error(R.drawable.baseline_person_24)
+            .into(holder.songImage)
+
+        holder.songTitle.text = song.songTitle
+        holder.songArtist.text = song.artistName
     }
 
-    override fun getItemCount(): Int = artistList.size
+    override fun getItemCount(): Int = songList.size
 }
