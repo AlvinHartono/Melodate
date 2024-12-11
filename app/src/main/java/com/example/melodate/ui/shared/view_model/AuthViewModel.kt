@@ -1,6 +1,7 @@
 package com.example.melodate.ui.shared.view_model
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,8 @@ import com.example.melodate.data.preference.SpotifyPreference
 import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.RegisterResponse
+import com.example.melodate.data.remote.response.SpotifyArtist
+import com.example.melodate.data.remote.response.SpotifyTrack
 import com.example.melodate.data.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +31,9 @@ class AuthViewModel(
     val authToken = authTokenPreference.getAuthToken()
 
     val userData = authRepository.userDataFromDatabase
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
 
     private val _email = MutableLiveData("")
     val email: LiveData<String> = _email
@@ -456,6 +462,21 @@ class AuthViewModel(
 
     fun getUserData() {
 
+    }
+
+    fun updateSpotifyData(userId: String, topArtists: List<SpotifyArtist>, topTracks: List<SpotifyTrack>) {
+        viewModelScope.launch {
+            try {
+                if (userId !=null && topArtists != null && topTracks != null) {
+                    authRepository.updateSpotifyData(userId, topArtists, topTracks)
+                    Log.d("SpotifyViewModel", "Data successfully updated for user $userId")
+                } else {
+                    _error.postValue("Top Artists or Tracks data is not available")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Failed to update Spotify data: ${e.message}")
+            }
+        }
     }
 
 //    companion object {

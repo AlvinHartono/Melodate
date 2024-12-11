@@ -13,7 +13,6 @@ import com.example.melodate.data.repository.SpotifyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.melodate.data.Result
-import com.spotify.sdk.android.auth.AccountsQueryParameters.CLIENT_ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
@@ -77,6 +76,7 @@ class SpotifyViewModel(
             }
         }
     }
+
 
     fun refreshSpotifyToken() {
         viewModelScope.launch {

@@ -1,9 +1,14 @@
 package com.example.melodate.data.repository
 
 import com.example.melodate.data.Result
+import com.example.melodate.data.remote.response.SpotifyArtist
 import com.example.melodate.data.remote.response.SpotifyTopArtistsResponse
 import com.example.melodate.data.remote.response.SpotifyTopTracksResponse
+import com.example.melodate.data.remote.response.SpotifyTrack
 import com.example.melodate.data.remote.retrofit.ApiService
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class SpotifyRepository(private val apiService: ApiService) {
 
@@ -24,5 +29,4 @@ class SpotifyRepository(private val apiService: ApiService) {
             Result.Error(e.message ?: "Error get Spotify api")
         }
     }
-
 }
