@@ -122,7 +122,7 @@ interface ApiService {
     ) : MatchesListResponse
 
     @Multipart
-    @PUT("/api/users/userData/{id}")
+    @PUT("/api/users/userUpdate/{id}")
     suspend fun updateUserData(
         @Path("id") userId: String,
         @Part("status") relationshipStatus: RequestBody? = null,
