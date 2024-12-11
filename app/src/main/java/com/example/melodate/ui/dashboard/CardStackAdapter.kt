@@ -18,9 +18,11 @@ class CardStackAdapter(
     private val cards: List<MatchCard>
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.profile_name)
-//        val songTitle: TextView = view.findViewById(R.id.song_title)
+
+        //        val songTitle: TextView = view.findViewById(R.id.song_title)
 //        val artistName: TextView = view.findViewById(R.id.artist_name)
         val description: TextView = view.findViewById(R.id.profile_description)
         val image1: ImageView = view.findViewById(R.id.profile_image1)
@@ -34,8 +36,14 @@ class CardStackAdapter(
         val descriptionList: FlexboxLayout = view.findViewById(R.id.description_list)
         val musicInterestList: FlexboxLayout = view.findViewById(R.id.music_interest_list)
 
-        val favoriteArtistsRecyclerView: RecyclerView = view.findViewById(R.id.favorite_artists_recycler_view)
+        val favoriteArtistsRecyclerView: RecyclerView =
+            view.findViewById(R.id.favorite_artists_recycler_view)
         val topSongsRecyclerView: RecyclerView = view.findViewById(R.id.top_songs_recycler_view)
+    }
+
+
+    fun getItem(position: Int): MatchCard {
+        return cards[position]
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -171,7 +179,11 @@ class CardStackAdapter(
         ).joinToString(" ")
 
         holder.descriptionList.removeAllViews()
-        val chips = createChipsWithIcons(holder.descriptionList.context, descriptions, holder.descriptionList)
+        val chips = createChipsWithIcons(
+            holder.descriptionList.context,
+            descriptions,
+            holder.descriptionList
+        )
         chips.forEach { chip ->
             holder.descriptionList.addView(chip)
         }
@@ -184,15 +196,24 @@ class CardStackAdapter(
 
         holder.musicInterestList.removeAllViews()
         musicInterests.forEach { interest ->
-            val chip = createChipForMusicInterest(holder.musicInterestList.context, interest, holder.musicInterestList)
+            val chip = createChipForMusicInterest(
+                holder.musicInterestList.context,
+                interest,
+                holder.musicInterestList
+            )
             holder.musicInterestList.addView(chip)
         }
     }
 
     override fun getItemCount(): Int = cards.size
 
-    private fun createChipForMusicInterest(context: Context, musicInterest: String, parent: ViewGroup): View {
-        val chipView = LayoutInflater.from(context).inflate(R.layout.item_chip_music, parent, false) as TextView
+    private fun createChipForMusicInterest(
+        context: Context,
+        musicInterest: String,
+        parent: ViewGroup
+    ): View {
+        val chipView = LayoutInflater.from(context)
+            .inflate(R.layout.item_chip_music, parent, false) as TextView
 
         chipView.text = musicInterest
 
@@ -207,7 +228,11 @@ class CardStackAdapter(
         return chipView
     }
 
-    private fun createChipsWithIcons(context: Context, description: String, parent: ViewGroup): List<View> {
+    private fun createChipsWithIcons(
+        context: Context,
+        description: String,
+        parent: ViewGroup
+    ): List<View> {
         val iconMappingLight = mapOf(
             "Gender" to R.drawable.gender,
             "Height" to R.drawable.height_dark,
@@ -228,11 +253,12 @@ class CardStackAdapter(
             "Status" to R.drawable.status_light
         )
 
-        val isDarkMode = when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            else -> false
-        }
+        val isDarkMode =
+            when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> true
+                Configuration.UI_MODE_NIGHT_NO -> false
+                else -> false
+            }
 
         val iconMapping = if (isDarkMode) iconMappingDark else iconMappingLight
 
@@ -259,7 +285,8 @@ class CardStackAdapter(
             }
 
             matchedKeyword?.let { keyword ->
-                val chipView = LayoutInflater.from(context).inflate(R.layout.item_chip_description, parent, false) as TextView
+                val chipView = LayoutInflater.from(context)
+                    .inflate(R.layout.item_chip_description, parent, false) as TextView
                 chipView.text = keyword
 
                 iconMapping[category]?.let { iconResId ->
@@ -279,6 +306,8 @@ class CardStackAdapter(
         }
     }
 }
+
+
 
 
 

@@ -6,8 +6,10 @@ import com.example.melodate.data.Result
 import com.example.melodate.data.local.database.UserDao
 import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.preference.AuthTokenPreference
+import com.example.melodate.data.remote.request.LikeRequest
 import com.example.melodate.data.remote.response.EditProfileResponse
 import com.example.melodate.data.remote.response.GetUserDataResponse
+import com.example.melodate.data.remote.response.LikeResponse
 import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.firstOrNull
@@ -162,10 +164,9 @@ class UserRepository(
         }
     }
 
-    suspend fun getCurrentUserIdFromPreference(): Int?{
+    suspend fun getCurrentUserIdFromPreference(): Int? {
         return authTokenPreference.getUserId().firstOrNull()?.toInt()
     }
-
 
 
     suspend fun getUserMatches(): Result<MatchesListResponse> {
@@ -181,9 +182,19 @@ class UserRepository(
                 Result.Error("No matches found")
             }
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Result.Error(e.message.toString())
         }
 
+    }
+
+    suspend fun likeUser(user1: Int, user2: Int): Result<LikeResponse> {
+        try {
+            val response = apiService.likeUser(LikeRequest(user1, user2))
+
+            return Result.Success(response)
+        } catch (e :Exception){
+            return Result.Error(e.message.toString())
+        }
     }
 }
