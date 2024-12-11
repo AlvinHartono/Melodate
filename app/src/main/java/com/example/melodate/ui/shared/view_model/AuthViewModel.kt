@@ -454,7 +454,7 @@ class AuthViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             authTokenPreference.deleteAuthToken()
             authTokenPreference.deleteUserId()
-            spotifyPreference.deleteSpotifyToken()
+            spotifyPreference.clearTokenData()
         }
     }
 

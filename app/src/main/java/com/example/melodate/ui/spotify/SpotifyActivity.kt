@@ -47,10 +47,17 @@ class SpotifyActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            spotifyViewModel.getSpotifyToken().collect { token ->
-                token?.let {
-                    fetchSpotifyData(it)
-                } ?: Log.d("SpotifyActivity", "No token found in DataStore")
+            spotifyViewModel.getSpotifyTokenData().collect { tokenData ->
+                if (tokenData != null) {
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime >= tokenData.expiryTime) {
+                        spotifyViewModel.refreshSpotifyToken()
+                    } else {
+                        fetchSpotifyData(tokenData.accessToken)
+                    }
+                } else {
+                    Log.d("SpotifyActivity", "No token found in DataStore")
+                }
             }
         }
     }
@@ -72,3 +79,4 @@ class SpotifyActivity : AppCompatActivity() {
         spotifyViewModel.fetchTopTracks(token)
     }
 }
+
