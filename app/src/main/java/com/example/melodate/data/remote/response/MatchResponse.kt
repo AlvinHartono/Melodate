@@ -89,6 +89,66 @@ data class MatchCard(
     @field:SerializedName("user_id")
     val userId: Int,
 
-    val favoriteArtists: List<FavoriteArtistData>,
-    val topSongs: List<TopSongData>
+    @field:SerializedName("topArtistImage1")
+    val topArtistImage1: String? = null,
+
+    @field:SerializedName("topArtistImage2")
+    val topArtistImage2: String? = null,
+
+    @field:SerializedName("topArtistImage3")
+    val topArtistImage3: String? = null,
+
+    @field:SerializedName("topArtistName1")
+    val topArtistName1: String? = null,
+
+    @field:SerializedName("topArtistName2")
+    val topArtistName2: String? = null,
+
+    @field:SerializedName("topArtistName3")
+    val topArtistName3: String? = null,
+
+    @field:SerializedName("topTrackImage1")
+    val topTrackImage1: String? = null,
+
+    @field:SerializedName("topTrackImage2")
+    val topTrackImage2: String? = null,
+
+    @field:SerializedName("topTrackImage3")
+    val topTrackImage3: String? = null,
+
+    @field:SerializedName("topTrackImage4")
+    val topTrackImage4: String? = null,
+
+    @field:SerializedName("topTrackImage5")
+    val topTrackImage5: String? = null,
+
+    @field:SerializedName("topTrackArtist1")
+    val topTrackArtist1: String? = null,
+
+    @field:SerializedName("topTrackArtist2")
+    val topTrackArtist2: String? = null,
+
+    @field:SerializedName("topTrackArtist3")
+    val topTrackArtist3: String? = null,
+
+    @field:SerializedName("topTrackArtist4")
+    val topTrackArtist4: String? = null,
+
+    @field:SerializedName("topTrackArtist5")
+    val topTrackArtist5: String? = null,
+
+    @field:SerializedName("topTrackTitle1")
+    val topTrackTitle1: String? = null,
+
+    @field:SerializedName("topTrackTitle2")
+    val topTrackTitle2: String? = null,
+
+    @field:SerializedName("topTrackTitle3")
+    val topTrackTitle3: String? = null,
+
+    @field:SerializedName("topTrackTitle4")
+    val topTrackTitle4: String? = null,
+
+    @field:SerializedName("topTrackTitle5")
+    val topTrackTitle5: String? = null,
 )

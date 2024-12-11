@@ -1,6 +1,6 @@
 package com.example.melodate.ui.dashboard
 
 data class FavoriteArtistData (
-    val songImage: Int,
-    val artistName: String
+    val songImage: String? = null,
+    val artistName: String? = null
 )
