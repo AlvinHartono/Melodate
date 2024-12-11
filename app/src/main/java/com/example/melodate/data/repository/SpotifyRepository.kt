@@ -29,4 +29,14 @@ class SpotifyRepository(private val apiService: ApiService) {
             Result.Error(e.message ?: "Error get Spotify api")
         }
     }
+
+    suspend fun getTrackUrl(token: String, query: String): String? {
+        return try {
+            val response = apiService.searchTracks("Bearer $token", query)
+            response.tracks.items.firstOrNull()?.externalUrls?.spotify
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
