@@ -5,28 +5,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.melodate.data.remote.response.User
+import com.example.melodate.data.model.Match
 import com.example.melodate.databinding.ItemMatchedRowBinding
 
-class MatchesListAdapter: ListAdapter<User, MatchesListAdapter.MatchesViewHolder>(DIFF_CALLBACK) {
+class MatchesListAdapter: ListAdapter<Match, MatchesListAdapter.MatchesViewHolder>(DIFF_CALLBACK) {
     class MatchesViewHolder(val binding: ItemMatchedRowBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: User) {
-            binding.profileName.text = user.firstName
+        fun bind(match: Match) {
+            binding.profileName.text = match.name
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Match>() {
             override fun areItemsTheSame(
-                oldItem: User,
-                newItem: User
+                oldItem: Match,
+                newItem: Match
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: User,
-                newItem: User
+                oldItem: Match,
+                newItem: Match
             ): Boolean {
                 return oldItem == newItem
             }
@@ -42,7 +42,7 @@ class MatchesListAdapter: ListAdapter<User, MatchesListAdapter.MatchesViewHolder
     }
 
     override fun onBindViewHolder(holder: MatchesListAdapter.MatchesViewHolder, position: Int) {
-        val user = getItem(position)
-        holder.bind(user)
+        val match = getItem(position)
+        holder.bind(match)
     }
 }

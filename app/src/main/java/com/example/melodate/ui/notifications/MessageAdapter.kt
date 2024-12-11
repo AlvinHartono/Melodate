@@ -13,8 +13,8 @@ class MessageAdapter(val context: Context, private val messages: ArrayList<Messa
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        val ITEM_RECEIVED = 1
-        val ITEM_SENT = 2
+        val ITEM_RECEIVED = 2
+        val ITEM_SENT = 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -53,7 +53,9 @@ class MessageAdapter(val context: Context, private val messages: ArrayList<Messa
 
     override fun getItemViewType(position: Int): Int {
         val currentMessage = messages[position]
-        return if (currentMessage.senderId == "U1") {
+        val senderId = currentMessage.senderId
+        val currentUserId = currentMessage.currentUserId
+        return if (senderId == currentUserId) {
             ITEM_SENT
         } else {
             ITEM_RECEIVED

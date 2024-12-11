@@ -6,31 +6,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.melodate.data.remote.response.User
+import com.example.melodate.data.model.Match
 import com.example.melodate.databinding.ItemChatRowBinding
 
-class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_CALLBACK) {
+class ChatListAdapter : ListAdapter<Match, ChatListAdapter.ChatViewHolder>(DIFF_CALLBACK) {
     class ChatViewHolder(val binding: ItemChatRowBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: User) {
-            binding.userName.text = user.firstName
+        fun bind(match: Match) {
+            binding.userName.text = match.name
             binding.latestChatMessage.text = ""
-
             //load picture
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Match>() {
             override fun areItemsTheSame(
-                oldItem: User,
-                newItem: User
+                oldItem: Match,
+                newItem: Match
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: User,
-                newItem: User
+                oldItem: Match,
+                newItem: Match
             ): Boolean {
                 return oldItem == newItem
             }
@@ -55,8 +54,10 @@ class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_C
             // You can start a new activity or perform any other action
             // For example:
              val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
-            intent.putExtra("userName", currentList[position].firstName)
-            intent.putExtra("userId", currentList[position].user)
+            intent.putExtra("userName", currentList[position].name)
+            intent.putExtra("userId", currentList[position].id)
+            intent.putExtra("currentUserId", currentList[position].currentUserId)
+            intent.putExtra("roomId", currentList[position].roomId)
              holder.itemView.context.startActivity(intent)
 
         }
