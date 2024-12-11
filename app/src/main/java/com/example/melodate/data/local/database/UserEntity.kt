@@ -74,7 +74,6 @@ data class UserEntity(
     @ColumnInfo(name = "musicDecade")
     val musicDecade: String? = null,
 
-
     //concert
     @ColumnInfo(name = "concert")
     val concert: String? = null,

@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.melodate.MainActivity
 import com.example.melodate.data.Result
 import com.example.melodate.data.preference.DarkModeViewModel
@@ -21,7 +22,9 @@ import com.example.melodate.data.preference.SettingPreferences
 import com.example.melodate.data.preference.dataStore
 import com.example.melodate.databinding.FragmentProfileBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
+import com.example.melodate.ui.shared.view_model.UserViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
+import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
 import com.example.melodate.ui.spotify.SpotifyActivity
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
@@ -43,6 +46,12 @@ class ProfileFragment : Fragment() {
     private val darkModeViewModel: DarkModeViewModel by activityViewModels {
         DarkModeViewModelFactory(SettingPreferences(requireContext().dataStore))
     }
+
+    private val userViewModel: UserViewModel by viewModels {
+        UserViewModelFactory.getInstance(requireContext())
+    }
+
+
     private val CLIENT_ID: String = "33f84566fd954b529f82d6bd0e42cdc1"
     private val REDIRECT_URI: String = "myapp://callback"
 
@@ -57,6 +66,8 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        userViewModel
+
         binding.tvLogout.setOnClickListener {
             authViewModel.signOut()
 
@@ -69,6 +80,22 @@ class ProfileFragment : Fragment() {
                         requireActivity().finish()
                     }
                 }
+            }
+        }
+
+        userViewModel.userData.observe(viewLifecycleOwner) { userData ->
+            if (userData != null) {
+                binding.profileName.text = buildString {
+                    append(userData.name)
+                    append(", ")
+                    append(userData.age)
+                }
+                //glide load image that is from an url
+                Glide.with(this)
+                    .load(userData.picture1)
+                    .circleCrop()
+                    .into(binding.profileImage)
+
             }
         }
 
@@ -103,15 +130,17 @@ class ProfileFragment : Fragment() {
         }
 
         authViewModel.deleteAccountState.observe(viewLifecycleOwner) { response ->
-            when(response){
+            when (response) {
                 is Result.Error -> {
                     Toast.makeText(requireContext(), response.error, Toast.LENGTH_SHORT).show()
                     Log.d("ProfileFragment", "Error: ${response.error}")
                 }
+
                 Result.Loading -> {
                     Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     Log.d("ProfileFragment", "Loading...")
                 }
+
                 is Result.Success -> {
                     Toast.makeText(requireContext(), "Account deleted", Toast.LENGTH_SHORT).show()
                     Log.d("ProfileFragment", "Success: ${response.data}")

@@ -56,7 +56,7 @@ class ChatListAdapter : ListAdapter<User, ChatListAdapter.ChatViewHolder>(DIFF_C
             // For example:
              val intent = Intent(holder.itemView.context, ChatRoomActivity::class.java)
             intent.putExtra("userName", currentList[position].firstName)
-            intent.putExtra("userId", currentList[position].id)
+            intent.putExtra("userId", currentList[position].user)
              holder.itemView.context.startActivity(intent)
 
         }

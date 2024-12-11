@@ -36,11 +36,12 @@ class AuthRepository(private val apiService: ApiService, private val userDao: Us
             val loginRequest = LoginRequest(email, password)
             val response = apiService.loginUser(loginRequest)
 
-            if (response.error == true) {
-                Result.Error(response.message.toString())
-            } else {
-                Result.Success(response)
+            when(response.error){
+                true -> Result.Error(response.message.toString())
+                false -> Result.Success(response)
+                null -> Result.Error("Unknown error")
             }
+
         } catch (e: Exception) {
             Result.Error(e.message.toString())
         }

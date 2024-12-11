@@ -5,15 +5,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(userEntity: UserEntity)
-
-    @Update
-    suspend fun update(userEntity: UserEntity)
 
     @Query("UPDATE user SET name= :name, dob= :dob, gender= :gender, religion= :religion, education= :education, status= :status, age= :age WHERE id = :id")
     suspend fun updatePersonalData(
@@ -51,6 +47,11 @@ interface UserDao {
     )
 
 
-    @Query("SELECT * FROM user WHERE id = 1")
+    @Query("SELECT * FROM user")
     fun getUserData(): LiveData<UserEntity>
+
+    //delete table
+    @Query("DELETE FROM user")
+    suspend fun deleteAll()
+
 }
