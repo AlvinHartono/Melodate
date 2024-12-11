@@ -142,6 +142,13 @@ class UserViewModel(
         }
     }
 
+    fun likeUser(user1: Int, user2: Int) {
+        viewModelScope.launch {
+            _fetchUserMatchesState.postValue(Result.Loading)
+            userRepository.likeUser(user1 = user1, user2 = user2)
+        }
+    }
+
 }
 
 

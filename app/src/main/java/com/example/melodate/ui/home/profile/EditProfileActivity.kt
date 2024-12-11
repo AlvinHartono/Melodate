@@ -458,8 +458,8 @@ class EditProfileActivity : AppCompatActivity() {
 //                profilePicture5 = imageParts.getOrNull(4),
 //                profilePicture6 = imageParts.getOrNull(5)
             )
-            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show()
-            finish()
+//            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show()
+//            finish()
         } catch (e: Exception) {
             // alert dialog
             val builder = AlertDialog.Builder(this)
