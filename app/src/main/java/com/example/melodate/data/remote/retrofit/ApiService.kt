@@ -8,6 +8,7 @@ import com.example.melodate.data.remote.response.EditProfileResponse
 import com.example.melodate.data.remote.response.GetUserDataResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
+import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.remote.response.RegisterResponse
 import com.example.melodate.data.remote.response.SendImageChatResponse
 import com.example.melodate.data.remote.response.SpotifyTopArtistsResponse
@@ -107,6 +108,11 @@ interface ApiService {
     suspend fun getUserData(
         @Path("id") userId: String
     ): GetUserDataResponse
+
+    @GET("/api/users/userMatch/{id}")
+    suspend fun getUserMatches(
+        @Path("id") userId: String
+    ) : MatchesListResponse
 
     @Multipart
     @PUT("/api/users/userData/{id}")

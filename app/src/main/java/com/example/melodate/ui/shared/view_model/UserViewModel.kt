@@ -1,11 +1,13 @@
 package com.example.melodate.ui.shared.view_model
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.melodate.data.Result
 import com.example.melodate.data.remote.response.EditProfileResponse
 import com.example.melodate.data.remote.response.GetUserDataResponse
+import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.repository.UserRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -27,11 +29,13 @@ class UserViewModel(
     val updateUserLocalDatabaseState: MutableLiveData<Result<String>> =
         _updateUserLocalDatabaseState
 
+    private val _fetchUserMatchesState = MutableLiveData<Result<MatchesListResponse>>()
+    val fetchUserMatchesState: MutableLiveData<Result<MatchesListResponse>> = _fetchUserMatchesState
+
     init {
         updateUserLocalDatabase()
     }
 
-    private
 
     fun fetchUserData(userId: String? = null) {
         _fetchUserDataState.postValue(Result.Loading)
@@ -101,15 +105,39 @@ class UserViewModel(
 //                    profilePicture6 = profilePicture6
                 )
 
-                when(response){
+                when (response) {
                     is Result.Error -> _editProfileState.postValue(Result.Error(response.error))
                     Result.Loading -> _editProfileState.postValue(Result.Loading)
                     is Result.Success -> {
                         _editProfileState.postValue(Result.Success(response.data))
                     }
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 _editProfileState.postValue(Result.Error(e.message.toString()))
+            }
+        }
+    }
+
+    suspend fun getCurrentUserIdFromPreference(): Int {
+        return userRepository.getCurrentUserIdFromPreference() ?: 0
+    }
+
+    fun getUserMatches() {
+        viewModelScope.launch {
+            _fetchUserMatchesState.postValue(Result.Loading)
+            when (val response = userRepository.getUserMatches()) {
+                is Result.Error -> {
+                    _fetchUserMatchesState.postValue(Result.Error(response.error))
+                    Log.d("UserViewModel", "Error: ${response.error}")
+                }
+
+                Result.Loading -> {
+                    _fetchUserMatchesState.postValue(Result.Loading)
+                }
+
+                is Result.Success -> {
+                    _fetchUserMatchesState.postValue(Result.Success(response.data))
+                }
             }
         }
     }

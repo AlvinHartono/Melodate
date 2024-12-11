@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.melodate.data.Result
 import com.example.melodate.data.local.database.UserEntity
-import com.example.melodate.data.model.User
 import com.example.melodate.data.preference.AuthTokenPreference
 import com.example.melodate.data.preference.SpotifyPreference
 import com.example.melodate.data.remote.response.DeleteAccountResponse
@@ -39,8 +38,8 @@ class AuthViewModel(
     val confirmPassword: LiveData<String> = _confirmPassword
 
     //view model for user
-    private var _user = MutableLiveData<User>()
-    var user: LiveData<User> = _user
+//    private var _user = MutableLiveData<User>()
+//    var user: LiveData<User> = _user
 
     private val _name = MutableLiveData("")
     val name: LiveData<String> = _name
@@ -274,6 +273,7 @@ class AuthViewModel(
             }
         }
     }
+
 
     fun deleteAccount(requestBody: RequestBody) {
         viewModelScope.launch {

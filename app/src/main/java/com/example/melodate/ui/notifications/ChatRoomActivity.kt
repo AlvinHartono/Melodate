@@ -41,6 +41,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
     private var imageUri: Uri? = null
     private lateinit var currentPhotoPath: String
+    private lateinit var currentUserId: String
 
     // Permission request launchers
     private val cameraPermissionLauncher = registerForActivityResult(
@@ -93,14 +94,19 @@ class ChatRoomActivity : AppCompatActivity() {
         chatViewModel =
             ViewModelProvider(this, ChatViewModelFactory.getInstance())[ChatViewModel::class.java]
 
-        val serverUrl = BuildConfig.CHAT_URL
-        val roomId = intent.getStringExtra("roomId") ?: ""
-        val dummyRoom = "secret_room"
         val userName = intent.getStringExtra("userName") ?: "User"
+        val roomId = intent.getStringExtra("roomId") ?: ""
+        val userId = intent.getIntExtra("userId", 1)
+        currentUserId = intent.getIntExtra("currentUserId", 1).toString()
+
+        val serverUrl = BuildConfig.CHAT_URL
+        val dummyRoom = "secret_room"
         val dummyUserName = "U1"
 
 
-        Log.d("ChatRoomActivity", "Room ID: $dummyRoom")
+
+
+        Log.d("ChatRoomActivity", "Room ID: $roomId")
         initializeSocket(serverUrl)
 
         setSupportActionBar(binding.toolbar)
@@ -109,13 +115,13 @@ class ChatRoomActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Join the chat room
-        Log.d("ChatRoomActivity", "Joining room: $dummyRoom")
-        joinChatRoom(dummyRoom)
+        Log.d("ChatRoomActivity", "Joining room: $roomId")
+        joinChatRoom(roomId)
 
         binding.fabSend.setOnClickListener {
             val message = binding.editTextChat.text.toString()
             if (message.isNotEmpty()) {
-                sendMessage(roomId = dummyRoom, sender = dummyUserName, message = message)
+                sendMessage(roomId = roomId, senderId = currentUserId.toInt(), message = message)
                 binding.editTextChat.text.clear()
             }
         }
@@ -348,7 +354,7 @@ class ChatRoomActivity : AppCompatActivity() {
                                 val messageData = previousMessages.getJSONObject(i)
                                 val sender = messageData.optString("sender", "Unknown")
                                 val message = messageData.optString("message", "")
-                                messageList.add(Message(message, sender))
+                                messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
                             }
                         }
 
@@ -357,7 +363,7 @@ class ChatRoomActivity : AppCompatActivity() {
                             (previousMessages as List<Map<String, Any>>).forEach { messageData ->
                                 val sender = messageData["sender"] as? String ?: "Unknown"
                                 val message = messageData["message"] as? String ?: ""
-                                messageList.add(Message(message, sender))
+                                messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
                             }
                         }
 
@@ -393,10 +399,10 @@ class ChatRoomActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendMessage(roomId: String, sender: String, message: String) {
+    private fun sendMessage(roomId: String, senderId: Int, message: String) {
         val messageData = JSONObject().apply {
             put("roomId", roomId)
-            put("sender", sender)
+            put("sender", senderId)
             put("message", message)
         }
         Log.d("ChatRoomActivity", "Sending message: $messageData")
@@ -415,7 +421,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 val message = data.optString("message", "")
 
                 runOnUiThread {
-                    messageList.add(Message(message, sender))
+                    messageList.add(Message(message, sender.toInt(), currentUserId = currentUserId.toInt()))
                     messageAdapter.notifyItemInserted(messageList.size - 1)
                     binding.recyclerViewChat.scrollToPosition(messageList.size - 1)
                 }

@@ -8,6 +8,7 @@ import com.example.melodate.data.local.database.UserEntity
 import com.example.melodate.data.preference.AuthTokenPreference
 import com.example.melodate.data.remote.response.EditProfileResponse
 import com.example.melodate.data.remote.response.GetUserDataResponse
+import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.firstOrNull
 import okhttp3.RequestBody
@@ -159,5 +160,30 @@ class UserRepository(
         } catch (e: Exception) {
             Result.Error(e.message.toString())
         }
+    }
+
+    suspend fun getCurrentUserIdFromPreference(): Int?{
+        return authTokenPreference.getUserId().firstOrNull()?.toInt()
+    }
+
+
+
+    suspend fun getUserMatches(): Result<MatchesListResponse> {
+        val userId = authTokenPreference.getUserId().firstOrNull()
+        Log.d("UserRepository", "userId: $userId")
+//        val userId = 1
+
+        return try {
+            val response = apiService.getUserMatches(userId.toString())
+            if (response.data.isNotEmpty()) {
+                Result.Success(response)
+            } else {
+                Result.Error("No matches found")
+            }
+
+        } catch (e: Exception){
+            Result.Error(e.message.toString())
+        }
+
     }
 }
