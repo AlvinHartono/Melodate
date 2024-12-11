@@ -1,11 +1,13 @@
 package com.example.melodate.data.remote.retrofit
 
 import com.example.melodate.data.remote.request.CheckEmailRequest
+import com.example.melodate.data.remote.request.LikeRequest
 import com.example.melodate.data.remote.request.LoginRequest
 import com.example.melodate.data.remote.response.CheckEmailResponse
 import com.example.melodate.data.remote.response.DeleteAccountResponse
 import com.example.melodate.data.remote.response.EditProfileResponse
 import com.example.melodate.data.remote.response.GetUserDataResponse
+import com.example.melodate.data.remote.response.LikeResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.MatchesListResponse
@@ -89,6 +91,11 @@ interface ApiService {
         @Part("sender") sender: RequestBody,
         @Part image: MultipartBody.Part
     ): SendImageChatResponse
+
+    @POST("/api/users/create")
+    suspend fun likeUser(
+        @Body request: LikeRequest
+    ) : LikeResponse
   
     @GET("me/top/artists")
     suspend fun getTopArtists(

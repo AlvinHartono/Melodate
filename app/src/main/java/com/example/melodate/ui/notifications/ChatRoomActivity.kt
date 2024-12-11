@@ -42,6 +42,7 @@ class ChatRoomActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     private lateinit var currentPhotoPath: String
     private lateinit var currentUserId: String
+    private lateinit var roomId: String
 
     // Permission request launchers
     private val cameraPermissionLauncher = registerForActivityResult(
@@ -95,7 +96,7 @@ class ChatRoomActivity : AppCompatActivity() {
             ViewModelProvider(this, ChatViewModelFactory.getInstance())[ChatViewModel::class.java]
 
         val userName = intent.getStringExtra("userName") ?: "User"
-        val roomId = intent.getStringExtra("roomId") ?: ""
+        roomId = intent.getStringExtra("roomId") ?: ""
         val userId = intent.getIntExtra("userId", 1)
         currentUserId = intent.getIntExtra("currentUserId", 1).toString()
 
@@ -255,8 +256,8 @@ class ChatRoomActivity : AppCompatActivity() {
             )
 
             // Prepare other request bodies
-            val roomIdBody = "secret_room".toRequestBody(null)
-            val senderBody = "U1".toRequestBody(null)
+            val roomIdBody = roomId.toRequestBody(null)
+            val senderBody = currentUserId.toRequestBody(null)
 
             // Call ViewModel to send image
             lifecycleScope.launch {

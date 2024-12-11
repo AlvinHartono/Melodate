@@ -1,19 +1,22 @@
 package com.example.melodate.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.melodate.data.Result
 import com.example.melodate.databinding.FragmentMelodateBinding
+import com.example.melodate.ui.shared.view_model.UserViewModel
+import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeableMethod
-import com.example.melodate.data.Result
 
 class MelodateFragment : Fragment() {
 
@@ -22,6 +25,9 @@ class MelodateFragment : Fragment() {
 
     private val viewModel: MelodateViewModel by viewModels {
         MelodateViewModelFactory(requireContext())
+    }
+    private val userViewModel: UserViewModel by viewModels {
+        UserViewModelFactory.getInstance(requireContext())
     }
 
     private lateinit var manager: CardStackLayoutManager
@@ -43,7 +49,29 @@ class MelodateFragment : Fragment() {
 
             override fun onCardSwiped(direction: Direction) {
                 if (direction == Direction.Right) {
-                    Toast.makeText(requireContext(), "Liked", Toast.LENGTH_SHORT).show()
+                    val position = manager.topPosition - 1
+                    val swipedCard = adapter.getItem(position)
+                    Toast.makeText(
+                        requireContext(),
+                        "Liked userId ${swipedCard.userId}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    userViewModel.userData.observe(viewLifecycleOwner) { userData ->
+                        userData?.let {
+                            val userId = it.id
+                            Log.d("MelodateFragment", "userId: $userId")
+                            val swipedUserId = swipedCard.userId
+                            if (userId < swipedUserId) {
+                                userViewModel.likeUser(userId, swipedUserId)
+                            } else {
+                                userViewModel.likeUser(swipedUserId, userId)
+                            }
+                        } ?: run {
+                            Log.e("MelodateFragment", "User data is null")
+                            Toast.makeText(requireContext(), "Unable to process the swipe. User data is missing.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else if (direction == Direction.Left) {
                     Toast.makeText(requireContext(), "Disliked", Toast.LENGTH_SHORT).show()
                 }
@@ -80,11 +108,13 @@ class MelodateFragment : Fragment() {
                 is Result.Loading -> {
                     binding.loadingContainer.visibility = View.VISIBLE
                 }
+
                 is Result.Success -> {
                     binding.loadingContainer.visibility = View.GONE
                     adapter = CardStackAdapter(result.data)
                     binding.cardStackView.adapter = adapter
                 }
+
                 is Result.Error -> {
                     binding.loadingContainer.visibility = View.GONE
                     Toast.makeText(requireContext(), result.error, Toast.LENGTH_SHORT).show()

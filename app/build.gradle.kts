@@ -84,5 +84,8 @@ dependencies {
     //Socket.io
     implementation(libs.socket.io.client)
 
+    //spotify
+    implementation(libs.auth)
+
 
 }
