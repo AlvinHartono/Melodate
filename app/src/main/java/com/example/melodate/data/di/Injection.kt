@@ -10,6 +10,7 @@ import com.example.melodate.data.repository.AuthRepository
 import com.example.melodate.data.repository.ChatRepository
 import com.example.melodate.data.repository.MatchRepository
 import com.example.melodate.data.repository.SpotifyRepository
+import com.example.melodate.data.repository.UserRepository
 
 object Injection {
     fun provideAuthTokenPreference(context: Context): AuthTokenPreference {
@@ -35,14 +36,21 @@ object Injection {
 
     }
 
-        fun provideSpotifyRepository(): SpotifyRepository {
-            val apiService = ApiConfig.getApiSpotify()
-            return SpotifyRepository(apiService)
-        }
-
-        fun provideSpotifyPreference(context: Context): SpotifyPreference {
-            val dataStore = context.dataStore
-            return SpotifyPreference.getInstance(dataStore)
-
-        }
+    fun provideSpotifyRepository(): SpotifyRepository {
+        val apiService = ApiConfig.getApiSpotify()
+        return SpotifyRepository(apiService)
     }
+
+    fun provideSpotifyPreference(context: Context): SpotifyPreference {
+        val dataStore = context.dataStore
+        return SpotifyPreference.getInstance(dataStore)
+
+    }
+
+    fun provideUserRepository(context: Context): UserRepository {
+        val apiService = ApiConfig.getApiService()
+        val database = AppDatabase.getDatabase(context)
+        val authTokenPreference = provideAuthTokenPreference(context)
+        return UserRepository(database.userDao(), apiService, authTokenPreference)
+    }
+}

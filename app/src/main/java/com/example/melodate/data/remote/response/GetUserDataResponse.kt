@@ -2,7 +2,7 @@ package com.example.melodate.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResponse(
+data class GetUserDataResponse(
 
 	@field:SerializedName("error")
 	val error: Boolean? = null,
@@ -11,10 +11,10 @@ data class RegisterResponse(
 	val message: String? = null,
 
 	@field:SerializedName("user")
-	val user: User? = null
+	val user: GetUserData? = null
 )
 
-data class User(
+data class GetUserData(
 
 	@field:SerializedName("education")
 	val education: String? = null,
@@ -70,20 +70,17 @@ data class User(
 	@field:SerializedName("religion")
 	val religion: String? = null,
 
-	@field:SerializedName("token")
-	val token: String? = null,
-
 	@field:SerializedName("firstName")
 	val firstName: String? = null,
 
 	@field:SerializedName("profilePicture5")
-	val profilePicture5: Any? = null,
+	val profilePicture5: String? = null,
 
 	@field:SerializedName("mbti")
 	val mbti: String? = null,
 
 	@field:SerializedName("profilePicture6")
-	val profilePicture6: Any? = null,
+	val profilePicture6: String? = null,
 
 	@field:SerializedName("location")
 	val location: Any? = null,

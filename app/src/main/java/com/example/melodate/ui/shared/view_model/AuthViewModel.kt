@@ -117,10 +117,6 @@ class AuthViewModel(
     private val _musicVibe = MutableLiveData("")
     val musicVibe: LiveData<String> = _musicVibe
 
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private val _loginState = MutableLiveData<Result<LoginResponse>>()
     val loginState: LiveData<Result<LoginResponse>> = _loginState
 

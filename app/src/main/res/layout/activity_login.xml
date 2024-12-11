@@ -101,7 +101,7 @@
             style="@style/LargeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register" />
+            android:text="@string/login" />
 
         <!-- Circular ProgressBar -->
         <ProgressBar

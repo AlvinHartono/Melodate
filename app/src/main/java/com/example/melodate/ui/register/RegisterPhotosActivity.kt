@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -77,6 +78,7 @@ class RegisterPhotosActivity : AppCompatActivity() {
         authViewModel.registerState.observe(this) { response ->
             when (response) {
                 is Result.Error -> {
+                    showLoading(false)
                     val errorMessage = response.error
                     androidx.appcompat.app.AlertDialog.Builder(this)
                         .setTitle("Error")
@@ -88,11 +90,11 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 }
 
                 Result.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
-                    Log.d("RegisterPhotosActivity", "Loading")
+                    showLoading(true)
                 }
 
                 is Result.Success -> {
+                    showLoading(false)
                     val intent = Intent(this, RegisterFinishedActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     val options = ActivityOptionsCompat.makeCustomAnimation(
@@ -105,6 +107,19 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.buttonRegister.isEnabled = false
+            binding.buttonRegister.text = ""
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.buttonRegister.isEnabled = true
+            binding.buttonRegister.text = getString(R.string.register)
+        }
+
     }
 
     private fun setupListeners() {
@@ -123,69 +138,68 @@ class RegisterPhotosActivity : AppCompatActivity() {
             finish()
         }
         binding.buttonRegister.setOnClickListener {
-            val user = authViewModel.userData.value
-            val selectedImages = authViewModel.selectedImages.value ?: emptyList()
+            try {
+                val user = authViewModel.userData.value
+                val selectedImages = authViewModel.selectedImages.value ?: emptyList()
 
 
-            if (selectedImages.size < 4) {
-                // Notify the user that at least 4 images are required
-                Toast.makeText(
-                    this,
-                    "Please upload at least 4 photos to continue.",
-                    Toast.LENGTH_LONG
-                ).show()
-                return@setOnClickListener
-            }
-
-            // Ensure at least 4 images are provided
-            val imageFiles = selectedImages.map { uri ->
-                uriToFile(uri, this).reduceFileImage()
-            }
-//             //Pad the list to ensure 6 file slots for backend processing
-            val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
-
-            val parts = paddedImageFiles.mapIndexed { index, file ->
-                file?.let {
-                    createFilePart("profilePicture${index + 1}", it)
+                if (selectedImages.size < 4) {
+                    // Notify the user that at least 4 images are required
+                    Toast.makeText(
+                        this,
+                        "Please upload at least 4 photos to continue.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
                 }
-            }
 
-            lifecycleScope.launch {
-                authViewModel.registerUser(
-                    email = createRequestBody(user?.email ?: ""),
-                    password = createRequestBody(user?.password ?: ""),
-                    confirmPassword = createRequestBody(user?.password ?: ""),
-                    firstName = createRequestBody(user?.name ?: ""),
-                    age = createRequestBody(user?.age.toString()),
-                    dateOfBirth = createRequestBody(user?.dob ?: ""),
-                    gender = createRequestBody(user?.gender ?: ""),
-                    relationshipStatus = createRequestBody(user?.status ?: ""),
-                    education = createRequestBody(user?.education ?: ""),
-                    religion = createRequestBody(user?.religion ?: ""),
-                    hobby = createRequestBody(user?.hobby ?: ""),
-                    height = createRequestBody(user?.height.toString()),
-                    smoking = createRequestBody(user?.isSmoker.toString()),
-                    drinking = createRequestBody(user?.isDrinker.toString()),
-                    mbti = createRequestBody(user?.mbti ?: ""),
-                    loveLanguage = createRequestBody(user?.loveLang ?: ""),
-                    genre = createRequestBody(user?.genre ?: ""),
-                    musicDecade = createRequestBody(user?.musicDecade ?: ""),
-                    musicVibe = createRequestBody(user?.musicVibe ?: ""),
-                    listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
-                    concert = createRequestBody(user?.concert ?: ""),
-                    profilePicture1 = parts.getOrNull(0),
-                    profilePicture2 = parts.getOrNull(1),
-                    profilePicture3 = parts.getOrNull(2),
-                    profilePicture4 = parts.getOrNull(3),
-                    profilePicture5 = parts.getOrNull(4),
-                    profilePicture6 = parts.getOrNull(5)
-                )
-            }
+                // Ensure at least 4 images are provided
+                val imageFiles = selectedImages.map { uri ->
+                    uriToFile(uri, this).reduceFileImage()
+                }
+//             //Pad the list to ensure 6 file slots for backend processing
+                val paddedImageFiles = imageFiles + List(6 - imageFiles.size) { null }
 
-//            val intent = Intent(this@RegisterPhotosActivity, RegisterFinishedActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)
-//            finish()
+                val parts = paddedImageFiles.mapIndexed { index, file ->
+                    file?.let {
+                        createFilePart("profilePicture${index + 1}", it)
+                    }
+                }
+
+                lifecycleScope.launch {
+                    authViewModel.registerUser(
+                        email = createRequestBody(user?.email ?: ""),
+                        password = createRequestBody(user?.password ?: ""),
+                        confirmPassword = createRequestBody(user?.password ?: ""),
+                        firstName = createRequestBody(user?.name ?: ""),
+                        age = createRequestBody(user?.age.toString()),
+                        dateOfBirth = createRequestBody(user?.dob ?: ""),
+                        gender = createRequestBody(user?.gender ?: ""),
+                        relationshipStatus = createRequestBody(user?.status ?: ""),
+                        education = createRequestBody(user?.education ?: ""),
+                        religion = createRequestBody(user?.religion ?: ""),
+                        hobby = createRequestBody(user?.hobby ?: ""),
+                        height = createRequestBody(user?.height.toString()),
+                        smoking = createRequestBody(user?.isSmoker.toString()),
+                        drinking = createRequestBody(user?.isDrinker.toString()),
+                        mbti = createRequestBody(user?.mbti ?: ""),
+                        loveLanguage = createRequestBody(user?.loveLang ?: ""),
+                        genre = createRequestBody(user?.genre ?: ""),
+                        musicDecade = createRequestBody(user?.musicDecade ?: ""),
+                        musicVibe = createRequestBody(user?.musicVibe ?: ""),
+                        listeningFrequency = createRequestBody(user?.listeningFrequency ?: ""),
+                        concert = createRequestBody(user?.concert ?: ""),
+                        profilePicture1 = parts.getOrNull(0),
+                        profilePicture2 = parts.getOrNull(1),
+                        profilePicture3 = parts.getOrNull(2),
+                        profilePicture4 = parts.getOrNull(3),
+                        profilePicture5 = parts.getOrNull(4),
+                        profilePicture6 = parts.getOrNull(5)
+                    )
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -221,7 +235,11 @@ class RegisterPhotosActivity : AppCompatActivity() {
                 imageStates[5] = true
             }
         }
-        authViewModel.addOrReplaceImage(currentImagePosition, uri)
+        try {
+            authViewModel.addOrReplaceImage(currentImagePosition, uri)
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showImageOptionsDialog(imagePosition: Int) {
@@ -282,7 +300,11 @@ class RegisterPhotosActivity : AppCompatActivity() {
         )
         Glide.with(this).load(defaultDrawableRes).into(imageViews[imagePosition])
         imageStates[imagePosition] = false
-        authViewModel.addOrReplaceImage(imagePosition, Uri.EMPTY)
+        try {
+            authViewModel.addOrReplaceImage(imagePosition, Uri.EMPTY)
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun createRequestBody(value: String): RequestBody {

@@ -4,6 +4,8 @@ import com.example.melodate.data.remote.request.CheckEmailRequest
 import com.example.melodate.data.remote.request.LoginRequest
 import com.example.melodate.data.remote.response.CheckEmailResponse
 import com.example.melodate.data.remote.response.DeleteAccountResponse
+import com.example.melodate.data.remote.response.EditProfileResponse
+import com.example.melodate.data.remote.response.GetUserDataResponse
 import com.example.melodate.data.remote.response.LoginResponse
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.RegisterResponse
@@ -18,7 +20,9 @@ import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -98,4 +102,40 @@ interface ApiService {
         @Query("time_range") timeRange: String = "medium_term",
         @Query("limit") limit: Int = 5
     ): SpotifyTopTracksResponse
+
+    @GET("/api/users/userData/{id}")
+    suspend fun getUserData(
+        @Path("id") userId: String
+    ): GetUserDataResponse
+
+    @Multipart
+    @PUT("/api/users/userData/{id}")
+    suspend fun updateUserData(
+        @Path("id") userId: String,
+        @Part("status") relationshipStatus: RequestBody? = null,
+        @Part("education") education: RequestBody? = null,
+        @Part("religion") religion: RequestBody? = null,
+        @Part("hobby") hobby: RequestBody? = null,
+        @Part("height") height: RequestBody? = null,
+        @Part("smokes") smoking: RequestBody? = null,
+        @Part("drinks") drinking: RequestBody? = null,
+        @Part("mbti") mbti: RequestBody? = null,
+        @Part("love_language") loveLanguage: RequestBody? = null,
+        @Part("genre") genre: RequestBody? = null,
+        @Part("music_decade") musicDecade: RequestBody? = null,
+        @Part("music_vibe") musicVibe: RequestBody? = null,
+        @Part("listening_frequency") listeningFrequency: RequestBody? = null,
+        @Part("concert") concert: RequestBody? = null,
+        @Part("location") location: RequestBody? = null,
+        @Part("biodata") bio: RequestBody? = null,
+//        @Part profilePicture1: MultipartBody.Part? = null,
+//        @Part profilePicture2: MultipartBody.Part? = null,
+//        @Part profilePicture3: MultipartBody.Part? = null,
+//        @Part profilePicture4: MultipartBody.Part? = null,
+//        @Part profilePicture5: MultipartBody.Part? = null,
+//        @Part profilePicture6: MultipartBody.Part? = null
+    ): EditProfileResponse
+
+
+
 }

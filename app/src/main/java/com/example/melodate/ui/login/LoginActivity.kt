@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
             binding.buttonLogin.isEnabled = true
-            binding.buttonLogin.text = getString(R.string.register)
+            binding.buttonLogin.text = getString(R.string.login)
         }
 
     }
