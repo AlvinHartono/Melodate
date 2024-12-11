@@ -1,29 +1,37 @@
 package com.example.melodate.ui.dashboard
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.melodate.R
 import com.example.melodate.data.remote.response.MatchCard
+import com.example.melodate.ui.spotify.SpotifyViewModel
 import com.google.android.flexbox.FlexboxLayout
 
 class CardStackAdapter(
-    private val cards: List<MatchCard>
+    private val cards: List<MatchCard>,
+    private val spotifyViewModel: SpotifyViewModel
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
-
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.profile_name)
-
-        //        val songTitle: TextView = view.findViewById(R.id.song_title)
-//        val artistName: TextView = view.findViewById(R.id.artist_name)
+        val imageButton: ImageButton = view.findViewById(R.id.play_button)
+        val songTitle: TextView = view.findViewById(R.id.song_title)
+        val artistName: TextView = view.findViewById(R.id.artist_name)
         val description: TextView = view.findViewById(R.id.profile_description)
         val image1: ImageView = view.findViewById(R.id.profile_image1)
         val image2: ImageView = view.findViewById(R.id.profile_image2)
@@ -54,6 +62,42 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = cards[position]
+
+        holder.imageButton.setOnClickListener {
+            val songTitle = card.topTrackTitle1 ?: "Default Title"
+            val artistName = card.topTrackArtist1 ?: "Default Artist"
+            val query = "$songTitle $artistName"
+
+            spotifyViewModel.fetchTrackUrl(query) { trackUrl ->
+                if (trackUrl != null) {
+                    Log.d("SpotifyAPI", "Track URL: $trackUrl")
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(trackUrl)
+                        `package` = "com.spotify.music"
+                    }
+                    if (intent.resolveActivity(holder.itemView.context.packageManager) != null) {
+                        holder.itemView.context.startActivity(intent)
+                    } else {
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trackUrl))
+                        holder.itemView.context.startActivity(browserIntent)
+                    }
+                } else {
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Unable to fetch track URL.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        if(card.topTrackTitle1.isNullOrEmpty() && card.topTrackArtist1.isNullOrEmpty()){
+            holder.itemView.findViewById<LinearLayout>(R.id.music_play).visibility = View.GONE
+        }else{
+            holder.itemView.findViewById<LinearLayout>(R.id.music_play).visibility = View.VISIBLE
+            holder.songTitle.text = card.topTrackTitle1
+            holder.artistName.text = card.topTrackArtist1
+        }
 
         val favoriteArtists = listOfNotNull(
             card.topArtistImage1?.let { FavoriteArtistData(it, card.topArtistName1) },

@@ -9,9 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.melodate.data.Result
+import com.example.melodate.data.di.Injection
 import com.example.melodate.databinding.FragmentMelodateBinding
 import com.example.melodate.ui.shared.view_model.UserViewModel
 import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
+import com.example.melodate.ui.spotify.SpotifyViewModel
+import com.example.melodate.ui.spotify.SpotifyViewModelFactory
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -28,6 +31,13 @@ class MelodateFragment : Fragment() {
     }
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory.getInstance(requireContext())
+    }
+
+    private val spotifyViewModel: SpotifyViewModel by viewModels {
+        SpotifyViewModelFactory(
+            Injection.provideSpotifyRepository(),
+            Injection.provideSpotifyPreference(requireContext())
+        )
     }
 
     private lateinit var manager: CardStackLayoutManager
@@ -97,7 +107,7 @@ class MelodateFragment : Fragment() {
         manager.setCanScrollVertical(false)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 
-        adapter = CardStackAdapter(emptyList())
+        adapter = CardStackAdapter(emptyList(), spotifyViewModel)
         binding.cardStackView.layoutManager = manager
         binding.cardStackView.adapter = adapter
     }
@@ -111,7 +121,7 @@ class MelodateFragment : Fragment() {
 
                 is Result.Success -> {
                     binding.loadingContainer.visibility = View.GONE
-                    adapter = CardStackAdapter(result.data)
+                    adapter = CardStackAdapter(result.data, spotifyViewModel)
                     binding.cardStackView.adapter = adapter
                 }
 

@@ -13,6 +13,7 @@ import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.remote.response.RegisterResponse
 import com.example.melodate.data.remote.response.SendImageChatResponse
+import com.example.melodate.data.remote.response.SpotifySearchResponse
 import com.example.melodate.data.remote.response.SpotifyTopArtistsResponse
 import com.example.melodate.data.remote.response.SpotifyTopTracksResponse
 import okhttp3.MultipartBody
@@ -175,4 +176,12 @@ interface ApiService {
         @Part("topTrackArtist4") topTrackArtist4: RequestBody? = null,
         @Part("topTrackArtist5") topTrackArtist5: RequestBody? = null
     ): EditProfileResponse
+
+    @GET("search")
+    suspend fun searchTracks(
+        @Header("Authorization") token: String,
+        @Query("q") query: String,
+        @Query("type") type: String = "track",
+        @Query("limit") limit: Int = 1
+    ): SpotifySearchResponse
 }
