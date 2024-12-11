@@ -1,5 +1,6 @@
 package com.example.melodate.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,8 @@ import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.data.repository.MatchRepository
 import com.example.melodate.data.Result
 import com.example.melodate.data.preference.AuthTokenPreference
+import com.example.melodate.data.remote.response.SpotifyArtist
+import com.example.melodate.data.remote.response.SpotifyTrack
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.melodate.data.Result
 import com.example.melodate.data.di.Injection
+import com.example.melodate.data.preference.AuthTokenPreference
 import com.example.melodate.databinding.ActivityHomeBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model.UserViewModel
@@ -52,6 +54,9 @@ class HomeActivity : AppCompatActivity() {
             Injection.provideSpotifyPreference(this)
         )
     }
+
+    private lateinit var authTokenPreference: AuthTokenPreference
+    private var isDataUpdated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,7 +128,9 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        //fetch users data
+        authTokenPreference = Injection.provideAuthTokenPreference(this)
+
+        observeSpotifyData()
         authViewModel.getUserData()
     }
 
@@ -143,6 +150,62 @@ class HomeActivity : AppCompatActivity() {
                     else -> {
                         Toast.makeText(this, "Unknown Spotify response", Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeSpotifyData() {
+        spotifyViewModel.topArtists.observe(this) { _ ->
+            checkAndUpdateSpotifyData()
+        }
+
+        spotifyViewModel.topTracks.observe(this) { _ ->
+            checkAndUpdateSpotifyData()
+        }
+
+        spotifyViewModel.error.observe(this) { errorMessage ->
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            isDataUpdated = false
+        }
+
+        lifecycleScope.launch {
+            spotifyViewModel.getSpotifyTokenData().collect { tokenData ->
+                if (tokenData != null) {
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime >= tokenData.expiryTime) {
+                        Log.d("HomeActivity", "Token refreshed, fetching Spotify data...")
+                        spotifyViewModel.refreshSpotifyToken()
+                        isDataUpdated = false
+                    } else {
+                        fetchSpotifyData(tokenData.accessToken)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun fetchSpotifyData(token: String) {
+        spotifyViewModel.fetchTopArtists(token)
+        spotifyViewModel.fetchTopTracks(token)
+    }
+
+    private fun checkAndUpdateSpotifyData() {
+        lifecycleScope.launch {
+            authTokenPreference.getUserId().collect { userId ->
+                if (userId.isNullOrBlank()) {
+                    Log.e("HomeActivity", "User ID is null or empty, skipping update.")
+                    return@collect
+                }
+
+                val topArtists = spotifyViewModel.topArtists.value
+                val topTracks = spotifyViewModel.topTracks.value
+
+                if (!topArtists.isNullOrEmpty() && !topTracks.isNullOrEmpty() && !isDataUpdated) {
+                    authViewModel.updateSpotifyData(userId, topArtists, topTracks)
+                    isDataUpdated = true
+                } else {
+                    Log.d("HomeActivity", "Top artists or tracks are missing, skipping update.")
                 }
             }
         }
@@ -179,6 +242,7 @@ class HomeActivity : AppCompatActivity() {
                         val expiresIn = json.getLong("expires_in")
 
                         spotifyViewModel.saveSpotifyTokenData(accessToken, refreshToken, expiresIn)
+                        fetchSpotifyData(accessToken)
                         Toast.makeText(this@HomeActivity, "Spotify Connected!", Toast.LENGTH_SHORT).show()
                     }
                 } else {

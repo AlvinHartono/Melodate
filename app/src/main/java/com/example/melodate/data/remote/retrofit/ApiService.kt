@@ -94,7 +94,7 @@ interface ApiService {
     suspend fun getTopArtists(
         @Header("Authorization") token: String,
         @Query("time_range") timeRange: String = "medium_term",
-        @Query("limit") limit: Int = 5
+        @Query("limit") limit: Int = 3
     ): SpotifyTopArtistsResponse
 
     @GET("me/top/tracks")
@@ -142,6 +142,30 @@ interface ApiService {
 //        @Part profilePicture6: MultipartBody.Part? = null
     ): EditProfileResponse
 
-
-
+    @Multipart
+    @PUT("/api/users/userUpdate/{id}")
+    suspend fun updateSpotifyData(
+        @Path("id") userId: String,
+        @Part("topArtistImage1") topArtistImage1: RequestBody? = null,
+        @Part("topArtistImage2") topArtistImage2: RequestBody? = null,
+        @Part("topArtistImage3") topArtistImage3: RequestBody? = null,
+        @Part("topArtistName1") topArtistName1: RequestBody? = null,
+        @Part("topArtistName2") topArtistName2: RequestBody? = null,
+        @Part("topArtistName3") topArtistName3: RequestBody? = null,
+        @Part("topTrackImage1") topTrackImage1: RequestBody? = null,
+        @Part("topTrackImage2") topTrackImage2: RequestBody? = null,
+        @Part("topTrackImage3") topTrackImage3: RequestBody? = null,
+        @Part("topTrackImage4") topTrackImage4: RequestBody? = null,
+        @Part("topTrackImage5") topTrackImage5: RequestBody? = null,
+        @Part("topTrackTitle1") topTrackTitle1: RequestBody? = null,
+        @Part("topTrackTitle2") topTrackTitle2: RequestBody? = null,
+        @Part("topTrackTitle3") topTrackTitle3: RequestBody? = null,
+        @Part("topTrackTitle4") topTrackTitle4: RequestBody? = null,
+        @Part("topTrackTitle5") topTrackTitle5: RequestBody? = null,
+        @Part("topTrackArtist1") topTrackArtist1: RequestBody? = null,
+        @Part("topTrackArtist2") topTrackArtist2: RequestBody? = null,
+        @Part("topTrackArtist3") topTrackArtist3: RequestBody? = null,
+        @Part("topTrackArtist4") topTrackArtist4: RequestBody? = null,
+        @Part("topTrackArtist5") topTrackArtist5: RequestBody? = null
+    ): EditProfileResponse
 }
