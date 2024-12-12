@@ -86,6 +86,7 @@ class MelodateFragment : Fragment() {
                             } else {
                                 userViewModel.likeUser(swipedUserId, userId)
                             }
+
                         } ?: run {
                             Log.e("MelodateFragment", "User data is null")
                             Toast.makeText(

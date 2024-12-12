@@ -11,6 +11,9 @@
 
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="backgroundColor">@color/white_pampas</item>
+        <item name="android:windowBackground">@color/white_pampas</item>
+
+
 
         <item name="colorSurface">@color/surfaceColor</item>
 
@@ -68,4 +71,12 @@
         <item name="chipStrokeWidth">2dp</item>
         <item name="chipStrokeColor">@color/primaryColor</item>
     </style>
+    
+    <style name="CustomBottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/primaryColor</item>
+        <item name="itemTextColor">@color/black</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="elevation">8dp</item>
+    </style>
+
 </resources>
