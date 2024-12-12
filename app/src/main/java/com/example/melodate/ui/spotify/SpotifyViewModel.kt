@@ -39,12 +39,19 @@ class SpotifyViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun fetchTrackUrl(query: String, onResult: (String?) -> Unit) {
+    private val _currentQuery = MutableLiveData<String?>()
+    val currentQuery: LiveData<String?> get() = _currentQuery
+
+    fun setCurrentQuery(query: String?) {
+        _currentQuery.value = query
+    }
+
+    fun fetchTrackUrl(onResult: (String?) -> Unit) {
         viewModelScope.launch {
             getSpotifyTokenData().collect { tokenData ->
-                if (tokenData != null) {
+                if (tokenData != null && _currentQuery.value != null) {
                     val token = tokenData.accessToken
-                    val trackUrl = repository.getTrackUrl(token, query)
+                    val trackUrl = repository.getTrackUrl(token, _currentQuery.value!!)
                     onResult(trackUrl)
                 } else {
                     onResult(null)
