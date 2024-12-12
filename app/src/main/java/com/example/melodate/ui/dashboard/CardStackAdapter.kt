@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.melodate.R
@@ -131,14 +130,14 @@ class CardStackAdapter(
 
         Glide.with(holder.itemView.context)
             .load(card.profilePictureUrl1)
-            .placeholder(R.drawable.haewon)
+            .placeholder(R.drawable.loading_state)
             .error(R.drawable.baseline_person_24)
             .into(holder.image1)
 
         if (!card.profilePictureUrl2.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(card.profilePictureUrl2)
-                .placeholder(R.drawable.haewon)
+                .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image2)
             holder.image2.visibility = View.VISIBLE
@@ -149,7 +148,7 @@ class CardStackAdapter(
         if (!card.profilePictureUrl3.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(card.profilePictureUrl3)
-                .placeholder(R.drawable.haewon)
+                .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image3)
             holder.image3.visibility = View.VISIBLE
@@ -160,7 +159,7 @@ class CardStackAdapter(
         if (!card.profilePictureUrl4.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(card.profilePictureUrl4)
-                .placeholder(R.drawable.haewon)
+                .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image4)
             holder.image4.visibility = View.VISIBLE
@@ -171,7 +170,7 @@ class CardStackAdapter(
         if (!card.profilePictureUrl5.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(card.profilePictureUrl5)
-                .placeholder(R.drawable.haewon)
+                .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image5)
             holder.image5.visibility = View.VISIBLE
@@ -182,7 +181,7 @@ class CardStackAdapter(
         if (!card.profilePictureUrl6.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(card.profilePictureUrl6)
-                .placeholder(R.drawable.haewon)
+                .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image6)
             holder.image6.visibility = View.VISIBLE

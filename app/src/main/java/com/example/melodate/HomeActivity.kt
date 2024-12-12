@@ -165,7 +165,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         spotifyViewModel.error.observe(this) { errorMessage ->
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Failed to fetch data: $errorMessage", Toast.LENGTH_SHORT).show()
             isDataUpdated = false
         }
 
@@ -174,12 +174,18 @@ class HomeActivity : AppCompatActivity() {
                 if (tokenData != null) {
                     val currentTime = System.currentTimeMillis()
                     if (currentTime >= tokenData.expiryTime) {
-                        Log.d("HomeActivity", "Token refreshed, fetching Spotify data...")
+                        Log.d("HomeActivity", "Token expired, refreshing...")
                         spotifyViewModel.refreshSpotifyToken()
                         isDataUpdated = false
                     } else {
-                        fetchSpotifyData(tokenData.accessToken)
+                        try {
+                            fetchSpotifyData(tokenData.accessToken)
+                        } catch (e: Exception) {
+                            Toast.makeText(this@HomeActivity, "Server not reachable: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    //
                 }
             }
         }
@@ -202,8 +208,12 @@ class HomeActivity : AppCompatActivity() {
                 val topTracks = spotifyViewModel.topTracks.value
 
                 if (!topArtists.isNullOrEmpty() && !topTracks.isNullOrEmpty() && !isDataUpdated) {
-                    authViewModel.updateSpotifyData(userId, topArtists, topTracks)
-                    isDataUpdated = true
+                    try {
+                        authViewModel.updateSpotifyData(userId, topArtists, topTracks)
+                        isDataUpdated = true
+                    } catch (e: Exception) {
+                        Toast.makeText(this@HomeActivity, "Failed to update data. Please try again later.", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     Log.d("HomeActivity", "Top artists or tracks are missing, skipping update.")
                 }

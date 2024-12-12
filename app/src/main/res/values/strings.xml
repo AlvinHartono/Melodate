@@ -118,6 +118,8 @@
     <string name="connect_spotify">Spotify Connect</string>
     <string name="spotify_activity">Spotify</string>
     <string name="title_activity_spotify">Spotify</string>
+    <string name="button_spotify">Spotify Button</string>
+    <string name="support_url">https://brynathn.github.io/melodate_support/</string>
 
 
     <string-array name="status">

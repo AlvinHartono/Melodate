@@ -33,8 +33,15 @@ class UserViewModel(
     private val _fetchUserMatchesState = MutableLiveData<Result<MatchesListResponse>>()
     val fetchUserMatchesState: MutableLiveData<Result<MatchesListResponse>> = _fetchUserMatchesState
 
+    private val _navigateToLogin = MutableLiveData<Boolean>()
+    val navigateToLogin: LiveData<Boolean> = _navigateToLogin
+
     init {
         updateUserLocalDatabase()
+    }
+
+    fun onLogoutRequested() {
+        _navigateToLogin.postValue(true)
     }
 
 
