@@ -1,5 +1,6 @@
 package com.example.melodate.ui.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.melodate.MainActivity
 import com.example.melodate.data.Result
 import com.example.melodate.data.model.Match
 import com.example.melodate.databinding.FragmentChatBinding
+import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model.UserViewModel
+import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
 import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
 
 class ChatFragment : Fragment() {
@@ -137,6 +141,8 @@ class ChatFragment : Fragment() {
         }
 
     }
+
+
 
     private fun fetchUserImagesForMatches() {
         listOfMatches.forEach { match ->
