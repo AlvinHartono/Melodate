@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
     tools:context=".ui.home.profile.ProfileFragment">
 
     <ScrollView
@@ -215,11 +214,19 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/connect_to_listen"
+                android:textSize="14sp"
+                android:layout_gravity="center" />
+
             <ImageButton
                 android:id="@+id/btn_connect_spotify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:contentDescription = "@string/button_spotify"
                 android:background="?attr/selectableItemBackgroundBorderless"

@@ -122,6 +122,7 @@
     <string name="support_url">https://brynathn.github.io/melodate_support/</string>
     <string name="sent_image">Sent Image</string>
     <string name="received_image">Received Image</string>
+    <string name="connect_to_listen">Connect to use play button</string>
 
 
     <string-array name="status">
