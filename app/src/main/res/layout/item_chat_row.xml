@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/profile_image"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         android:contentDescription="@string/profile"
+        android:layout_marginStart="8dp"
         android:scaleType="fitXY"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,12 +34,10 @@
         android:id="@+id/latest_chat_message"
         android:layout_width="290dp"
         android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
         android:text="@string/lorem_ipsum"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/profile_image"
-        app:layout_constraintTop_toTopOf="@id/user_name" />
+        app:layout_constraintStart_toStartOf="@+id/user_name"
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

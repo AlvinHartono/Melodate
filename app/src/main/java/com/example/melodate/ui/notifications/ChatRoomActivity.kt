@@ -108,7 +108,7 @@ class ChatRoomActivity : AppCompatActivity() {
         Glide.with(this).load(profileUrl).circleCrop().into(binding.toolbarImage)
         
 
-        Log.d("ChatRoomActivity", "Room ID: $roomId")
+//        Log.d("ChatRoomActivity", "Room ID: $roomId")
         initializeSocket(serverUrl)
 
         setSupportActionBar(binding.toolbar)

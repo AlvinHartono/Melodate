@@ -72,7 +72,7 @@ class MelodateFragment : Fragment() {
                     val swipedCard = adapter.getItem(position)
                     Toast.makeText(
                         requireContext(),
-                        "Liked",
+                        "Liked user",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -145,6 +145,7 @@ class MelodateFragment : Fragment() {
                         "Data pengguna tidak ditemukan." -> {
                             "User data could not be found. Please try again later."
                         }
+
                         else -> {
                             "Server error occurred. Please check your connection or try again later."
                         }
