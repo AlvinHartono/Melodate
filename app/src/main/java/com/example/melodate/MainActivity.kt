@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
 
+
+
+
         darkModeViewModel.isDarkMode.observe(this) { isDarkMode ->
             AppCompatDelegate.setDefaultNightMode(
                 if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO

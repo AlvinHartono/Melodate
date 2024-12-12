@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -81,6 +82,18 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val isDarkTheme = (resources.configuration.uiMode and
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+
+        if (isDarkTheme) {
+            binding.navView.setBackgroundColor(ContextCompat.getColor(this, R.color.black_mine_shaft))
+            binding.toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.black_mine_shaft))
+        } else {
+            binding.navView.setBackgroundColor(ContextCompat.getColor(this, R.color.white_pampas))
+            binding.toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white_pampas))
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
