@@ -62,9 +62,11 @@ class LoginActivity : AppCompatActivity() {
                     showLoading(false)
                     Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
                 }
+
                 Result.Loading -> {
                     showLoading(true)
                 }
+
                 is Result.Success -> {
                     showLoading(false)
                     Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
@@ -92,16 +94,27 @@ class LoginActivity : AppCompatActivity() {
             val email = authViewModel.email.value.orEmpty()
             val password = authViewModel.password.value.orEmpty()
 
-            if (password.length >= 6) {
-                lifecycleScope.launch {
-                    authViewModel.login(email, password)
-                }
-            } else {
+            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+
+            if (password.length < 8) {
                 Toast.makeText(
                     this@LoginActivity,
-                    "Password harus lebih dari 8 karakter",
+                    "Password must be more than 8 characters",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "All the fields cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!email.matches(emailRegex)) {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                authViewModel.login(email, password)
             }
         }
 
@@ -133,11 +146,13 @@ class LoginActivity : AppCompatActivity() {
             AppCompatResources.getDrawable(this, R.drawable.ic_password_light)
         }
 
+        val invisible = AppCompatResources.getDrawable(this, R.drawable.ic_invisible)
+
         binding.etEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(
             emailIcon, null, null, null
         )
         binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            passwordIcon, null, null, null
+            passwordIcon, null, invisible, null
         )
     }
 }

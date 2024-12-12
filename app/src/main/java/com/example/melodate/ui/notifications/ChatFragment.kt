@@ -99,7 +99,7 @@ class ChatFragment : Fragment() {
                                     Match(
                                         id = userB,
                                         name = match.userTwo?.firstName,
-                                        roomId = "user${userA}_user${userB}",
+                                        roomId = "user${userA}_room_user${userB}",
                                         currentUserId = currentUserId
                                     )
                                 )
@@ -112,7 +112,7 @@ class ChatFragment : Fragment() {
                                     Match(
                                         id = userA,
                                         name = match?.userOne?.firstName,
-                                        roomId = "user${userA}_user${userB}",
+                                        roomId = "user${userA}_room_user${userB}",
                                         currentUserId = currentUserId
                                     )
                                 )

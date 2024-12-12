@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
@@ -53,14 +54,16 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
             AppCompatResources.getDrawable(this, R.drawable.ic_password_light)
         }
 
+        val invisible = AppCompatResources.getDrawable(this, R.drawable.ic_invisible)
+
         binding.etEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(
             emailIcon, null, null, null
         )
         binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            passwordIcon, null, null, null
+            passwordIcon, null, invisible, null
         )
         binding.etConfirmPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            passwordIcon, null, null, null
+            passwordIcon, null, invisible, null
         )
     }
 
@@ -85,13 +88,13 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
             when (isAvailable) {
                 is Result.Error -> {
                     showLoading(false)
-                    Toast.makeText(this, isAvailable.error, Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Unknown error occurred", Toast.LENGTH_SHORT)
                         .show()
                 }
 
                 Result.Loading -> {
                     showLoading(true)
-                } //Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                }
                 is Result.Success -> {
                     if (isAvailable.data) {
                         showLoading(false)
@@ -163,18 +166,44 @@ class RegisterEmailPasswordActivity : AppCompatActivity() {
             val password = binding.etPassword.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
+            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+            val passwordRegex =
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
+
             //check if email is not empty
             if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "All the fields cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else {
-                authViewModel.checkEmail(email)
-//                authViewModel.saveUserEntity(UserEntity(email = email, password = password))
-//                //intent
-//                val intent =
-//                    Intent(this@RegisterEmailPasswordActivity, RegisterUserPersonalDataActivity::class.java)
-//                startActivity(intent)
             }
+
+            // Check if email format is valid
+            if (!email.matches(emailRegex)) {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
+            // Check if password is strong
+            if (!password.matches(passwordRegex)) {
+
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Error")
+                builder.setMessage("Password must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.")
+                builder.setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val dialog = builder.create()
+                dialog.show()
+
+                return@setOnClickListener
+            }
+
+            if(password != confirmPassword){
+                Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            authViewModel.checkEmail(email)
 
         }
 

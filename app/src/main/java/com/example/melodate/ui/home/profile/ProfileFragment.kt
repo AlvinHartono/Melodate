@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.example.melodate.MainActivity
 import com.example.melodate.data.Result
 import com.example.melodate.data.preference.DarkModeViewModel
 import com.example.melodate.data.preference.DarkModeViewModelFactory
@@ -69,18 +69,30 @@ class ProfileFragment : Fragment() {
         userViewModel
 
         binding.tvLogout.setOnClickListener {
-            authViewModel.signOut()
 
-            lifecycleScope.launch {
-                authViewModel.authToken.collect { token ->
-                    if (token == null) {
-                        darkModeViewModel.setDarkMode(false)
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    }
-                }
+            val alertDialogBuilder =
+                AlertDialog.Builder(requireContext()).setTitle("Logout").setMessage("Are you sure?")
+
+            alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
+                authViewModel.signOut()
+
+//                lifecycleScope.launch {
+//                    authViewModel.authToken.collect { token ->
+//                        if (token == null) {
+//                            darkModeViewModel.setDarkMode(false)
+//                            val intent = Intent(requireContext(), MainActivity::class.java)
+//                            startActivity(intent)
+//                            requireActivity().finish()
+//                        }
+//                    }
+//                }
             }
+
+            alertDialogBuilder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            alertDialogBuilder.show()
         }
 
         userViewModel.userData.observe(viewLifecycleOwner) { userData ->

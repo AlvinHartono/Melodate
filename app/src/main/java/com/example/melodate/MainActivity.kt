@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             authViewModel.authToken.collect { token ->
                 if (token != null) {
+                    // if intent to home activity, remove the stack
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
                 } else {
@@ -80,21 +82,15 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.icon_full
                     }
 
-
-
                     binding.imageView.setImageResource(imageRes)
 
                     binding.buttonGetStarted.setOnClickListener {
                         val intent =
                             Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
-//                            Intent(this@MainActivity, HomeActivity::class.java)
-//                            Intent(this@MainActivity, RegisterFinishedActivity::class.java)
-//                        Intent(this@MainActivity, RegisterUserPersonalDataActivity::class.java)
                         startActivity(intent)
                     }
 
                     binding.tvHaveAccount.setOnClickListener {
-//                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
                     }
