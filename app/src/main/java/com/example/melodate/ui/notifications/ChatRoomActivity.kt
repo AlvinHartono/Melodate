@@ -106,9 +106,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val serverUrl = BuildConfig.CHAT_URL
 
         Glide.with(this).load(profileUrl).circleCrop().into(binding.toolbarImage)
-
-
-
+        
 
         Log.d("ChatRoomActivity", "Room ID: $roomId")
         initializeSocket(serverUrl)

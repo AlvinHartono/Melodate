@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             authViewModel.authToken.collect { token ->
                 if (token != null) {
+                    // if intent to home activity, remove the stack
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
                 } else {
@@ -79,8 +81,6 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         R.drawable.icon_full
                     }
-
-
 
                     binding.imageView.setImageResource(imageRes)
 

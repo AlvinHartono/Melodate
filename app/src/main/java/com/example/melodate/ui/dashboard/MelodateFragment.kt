@@ -72,7 +72,7 @@ class MelodateFragment : Fragment() {
                     val swipedCard = adapter.getItem(position)
                     Toast.makeText(
                         requireContext(),
-                        "Liked userId ${swipedCard.userId}",
+                        "Liked",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -88,7 +88,11 @@ class MelodateFragment : Fragment() {
                             }
                         } ?: run {
                             Log.e("MelodateFragment", "User data is null")
-                            Toast.makeText(requireContext(), "Unable to process the swipe. User data is missing.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Unable to process the swipe",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } else if (direction == Direction.Left) {

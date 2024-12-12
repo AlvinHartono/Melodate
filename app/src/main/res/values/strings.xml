@@ -63,7 +63,7 @@
     <string name="listening_freq">Frequent Listener</string>
     <string name="location_desc">Tangerang, Banten</string>
     <string name="welcome_back">Welcome Back</string>
-    <string name="i_already_have_an_account">I already have an account</string>
+    <string name="i_already_have_an_account"><u>I already have an account</u></string>
     <string name="first_name">First Name</string>
     <string name="age">age</string>
     <string name="tv_gender">Gender</string>
@@ -175,7 +175,6 @@
 
     <string-array name="love_languages">
         <item>Acts of Service</item>
-        <item>Physical Touch</item>
         <item>Physical Touch</item>
         <item>Quality Time</item>
         <item>Receiving Gifts</item>

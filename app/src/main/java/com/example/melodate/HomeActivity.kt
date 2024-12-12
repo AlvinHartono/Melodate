@@ -118,12 +118,12 @@ class HomeActivity : AppCompatActivity() {
         userViewModel.updateUserLocalDatabaseState.observe(this) { userData ->
             when (userData) {
                 is Result.Error -> {
-                    Toast.makeText(this, userData.error, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, userData.error, Toast.LENGTH_SHORT).show()
                 }
 
                 Result.Loading -> {}
                 is Result.Success -> {
-                    //
+//                    Toast.makeText(this, userData.data, Toast.LENGTH_SHORT).show()
                 }
             }
         }
