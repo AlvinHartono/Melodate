@@ -12,7 +12,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -67,13 +66,16 @@ class CardStackAdapter(
             val artistName = card.topTrackArtist1 ?: "Default Artist"
             val query = "$songTitle $artistName"
 
-            spotifyViewModel.fetchTrackUrl(query) { trackUrl ->
+            spotifyViewModel.setCurrentQuery(query)
+
+            spotifyViewModel.fetchTrackUrl { trackUrl ->
                 if (trackUrl != null) {
                     Log.d("SpotifyAPI", "Track URL: $trackUrl")
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         data = Uri.parse(trackUrl)
                         `package` = "com.spotify.music"
                     }
+                    spotifyViewModel.setCurrentQuery(null)
                     if (intent.resolveActivity(holder.itemView.context.packageManager) != null) {
                         holder.itemView.context.startActivity(intent)
                     } else {
@@ -81,11 +83,7 @@ class CardStackAdapter(
                         holder.itemView.context.startActivity(browserIntent)
                     }
                 } else {
-                    Toast.makeText(
-                        holder.itemView.context,
-                        "Unable to fetch track URL.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    spotifyViewModel.setCurrentQuery(null)
                 }
             }
         }
