@@ -87,14 +87,10 @@ class MainActivity : AppCompatActivity() {
                     binding.buttonGetStarted.setOnClickListener {
                         val intent =
                             Intent(this@MainActivity, RegisterEmailPasswordActivity::class.java)
-//                            Intent(this@MainActivity, HomeActivity::class.java)
-//                            Intent(this@MainActivity, RegisterFinishedActivity::class.java)
-//                        Intent(this@MainActivity, RegisterUserPersonalDataActivity::class.java)
                         startActivity(intent)
                     }
 
                     binding.tvHaveAccount.setOnClickListener {
-//                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
                     }
@@ -102,5 +98,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

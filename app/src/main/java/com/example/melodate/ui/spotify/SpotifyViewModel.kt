@@ -39,9 +39,6 @@ class SpotifyViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private val _trackUrl = MutableLiveData<String?>()
-    val trackUrl: LiveData<String?> = _trackUrl
-
     fun fetchTrackUrl(query: String, onResult: (String?) -> Unit) {
         viewModelScope.launch {
             getSpotifyTokenData().collect { tokenData ->

@@ -1,7 +1,10 @@
 package com.example.melodate.data.repository
 
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
+import com.example.melodate.MainActivity
 import com.example.melodate.data.Result
 import com.example.melodate.data.local.database.UserDao
 import com.example.melodate.data.local.database.UserEntity
@@ -14,6 +17,9 @@ import com.example.melodate.data.remote.response.MatchesListResponse
 import com.example.melodate.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.firstOrNull
 import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.HttpException
+import java.io.IOException
 
 class UserRepository(
     private val userDao: UserDao,
@@ -27,24 +33,32 @@ class UserRepository(
 
 
     suspend fun fetchUserData(userId: String?): Result<GetUserDataResponse> {
-        if (userId == null) {
-            authTokenPreference.getUserId().firstOrNull().let { currentUserId ->
-                val response = apiService.getUserData(currentUserId!!)
-                return when (response.error) {
-                    true -> Result.Error(response.message.toString())
-                    false -> Result.Success(response)
-                    null -> Result.Error("Unknown error")
-                }
+        return try {
+            val idToFetch = userId ?: authTokenPreference.getUserId().firstOrNull()
+            if (idToFetch.isNullOrEmpty()) {
+                return Result.Error("User ID is missing")
             }
-        } else {
-            val response = apiService.getUserData(userId)
-            return when (response.error) {
-                true -> Result.Error(response.message.toString())
-                false -> Result.Success(response)
-                null -> Result.Error("Unknown error")
+
+            val response = apiService.getUserData(idToFetch)
+            when {
+                response.error == true -> Result.Error(response.message ?: "User not found")
+                else -> Result.Success(response)
             }
+        } catch (e: HttpException) {
+            if (e.code() == 404) {
+                return Result.Error("User not found. Please log in again.")
+            }
+            val errorMessage = e.response()?.errorBody()?.string()?.let {
+                JSONObject(it).optString("message", "Unknown server error")
+            } ?: "HTTP error: ${e.code()}"
+            Result.Error(errorMessage)
+        } catch (e: IOException) {
+            Result.Error("Network error. Please check your connection.")
+        } catch (e: Exception) {
+            Result.Error("An unexpected error occurred: ${e.message}")
         }
     }
+
 
     private suspend fun updateUserDataToLocalDatabase(userData: GetUserDataResponse) {
 

@@ -1,6 +1,7 @@
 package com.example.melodate.ui.home.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.melodate.MainActivity
+import com.example.melodate.R
 import com.example.melodate.data.Result
 import com.example.melodate.data.preference.DarkModeViewModel
 import com.example.melodate.data.preference.DarkModeViewModelFactory
@@ -25,7 +27,6 @@ import com.example.melodate.ui.shared.view_model.AuthViewModel
 import com.example.melodate.ui.shared.view_model.UserViewModel
 import com.example.melodate.ui.shared.view_model_factory.AuthViewModelFactory
 import com.example.melodate.ui.shared.view_model_factory.UserViewModelFactory
-import com.example.melodate.ui.spotify.SpotifyActivity
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
@@ -83,6 +84,14 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.tvSupport.setOnClickListener {
+            val url = getString(R.string.support_url)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(url)
+            }
+            startActivity(intent)
+        }
+
         userViewModel.userData.observe(viewLifecycleOwner) { userData ->
             if (userData != null) {
                 binding.profileName.text = buildString {
@@ -90,7 +99,6 @@ class ProfileFragment : Fragment() {
                     append(", ")
                     append(userData.age)
                 }
-                //glide load image that is from an url
                 Glide.with(this)
                     .load(userData.picture1)
                     .circleCrop()
@@ -114,11 +122,6 @@ class ProfileFragment : Fragment() {
             builder.setScopes(arrayOf("user-top-read"))
             val request = builder.build()
             AuthorizationClient.openLoginInBrowser(requireActivity(), request)
-        }
-
-        binding.btnSpotifyActivity.setOnClickListener {
-            val intent = Intent(requireContext(), SpotifyActivity::class.java)
-            startActivity(intent)
         }
 
         binding.btnDeleteAccount.setOnClickListener {
