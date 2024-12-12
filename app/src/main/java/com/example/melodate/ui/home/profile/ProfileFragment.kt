@@ -78,16 +78,16 @@ class ProfileFragment : Fragment() {
             alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
                 authViewModel.signOut()
 
-//                lifecycleScope.launch {
-//                    authViewModel.authToken.collect { token ->
-//                        if (token == null) {
-//                            darkModeViewModel.setDarkMode(false)
-//                            val intent = Intent(requireContext(), MainActivity::class.java)
-//                            startActivity(intent)
-//                            requireActivity().finish()
-//                        }
-//                    }
-//                }
+                lifecycleScope.launch {
+                    authViewModel.authToken.collect { token ->
+                        if (token == null) {
+                            darkModeViewModel.setDarkMode(false)
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                    }
+                }
             }
 
             alertDialogBuilder.setNegativeButton("No") { dialog, _ ->

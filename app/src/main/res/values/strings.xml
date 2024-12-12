@@ -120,6 +120,8 @@
     <string name="title_activity_spotify">Spotify</string>
     <string name="button_spotify">Spotify Button</string>
     <string name="support_url">https://brynathn.github.io/melodate_support/</string>
+    <string name="sent_image">Sent Image</string>
+    <string name="received_image">Received Image</string>
 
 
     <string-array name="status">
