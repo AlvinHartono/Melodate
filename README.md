@@ -1,6 +1,6 @@
 # Melodate App
 
-## Deployment State
+## Deployment Step
 
 create wireframe and mockup design using figma
 create an android studio project
