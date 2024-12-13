@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.example.melodate.HomeActivity
 import com.example.melodate.R
 import com.example.melodate.databinding.ActivityEditProfileBinding
 import com.example.melodate.ui.shared.view_model.AuthViewModel
@@ -37,6 +38,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.Locale
+import kotlin.math.log
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
@@ -71,8 +73,10 @@ class EditProfileActivity : AppCompatActivity() {
         imagePickerLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
+            Log.d("ProfileActivity", "ActivityResult callback triggered with resultCode: ${result.resultCode}")
             if (result.resultCode == Activity.RESULT_OK) {
                 val uri = result.data?.data ?: cameraImageUri
+                Log.d("ProfileActivity", "Image URI from picker: $uri")
                 if (uri != null) {
                     handleImageSelection(uri)
                 } else {
@@ -98,43 +102,20 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private fun handleImageSelection(uri: Uri) {
-        when (currentImagePosition) {
-            0 -> {
-                Glide.with(this).load(uri).into(binding.image1)
-                imageStates[0] = true
-            }
-
-            1 -> {
-                Glide.with(this).load(uri).into(binding.image2)
-                imageStates[1] = true
-            }
-
-            2 -> {
-                Glide.with(this).load(uri).into(binding.image3)
-                imageStates[2] = true
-            }
-
-            3 -> {
-                Glide.with(this).load(uri).into(binding.image4)
-                imageStates[3] = true
-            }
-
-            4 -> {
-                Glide.with(this).load(uri).into(binding.image5)
-                imageStates[4] = true
-            }
-
-            5 -> {
-                Glide.with(this).load(uri).into(binding.image6)
-                imageStates[5] = true
-            }
-        }
-        try {
+        Log.d("ProfileActivity", "Handling image selection for position $currentImagePosition with URI $uri")
+        if (currentImagePosition in 0..5) {
+            val imageViews = arrayOf(
+                binding.image1, binding.image2, binding.image3,
+                binding.image4, binding.image5, binding.image6
+            )
+            Glide.with(this).load(uri).into(imageViews[currentImagePosition])
+            imageStates[currentImagePosition] = true
             authViewModel.addOrReplaceImage(currentImagePosition, uri)
-        } catch (e: Exception) {
-            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e("ProfileActivity", "Invalid image position: $currentImagePosition")
         }
     }
+
 
     private fun setupImageViewListeners() {
         val imageViews = arrayOf(
@@ -154,6 +135,7 @@ class EditProfileActivity : AppCompatActivity() {
             if (user != null) {
                 binding.editTextBio.setText(user.bio)
                 binding.editTextHeight.setText(user.height.toString())
+                binding.editTextHobby.setText(user.hobby.toString())
                 binding.editTextLocation.setText(user.location)
                 binding.autoCompleteRelationshipStatus.setText(user.status)
                 binding.autoCompleteEducation.setText(user.education)
@@ -178,6 +160,16 @@ class EditProfileActivity : AppCompatActivity() {
                 if (user.picture6 != null) {
                     Glide.with(this).load(user.picture6).into(binding.image6)
                 }
+
+                val initialImages = arrayOf(
+                    user.picture1?.let { Uri.parse(it) } ?: Uri.EMPTY,
+                    user.picture2?.let { Uri.parse(it) } ?: Uri.EMPTY,
+                    user.picture3?.let { Uri.parse(it) } ?: Uri.EMPTY,
+                    user.picture4?.let { Uri.parse(it) } ?: Uri.EMPTY,
+                    user.picture5?.let { Uri.parse(it) } ?: Uri.EMPTY,
+                    user.picture6?.let { Uri.parse(it) } ?: Uri.EMPTY
+                )
+                authViewModel.updateSelectedImages(initialImages)
             }
         }
     }
@@ -258,12 +250,9 @@ class EditProfileActivity : AppCompatActivity() {
         )
         Glide.with(this).load(defaultDrawableRes).into(imageViews[imagePosition])
         imageStates[imagePosition] = false
-        try {
-            authViewModel.addOrReplaceImage(imagePosition, Uri.EMPTY)
-        } catch (e: Exception) {
-            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-        }
+        authViewModel.addOrReplaceImage(imagePosition, Uri.EMPTY)
     }
+
 
 
     private fun checkLocationPermission() {
@@ -381,30 +370,28 @@ class EditProfileActivity : AppCompatActivity() {
         binding.autoCompleteSmoking.setAdapter(arrayAdapter4)
         val arrayAdapter5 = ArrayAdapter(this, R.layout.dropdown_item, drinking)
         binding.autoCompleteDrinking.setAdapter(arrayAdapter5)
+
         val arrayAdapter6 = ArrayAdapter(this, R.layout.dropdown_item, mbti)
         binding.autoCompleteMbti.setAdapter(arrayAdapter6)
         val arrayAdapter7 = ArrayAdapter(this, R.layout.dropdown_item, loveLanguages)
         binding.autoCompleteLoveLanguage.setAdapter(arrayAdapter7)
-        val arrayAdapter8 = ArrayAdapter(this, R.layout.dropdown_item, mbti)
-        binding.autoCompleteMbti.setAdapter(arrayAdapter8)
-        val arrayAdapter9 = ArrayAdapter(this, R.layout.dropdown_item, loveLanguages)
-        binding.autoCompleteLoveLanguage.setAdapter(arrayAdapter9)
-        val arrayAdapter10 = ArrayAdapter(this, R.layout.dropdown_item, genres)
-        binding.autoCompleteGenre.setAdapter(arrayAdapter10)
-        val arrayAdapter11 = ArrayAdapter(this, R.layout.dropdown_item, musicDecade)
-        binding.autoCompleteMusicDecade.setAdapter(arrayAdapter11)
-        val arrayAdapter12 = ArrayAdapter(this, R.layout.dropdown_item, musicVibe)
-        binding.autoCompleteMusicVibe.setAdapter(arrayAdapter12)
-        val arrayAdapter13 = ArrayAdapter(this, R.layout.dropdown_item, listeningFrequency)
-        binding.autoCompleteListeningFrequency.setAdapter(arrayAdapter13)
-        val arrayAdapter14 = ArrayAdapter(this, R.layout.dropdown_item, concert)
-        binding.autoCompleteConcert.setAdapter(arrayAdapter14)
+        val arrayAdapter8 = ArrayAdapter(this, R.layout.dropdown_item, genres)
+        binding.autoCompleteGenre.setAdapter(arrayAdapter8)
+        val arrayAdapter9 = ArrayAdapter(this, R.layout.dropdown_item, musicDecade)
+        binding.autoCompleteMusicDecade.setAdapter(arrayAdapter9)
+        val arrayAdapter10 = ArrayAdapter(this, R.layout.dropdown_item, musicVibe)
+        binding.autoCompleteMusicVibe.setAdapter(arrayAdapter10)
+        val arrayAdapter11 = ArrayAdapter(this, R.layout.dropdown_item, listeningFrequency)
+        binding.autoCompleteListeningFrequency.setAdapter(arrayAdapter11)
+        val arrayAdapter12= ArrayAdapter(this, R.layout.dropdown_item, concert)
+        binding.autoCompleteConcert.setAdapter(arrayAdapter12)
 
 
     }
 
     private fun saveProfile() {
         val selectedImagesCount = authViewModel.selectedImages.value?.count { it != Uri.EMPTY } ?: 0
+        Log.d("ProfileActivity", "Selected img count : $selectedImagesCount")
 
         if (selectedImagesCount < 4) {
             Toast.makeText(this, "Please upload at least 4 images.", Toast.LENGTH_SHORT).show()
@@ -418,6 +405,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Saving profile...", Toast.LENGTH_SHORT).show()
         Log.d("ProfileActivity", "Saving profile...")
+
         try {
             val status = createRequestBody(binding.autoCompleteRelationshipStatus.text.toString())
             val education = createRequestBody(binding.autoCompleteEducation.text.toString())
@@ -447,7 +435,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             userViewModel.editProfile(
-                status= status,
+                status = status,
                 education = education,
                 religion = religion,
                 height = height,
@@ -462,32 +450,32 @@ class EditProfileActivity : AppCompatActivity() {
                 concert = concert,
                 location = location,
                 hobby = hobby,
-                bio = bio,
-//                profilePicture1 = imageParts.getOrNull(0),
-//                profilePicture2 = imageParts.getOrNull(1),
-//                profilePicture3 = imageParts.getOrNull(2),
-//                profilePicture4 = imageParts.getOrNull(3),
-//                profilePicture5 = imageParts.getOrNull(4),
-//                profilePicture6 = imageParts.getOrNull(5)
+                bio = bio
             )
-//            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show()
-//            finish()
+
+            // Log success message
+            Log.d("ProfileActivity", "Profile saved successfully!")
+
+            // Show a success Toast
+            Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show()
+
+            // Start HomeActivity
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()  // Optionally finish the current activity
+
         } catch (e: Exception) {
-            // alert dialog
+            // Handle errors
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Error")
                 .setMessage(e.message)
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setNegativeButton("Close") { dialog, _ ->
-                    // Handle the "No" action
-                    dialog.dismiss()
-                }
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton("Close") { dialog, _ -> dialog.dismiss() }
             val alertDialog = builder.create()
             alertDialog.show()
         }
     }
+
 
     private fun createRequestBody(value: String): RequestBody {
         return value.toRequestBody("text/plain".toMediaTypeOrNull())

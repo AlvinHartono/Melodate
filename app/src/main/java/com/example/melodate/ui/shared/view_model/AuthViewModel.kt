@@ -135,6 +135,10 @@ class AuthViewModel(
     private val _selectedImages = MutableLiveData<List<Uri>>(mutableListOf())
     val selectedImages: LiveData<List<Uri>> = _selectedImages
 
+    fun updateSelectedImages(images: Array<Uri>) {
+        _selectedImages.value = images.toMutableList()
+    }
+
     fun addOrReplaceImage(position: Int, uri: Uri) {
         val currentList = _selectedImages.value?.toMutableList() ?: mutableListOf()
         if (currentList.size > position) {
@@ -426,7 +430,6 @@ class AuthViewModel(
         }
     }
 
-    // log user in
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _loginState.postValue(Result.Loading)
@@ -478,22 +481,5 @@ class AuthViewModel(
             }
         }
     }
-
-//    companion object {
-//        val NAME = "name"
-//        val AGE = "age"
-//        val STATUS = "status"
-//        val GENDER = "gender"
-//        val RELIGION = "religion"
-//        val EDUCATION = "education"
-//        val HEIGHT = "height"
-//        val IS_SMOKER = "isSmoker"
-//        val IS_DRINKER = "isDrinker"
-//        val GENRE = "genre"
-//        val MUSIC_DECADE = "musicDecade"
-//        val LISTENING_FREQ = "listeningFreq"
-//        val CONCERT = "concert"
-//        val LOVE_LANG = "loveLang"
-//    }
 
 }
