@@ -1,4 +1,4 @@
-package com.example.melodate.ui.notifications
+package com.example.melodate.ui.matches
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

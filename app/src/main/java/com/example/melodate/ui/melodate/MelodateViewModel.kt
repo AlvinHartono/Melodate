@@ -1,4 +1,4 @@
-package com.example.melodate.ui.dashboard
+package com.example.melodate.ui.melodate
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

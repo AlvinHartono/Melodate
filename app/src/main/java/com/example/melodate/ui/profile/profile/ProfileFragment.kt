@@ -1,4 +1,4 @@
-package com.example.melodate.ui.home.profile
+package com.example.melodate.ui.profile.profile
 
 import android.content.Intent
 import android.net.Uri

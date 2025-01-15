@@ -1,4 +1,4 @@
-package com.example.melodate.ui.dashboard
+package com.example.melodate.ui.melodate
 
 import android.app.AlertDialog
 import android.content.Intent

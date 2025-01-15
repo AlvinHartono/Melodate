@@ -1,4 +1,4 @@
-package com.example.melodate.ui.dashboard
+package com.example.melodate.ui.melodate
 
 data class TopSongData (
     val artistImage: String? = null,

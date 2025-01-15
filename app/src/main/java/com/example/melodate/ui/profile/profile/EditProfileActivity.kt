@@ -1,4 +1,4 @@
-package com.example.melodate.ui.home.profile
+package com.example.melodate.ui.profile.profile
 
 import android.Manifest
 import android.app.Activity
@@ -38,7 +38,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.Locale
-import kotlin.math.log
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding

@@ -1,4 +1,4 @@
-package com.example.melodate.ui.notifications
+package com.example.melodate.ui.matches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

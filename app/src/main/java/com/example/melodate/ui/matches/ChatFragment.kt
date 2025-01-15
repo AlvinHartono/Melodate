@@ -1,4 +1,4 @@
-package com.example.melodate.ui.notifications
+package com.example.melodate.ui.matches
 
 import android.os.Bundle
 import android.util.Log
@@ -45,7 +45,7 @@ class ChatFragment : Fragment() {
         binding.rvChats.layoutManager = LinearLayoutManager(context)
         binding.rvChats.adapter = chatListAdapter
 
-        matchesListAdapter = MatchesListAdapter()
+        matchesListAdapter = MatchesListAdapter(requireContext())
         binding.rvMatches.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvMatches.adapter = matchesListAdapter

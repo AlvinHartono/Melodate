@@ -25,18 +25,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="35">
         <activity
-            android:name=".ui.notifications.ImageActivity"
+            android:name=".ui.profile.profile.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.matches.ImageActivity"
             android:exported="false" />
         <activity
             android:name=".ui.spotify.SpotifyActivity"
             android:exported="false"
             android:label="@string/title_activity_spotify" />
         <activity
-            android:name=".ui.notifications.ChatRoomActivity"
+            android:name=".ui.matches.ChatRoomActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.profile.EditProfileActivity"
+            android:name=".ui.profile.profile.EditProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

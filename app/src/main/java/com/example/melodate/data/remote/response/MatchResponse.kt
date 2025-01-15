@@ -1,7 +1,5 @@
 package com.example.melodate.data.remote.response
 
-import com.example.melodate.ui.dashboard.FavoriteArtistData
-import com.example.melodate.ui.dashboard.TopSongData
 import com.google.gson.annotations.SerializedName
 
 data class MatchCard(

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_user_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.profile.profile.UserProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:title="     ">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/profile_image1"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:layout_margin="0dp"
+                    android:background="@drawable/rounded_image_background"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/haewon" />
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="85dp"
+                    android:text="@string/profile_name"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/music_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="start|center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/play_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/play_button_description"
+                        android:src="@drawable/play_button" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/song_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/song_title"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/artist_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/artist_name"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/about"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/profile_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/profile_description"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/description_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start">
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/gender"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/gender" />
+
+                <TextView
+                    android:id="@+id/religion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/religion"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/religion" />
+
+                <TextView
+                    android:id="@+id/smoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/smoke"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/smoke" />
+
+                <TextView
+                    android:id="@+id/education"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/education"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/education" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/status"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/status" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/music_interest"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/music_interest_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start">
+
+                <TextView
+                    android:id="@+id/favorite_genre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/favorite_genre"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/favorite_music_decade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/favorite_music_decade"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/music_vibes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/music_vibes"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/listening_freq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/listening_freq"
+                    android:textSize="12sp" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:id="@+id/header_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/location"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/location_desc"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/profile_image2"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_margin="0dp"
+                android:background="@drawable/rounded_image_background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/haewon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/header_fav_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/favor_artist"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favorite_artists_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/header_top_song"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/top_song"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_songs_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/profile_image3"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_margin="0dp"
+                android:background="@drawable/rounded_image_background"
+                android:paddingTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/haewon"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/profile_image4"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_margin="0dp"
+                android:background="@drawable/rounded_image_background"
+                android:paddingTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/haewon"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/profile_image5"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_margin="0dp"
+                android:background="@drawable/rounded_image_background"
+                android:paddingTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/haewon"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/profile_image6"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_margin="0dp"
+                android:background="@drawable/rounded_image_background"
+                android:paddingTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/haewon"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.melodate.ui.home.profile
+package com.example.melodate.ui.profile.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

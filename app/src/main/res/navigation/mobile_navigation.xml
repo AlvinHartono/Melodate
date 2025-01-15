@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.melodate.ui.home.profile.ProfileFragment"
+        android:name="com.example.melodate.ui.profile.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_melodate"
-        android:name="com.example.melodate.ui.dashboard.MelodateFragment"
+        android:name="com.example.melodate.ui.melodate.MelodateFragment"
         tools:layout="@layout/fragment_melodate" />
 
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="com.example.melodate.ui.notifications.ChatFragment"
+        android:name="com.example.melodate.ui.matches.ChatFragment"
         tools:layout="@layout/fragment_chat" />
 </navigation>
