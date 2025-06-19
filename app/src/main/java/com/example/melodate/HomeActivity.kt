@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -62,8 +65,22 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { view, windowInsets ->
+            // Get the insets for the system bars (status bar, navigation bar).
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Apply the top inset as padding to the top of the toolbar.
+            // This pushes the toolbar's content down, below the status bar.
+            view.setPadding(view.paddingLeft, insets.top, view.paddingRight, view.paddingBottom)
+
+            // Return the insets so that other views can also use them if needed.
+            windowInsets
+        }
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)

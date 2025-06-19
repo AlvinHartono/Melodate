@@ -19,7 +19,7 @@
     <string name="toolbar_title">Toolbar Title</string>
     <string name="profile_text">Profile</string>
     <string name="chat_text">Chat</string>
-    <string name="name">Alvin, 21</string>
+    <string name="name">Haewon, 21</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="preferences">Preferences</string>
     <string name="push_notification">Push Notification</string>
@@ -123,6 +123,9 @@
     <string name="sent_image">Sent Image</string>
     <string name="received_image">Received Image</string>
     <string name="connect_to_listen">Connect to use play button</string>
+    <string name="dark_mode_desc">Switch to Dark Mode</string>
+    <string name="push_notification_desc">Get Notified</string>
+    <string name="profile_image">Profile Image</string>
 
 
     <string-array name="status">
