@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.melodate.BuildConfig
 import com.example.melodate.MainActivity
 import com.example.melodate.R
 import com.example.melodate.data.Result
@@ -106,16 +107,28 @@ class ProfileFragment : Fragment() {
 
         userViewModel.userData.observe(viewLifecycleOwner) { userData ->
             if (userData != null) {
+                val baseUrl = BuildConfig.BASE_URL
+                val fullImageUrl =
+                    if (userData.picture1 != null) baseUrl + userData.picture1 else null
+                Log.d("ProfileFragment", fullImageUrl.toString())
+
                 binding.profileName.text = buildString {
                     append(userData.name)
                     append(", ")
                     append(userData.age)
                 }
-                Glide.with(this)
-                    .load(userData.picture1)
-                    .circleCrop()
-                    .into(binding.profileImage)
 
+                if (fullImageUrl != null) {
+                    Glide.with(this)
+                        .load(fullImageUrl)
+                        .circleCrop()
+                        .into(binding.profileImage)
+                } else {
+                    Glide.with(this)
+                        .load(R.drawable.ic_person_24)
+                        .circleCrop()
+                        .into(binding.profileImage)
+                }
             }
         }
 

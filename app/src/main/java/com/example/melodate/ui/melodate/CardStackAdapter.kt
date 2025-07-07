@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.melodate.BuildConfig
 import com.example.melodate.R
 import com.example.melodate.data.remote.response.MatchCard
 import com.example.melodate.ui.spotify.SpotifyViewModel
@@ -60,6 +61,7 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = cards[position]
+        val baseUrl = BuildConfig.BASE_URL
 
         holder.imageButton.setOnClickListener {
             val songTitle = card.topTrackTitle1 ?: "Default Title"
@@ -127,14 +129,14 @@ class CardStackAdapter(
         }
 
         Glide.with(holder.itemView.context)
-            .load(card.profilePictureUrl1)
+            .load(baseUrl + card.profilePictureUrl1)
             .placeholder(R.drawable.loading_state)
             .error(R.drawable.baseline_person_24)
             .into(holder.image1)
 
         if (!card.profilePictureUrl2.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(card.profilePictureUrl2)
+                .load(baseUrl + card.profilePictureUrl2)
                 .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image2)
@@ -145,7 +147,7 @@ class CardStackAdapter(
 
         if (!card.profilePictureUrl3.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(card.profilePictureUrl3)
+                .load(baseUrl + card.profilePictureUrl3)
                 .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image3)
@@ -156,7 +158,7 @@ class CardStackAdapter(
 
         if (!card.profilePictureUrl4.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(card.profilePictureUrl4)
+                .load(baseUrl + card.profilePictureUrl4)
                 .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image4)
@@ -167,7 +169,7 @@ class CardStackAdapter(
 
         if (!card.profilePictureUrl5.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(card.profilePictureUrl5)
+                .load(baseUrl + card.profilePictureUrl5)
                 .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image5)
@@ -178,7 +180,7 @@ class CardStackAdapter(
 
         if (!card.profilePictureUrl6.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(card.profilePictureUrl6)
+                .load(baseUrl + card.profilePictureUrl6)
                 .placeholder(R.drawable.loading_state)
                 .error(R.drawable.baseline_person_24)
                 .into(holder.image6)

@@ -15,7 +15,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "BASE_URL", "\"https://melodate-119552313926.asia-southeast2.run.app/api/\"")
+//        buildConfigField("String", "BASE_URL", "\"https://melodate-119552313926.asia-southeast2.run.app/api/\"")
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
         buildConfigField("String", "CHAT_URL", "\"https://capstone-441717.et.r.appspot.com/\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -87,5 +88,7 @@ dependencies {
     //spotify
     implementation(libs.auth)
 
+    // shimmer
+    implementation(libs.shimmer)
 
 }
